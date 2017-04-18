@@ -1,11 +1,7 @@
 package com.andrefarzat.GP;
 
-import java.util.Random;
-import com.andrefarzat.GP.nodes;
-
 
 public class GP {
-    private Random random = new Random();
 
     public nodes.Node[] generateInitialPopulation(int n) {
         nodes.Node[] population = new nodes.Node[n];
@@ -26,16 +22,19 @@ public class GP {
     }
 
     public boolean givenNodeIsValidSolution(nodes.Node node, int[][] givenParams) {
-        boolean hasError = false;
+        //System.out.println(node.toString());
 
         for(int[] params : givenParams) {
             int x = params[0];
             int y = params[1];
             int value = node.getValue(x);
 
-            hasError = value != y;
+            if (value != y) {
+                return false;
+            }
         }
 
-        return !hasError;
+        return true;
     }
+
 }

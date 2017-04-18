@@ -1,19 +1,15 @@
 package com.andrefarzat.GP;
 
 
-import java.util.ArrayList;
-
-
 public class CLI {
 
     public static int[][] getParams() {
         int[][] values = {
-            {8, 200},
-            {4, 90},
-            {80, -53},
-            {27, 50},
-            {32, 34}
+            {1, 14},
+            {2, 13},
+            {3, 12},
         };
+
 
         return values;
     }
@@ -33,7 +29,14 @@ public class CLI {
                 boolean isValidSolution = gp.givenNodeIsValidSolution(node, params);
 
                 if (isValidSolution) {
-                    System.out.println("Solução: " + node.toString());
+                    String solution = node.toString();
+                    System.out.println("F(x) = " + solution);
+                    System.out.println("Results: ");
+
+                    for(int[] param: params) {
+                        String msg = ("F(x) = " + solution).replace("x", Integer.toString(param[0]));
+                        System.out.println(msg + " = " + param[1]);
+                    }
                     System.exit(0);
                 }
             }
