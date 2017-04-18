@@ -7,51 +7,51 @@ import java.util.Random;
 
 
 public class nodes {
-    public static final char[] operators = { '+', '-', '*', '/' };
+    protected static final char[] operators = { '+', '-', '*', '/' };
     protected static final Random random = new Random();
+    protected static final int MAX_VALUE = 100;
 
-    public static abstract class Node {
-        public abstract int getValue();
-        public abstract void mutate(int x);
-
-        public String toString() {
-            return Integer.toString(this.getValue());
-        }
+    public interface Node {
+        int getValue(int x);
+        void mutate();
+        String toString();
     }
 
-    public static class Number extends Node {
+    public static class Number implements Node {
         public int value;
+        public boolean isX = false;
 
-        public int getValue() {
-            return this.value;
-        }
 
-        public void mutate(int x) {
-            this.value = nodes.random.nextInt(100);
-        }
-    }
-
-    public static class XNumber extends Number {
-        public String toString() {
-            return "x";
+        public int getValue(int x) {
+            return this.isX ? x : this.value;
         }
 
         public void mutate() {
-            // pass
+            boolean shouldUpdateX = nodes.random.nextBoolean();
+
+            if (shouldUpdateX) {
+                this.isX = ! this.isX;
+            } else {
+                this.value = nodes.random.nextInt(100);
+            }
+        }
+
+        public String toString() {
+            return this.isX ? "x" : Integer.toString(this.value);
         }
     }
 
-    public static class Operator extends Node {
+    public static class Operator implements Node {
         public Node left;
         public Node right;
         public char type;
 
-        public int getValue() {
+        public int getValue(int x) {
             switch(this.type) {
-                case '+': return this.left.getValue() + this.right.getValue();
-                case '-': return this.left.getValue() - this.right.getValue();
-                case '/': return this.left.getValue() / this.right.getValue();
-                case '*': return this.left.getValue() * this.right.getValue();
+                case '+': return this.left.getValue(x) + this.right.getValue(x);
+                case '-': return this.left.getValue(x) - this.right.getValue(x);
+                case '/': return this.left.getValue(x) / this.right.getValue(x);
+                case '*': return this.left.getValue(x) * this.right.getValue(x);
             }
 
             throw new ValueException(String.format("Type %s doesn't exist", this.type));
@@ -61,45 +61,39 @@ public class nodes {
             return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
         }
 
-        public void mutate(int x) {
+        public void mutate() {
             boolean shouldMutateLeft = nodes.random.nextBoolean();
 
             if (shouldMutateLeft) {
-                this.left = nodes.generateRandomNode(x);
+                this.left = nodes.generateRandomNode();
             } else {
-                this.right = nodes.generateRandomNode(x);
+                this.right = nodes.generateRandomNode();
             }
         }
     }
 
-    public static Node generateRandomNode(int x) {
-        boolean shouldCreateAnOperator = nodes.random.nextInt(100) <= 33; // 33% chance to be an operator
-        return shouldCreateAnOperator ? nodes.generateOperator(x) : nodes.generateNumber(x);
+    public static Node generateRandomNode() {
+        boolean shouldCreateAnOperator = nodes.random.nextInt(nodes.MAX_VALUE) <= 33; // 33% chance to be an operator
+        return shouldCreateAnOperator ? nodes.generateOperator() : nodes.generateNumber();
     }
 
-    public static Operator generateOperator(int x) {
-        int index = nodes.random.nextInt(3);
+    public static Operator generateOperator() {
+        int index = nodes.random.nextInt(nodes.operators.length - 1);
 
         nodes.Operator operator = new nodes.Operator();
         operator.type = nodes.operators[index];
-        operator.left = nodes.generateNumber(x);
-        operator.right = nodes.generateNumber(x);
+        operator.left = nodes.generateNumber();
+        operator.right = nodes.generateNumber();
 
         return operator;
     }
 
-    public static Number generateNumber(int x) {
+    public static Number generateNumber() {
         boolean shouldBeXNumber = nodes.random.nextInt(100) <= 33; // 33% chance to be an XNumber
-        nodes.Number number;
 
-        if (shouldBeXNumber) {
-            number = new nodes.XNumber();
-            number.value = x;
-        } else {
-            number = new nodes.Number();
-            number.value = nodes.random.nextInt(100);
-        }
-
+        nodes.Number number = new Number();
+        number.isX = shouldBeXNumber;
+        number.value = nodes.random.nextInt(100);
         return number;
     }
 }

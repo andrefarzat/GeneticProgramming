@@ -8,7 +8,11 @@ public class CLI {
 
     public static int[][] getParams() {
         int[][] values = {
-            {1, 2}
+            {8, 200},
+            {4, 90},
+            {80, -53},
+            {27, 50},
+            {32, 34}
         };
 
         return values;
@@ -16,32 +20,28 @@ public class CLI {
 
     public static void main(String[] args) {
         int n = 100;
-        int budget = 10;
+        int budget = 1000;
         int[][] params = CLI.getParams();
 
         GP gp = new GP();
-        nodes.Node[] population = gp.generateInitialPopulation(n, params[0][1]);
-        ArrayList<nodes.Node> validNodes = new ArrayList<nodes.Node>();
+        nodes.Node[] population = gp.generateInitialPopulation(n);
 
-        while (--budget > 0) {
+        while (budget-- > 0) {
             System.out.println("Budget: " + budget);
+
             for(nodes.Node node : population) {
-                int y = params[0][1];
-                int value = node.getValue();
+                boolean isValidSolution = gp.givenNodeIsValidSolution(node, params);
 
-                System.out.println(node.toString());
-
-                if (value == y) {
-                    validNodes.add(node);
-                    System.out.println("tem: " + node.toString());
+                if (isValidSolution) {
+                    System.out.println("Solução: " + node.toString());
+                    System.exit(0);
                 }
             }
 
-            if (!validNodes.isEmpty()) {
-                break;
-            } else {
-                population = gp.mutatePopulation(population, params[0][1]);
-            }
+            population = gp.mutatePopulation(population);
         }
+
+        System.out.println("É, tentamos...");
+        System.exit(1);
     }
 }
