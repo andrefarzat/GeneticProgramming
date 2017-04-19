@@ -73,7 +73,7 @@ public class nodes {
     }
 
     public static Node generateRandomNode() {
-        boolean shouldCreateAnOperator = nodes.random.nextInt(nodes.MAX_VALUE) <= 33; // 33% chance to be an operator
+        boolean shouldCreateAnOperator = nodes.random.nextInt(nodes.MAX_VALUE) <= 33; // % chance to be an operator
         return shouldCreateAnOperator ? nodes.generateOperator() : nodes.generateNumber();
     }
 
@@ -89,7 +89,7 @@ public class nodes {
     }
 
     public static Number generateNumber() {
-        boolean shouldBeXNumber = nodes.random.nextInt(100) <= 33; // 33% chance to be an XNumber
+        boolean shouldBeXNumber = nodes.random.nextInt(100) <= 50; // % chance to be an XNumber
 
         nodes.Number number = new Number();
         number.isX = shouldBeXNumber;

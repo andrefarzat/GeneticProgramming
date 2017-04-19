@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a396ee1f-7cfc-46ac-8496-7adf90a2261c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/CLI.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/CLI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/nodes.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/nodes.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,18 +19,18 @@
       <file leaf-file-name="GP.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="27" lean-forward="false" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+            <state relative-caret-position="300">
+              <caret line="20" column="26" lean-forward="true" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nodes.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="nodes.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/nodes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="53" column="78" lean-forward="false" selection-start-line="53" selection-start-column="78" selection-end-line="53" selection-end-column="78" />
+            <state relative-caret-position="978">
+              <caret line="91" column="50" lean-forward="false" selection-start-line="91" selection-start-column="50" selection-end-line="91" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#615#616#0" expanded="true" />
@@ -43,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CLI.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CLI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/CLI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="51" lean-forward="false" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
+            <state relative-caret-position="45">
+              <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -89,9 +88,9 @@
         <option value="$PROJECT_DIR$/src/com/andrefarzat/GP/nodes/Number.java" />
         <option value="$PROJECT_DIR$/src/com/andrefarzat/GP/nodes/XNodeNumber.java" />
         <option value="$PROJECT_DIR$/src/com/andrefarzat/GP/nodes/NodeOperator.java" />
-        <option value="$PROJECT_DIR$/src/com/andrefarzat/GP/nodes.java" />
-        <option value="$PROJECT_DIR$/src/com/andrefarzat/GP/CLI.java" />
         <option value="$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java" />
+        <option value="$PROJECT_DIR$/src/com/andrefarzat/GP/CLI.java" />
+        <option value="$PROJECT_DIR$/src/com/andrefarzat/GP/nodes.java" />
       </list>
     </option>
   </component>
@@ -631,7 +630,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12405000" />
+    <option name="totallyTimeSpent" value="12910000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="62" width="1545" height="926" extended-state="0" />
@@ -647,7 +646,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3337223" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3337223" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32949308" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -772,26 +771,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/CLI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="51" lean-forward="false" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="27" lean-forward="false" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/nodes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="53" column="78" lean-forward="false" selection-start-line="53" selection-start-column="78" selection-end-line="53" selection-end-column="78" />
+        <state relative-caret-position="309">
+          <caret line="91" column="65" lean-forward="false" selection-start-line="91" selection-start-column="63" selection-end-line="91" selection-end-column="65" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#615#616#0" expanded="true" />
@@ -799,6 +782,88 @@
             <element signature="e#977#978#0" expanded="true" />
             <element signature="e#1053#1054#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/src.zip!/java/util/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="128" column="17" lean-forward="false" selection-start-line="128" selection-start-column="17" selection-end-line="128" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/src.zip!/java/util/HashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="136" column="21" lean-forward="false" selection-start-line="136" selection-start-column="21" selection-end-line="136" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="25" column="69" lean-forward="false" selection-start-line="25" selection-start-column="69" selection-end-line="25" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/GParam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="45" lean-forward="false" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/CLI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="14" column="26" lean-forward="false" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP.java" />
+    <entry file="file://$PROJECT_DIR$/src/GP.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/com/andrefarzat/GP/Operator.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/Number.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/Operator.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/nodesold/XNodeNumber.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/nodes/Node.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/Node.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/nodesold/Node.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/nodesold/NodeNumber.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/nodesold/NodeOperator.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="26" lean-forward="true" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/nodes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="978">
+          <caret line="91" column="50" lean-forward="false" selection-start-line="91" selection-start-column="50" selection-end-line="91" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#615#616#0" expanded="true" />
+            <element signature="e#671#672#0" expanded="true" />
+            <element signature="e#977#978#0" expanded="true" />
+            <element signature="e#1053#1054#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/CLI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
