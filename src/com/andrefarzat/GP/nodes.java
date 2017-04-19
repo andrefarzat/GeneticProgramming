@@ -29,7 +29,7 @@ public class nodes {
         public void mutate() {
             boolean shouldUpdateX = nodes.random.nextBoolean();
 
-            if (shouldUpdateX) {
+            if(shouldUpdateX) {
                 this.isX = ! this.isX;
             } else {
                 this.value = nodes.random.nextInt(100);
@@ -64,7 +64,7 @@ public class nodes {
         public void mutate() {
             boolean shouldMutateLeft = nodes.random.nextBoolean();
 
-            if (shouldMutateLeft) {
+            if(shouldMutateLeft) {
                 this.left = nodes.generateRandomNode();
             } else {
                 this.right = nodes.generateRandomNode();

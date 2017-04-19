@@ -22,18 +22,18 @@ public class CLI {
         GP gp = new GP();
         nodes.Node[] population = gp.generateInitialPopulation(n);
 
-        while (budget-- > 0) {
+        while(budget-- > 0) {
             System.out.println("Budget: " + budget);
 
             for(nodes.Node node : population) {
                 boolean isValidSolution = gp.givenNodeIsValidSolution(node, params);
 
-                if (isValidSolution) {
+                if(isValidSolution) {
                     String solution = node.toString();
                     System.out.println("F(x) = " + solution);
                     System.out.println("Results: ");
 
-                    for(int[] param: params) {
+                    for(int[] param : params) {
                         String msg = ("F(x) = " + solution).replace("x", Integer.toString(param[0]));
                         System.out.println(msg + " = " + param[1]);
                     }
