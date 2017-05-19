@@ -7,6 +7,7 @@ import java.util.Random;
 
 
 public class nodes {
+    /*
     protected static final char[] operators = { '+', '-', '*', '/' };
     protected static final Random random = new Random();
     protected static final int MAX_VALUE = 100;
@@ -41,36 +42,6 @@ public class nodes {
         }
     }
 
-    public static class Operator implements Node {
-        public Node left;
-        public Node right;
-        public char type;
-
-        public int getValue(int x) {
-            switch(this.type) {
-                case '+': return this.left.getValue(x) + this.right.getValue(x);
-                case '-': return this.left.getValue(x) - this.right.getValue(x);
-                case '/': return this.left.getValue(x) / this.right.getValue(x);
-                case '*': return this.left.getValue(x) * this.right.getValue(x);
-            }
-
-            throw new ValueException(String.format("Type %s doesn't exist", this.type));
-        }
-
-        public String toString() {
-            return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
-        }
-
-        public void mutate() {
-            boolean shouldMutateLeft = nodes.random.nextBoolean();
-
-            if(shouldMutateLeft) {
-                this.left = nodes.generateRandomNode();
-            } else {
-                this.right = nodes.generateRandomNode();
-            }
-        }
-    }
 
     public static Node generateRandomNode() {
         boolean shouldCreateAnOperator = nodes.random.nextInt(nodes.MAX_VALUE) <= 33; // % chance to be an operator
@@ -96,4 +67,5 @@ public class nodes {
         number.value = nodes.random.nextInt(100);
         return number;
     }
+    */
 }

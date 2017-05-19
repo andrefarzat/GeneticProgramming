@@ -1,13 +1,13 @@
 package com.andrefarzat.GP.individuals;
 
 import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
-import com.andrefarzat.mendel.Individual;
-
 import java.util.Random;
 
-public class Operator extends Individual {
-    public Individual left;
-    public Individual right;
+import com.andrefarzat.mendel.Function;
+
+
+public class Operator extends Function {
+    protected static final char[] operators = { '+', '-', '*', '/' };
     public char type;
 
     public float getValue(float x) {
@@ -21,11 +21,12 @@ public class Operator extends Individual {
         throw new ValueException(String.format("Type %s doesn't exist", this.type));
     }
 
-    public String toString() {
-        return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
+    public void mutate() {
+        int index = (new Random()).nextInt(Operator.operators.length - 1);
+        this.type = Operator.operators[index];
     }
 
-    public void mutate() {
-
+    public String toString() {
+        return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
     }
 }

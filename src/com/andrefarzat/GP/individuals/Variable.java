@@ -1,9 +1,9 @@
 package com.andrefarzat.GP.individuals;
 
-import com.andrefarzat.mendel.Individual;
+import com.andrefarzat.mendel.Terminal;
 
 
-public class Variable extends Individual {
+public class Variable extends Terminal {
 
     public void mutate() {
         // pass. I don't mutate #shrug

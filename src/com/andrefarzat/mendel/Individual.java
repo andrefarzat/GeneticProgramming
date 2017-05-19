@@ -7,9 +7,9 @@ public abstract class Individual {
         return this.value;
     }
 
+    public abstract void mutate();
+
     public String toString() {
         return Float.toString(this.value);
     }
-
-    public abstract void mutate();
 }

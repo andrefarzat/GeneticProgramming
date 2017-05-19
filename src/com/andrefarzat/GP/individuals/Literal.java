@@ -1,10 +1,10 @@
 package com.andrefarzat.GP.individuals;
 
 import java.util.Random;
-import com.andrefarzat.mendel.Individual;
+import com.andrefarzat.mendel.Terminal;
 
 
-public class Literal extends Individual {
+public class Literal extends Terminal {
 
     public void mutate() {
         this.value = this.generateRandomValue();

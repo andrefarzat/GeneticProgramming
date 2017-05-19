@@ -2,7 +2,7 @@ package com.andrefarzat.GP;
 
 
 public class CLI {
-
+/*
     public static int[][] getParams() {
         int[][] values = {
             {1, 14},
@@ -47,4 +47,5 @@ public class CLI {
         System.out.println("É, tentamos...");
         System.exit(1);
     }
+    */
 }

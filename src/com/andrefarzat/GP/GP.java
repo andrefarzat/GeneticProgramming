@@ -2,7 +2,7 @@ package com.andrefarzat.GP;
 
 
 public class GP {
-
+/*
     public nodes.Node[] generateInitialPopulation(int n) {
         nodes.Node[] population = new nodes.Node[n];
 
@@ -36,5 +36,5 @@ public class GP {
 
         return true;
     }
-
+*/
 }
