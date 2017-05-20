@@ -1,9 +1,7 @@
 package com.andrefarzat.GP.individuals;
 
-import com.andrefarzat.mendel.individuals.Function;
 import com.andrefarzat.mendel.individuals.IndividualGenerator;
 import com.andrefarzat.mendel.individuals.Terminal;
-
 import java.util.Random;
 
 

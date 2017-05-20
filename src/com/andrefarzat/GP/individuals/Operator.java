@@ -30,8 +30,4 @@ public class Operator extends Function {
         return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
     }
 
-    public Operator generate() {
-        return new Operator();
-    }
-
 }

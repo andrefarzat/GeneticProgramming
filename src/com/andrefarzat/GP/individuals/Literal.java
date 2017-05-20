@@ -17,9 +17,4 @@ public class Literal extends Terminal {
         Random random = new Random();
         return random.nextFloat() * (maxX - minX) + minX;
     }
-
-    public Terminal generate() {
-        return new Literal();
-    }
-
 }
