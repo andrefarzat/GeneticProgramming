@@ -1,6 +1,6 @@
 package com.andrefarzat.GP.individuals;
 
-import com.andrefarzat.mendel.Terminal;
+import com.andrefarzat.mendel.individuals.Terminal;
 
 
 public class Variable extends Terminal {

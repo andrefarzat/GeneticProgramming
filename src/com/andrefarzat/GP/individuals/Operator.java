@@ -3,7 +3,7 @@ package com.andrefarzat.GP.individuals;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import java.util.Random;
 
-import com.andrefarzat.mendel.Function;
+import com.andrefarzat.mendel.individuals.Function;
 
 
 public class Operator extends Function {
@@ -29,4 +29,9 @@ public class Operator extends Function {
     public String toString() {
         return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
     }
+
+    public Operator generate() {
+        return new Operator();
+    }
+
 }

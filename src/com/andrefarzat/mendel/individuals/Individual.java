@@ -1,4 +1,4 @@
-package com.andrefarzat.mendel;
+package com.andrefarzat.mendel.individuals;
 
 public abstract class Individual {
     protected float value;

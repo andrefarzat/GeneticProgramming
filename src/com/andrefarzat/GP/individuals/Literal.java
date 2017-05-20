@@ -1,7 +1,7 @@
 package com.andrefarzat.GP.individuals;
 
 import java.util.Random;
-import com.andrefarzat.mendel.Terminal;
+import com.andrefarzat.mendel.individuals.Terminal;
 
 
 public class Literal extends Terminal {
@@ -17,4 +17,9 @@ public class Literal extends Terminal {
         Random random = new Random();
         return random.nextFloat() * (maxX - minX) + minX;
     }
+
+    public Terminal generate() {
+        return new Literal();
+    }
+
 }

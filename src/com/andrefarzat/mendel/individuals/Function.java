@@ -1,11 +1,11 @@
-package com.andrefarzat.mendel;
+package com.andrefarzat.mendel.individuals;
 
 import java.util.ArrayList;
 
 
 public abstract class Function extends Individual {
-    protected Individual left;
-    protected Individual right;
+    public Individual left;
+    public Individual right;
 
     public float getValue(float value) {
         return this.left.getValue(value) + this.right.getValue(value);

@@ -1,7 +1,23 @@
 package com.andrefarzat.GP;
 
+import com.andrefarzat.GP.individuals.Generator;
+import com.andrefarzat.mendel.Mendel;
+
 
 public class CLI {
+
+    public static void main(String[] args) {
+        Mendel mendel = new Mendel();
+
+        mendel.setDepth(2);
+        mendel.setPopulationSize(1000);
+        mendel.setGenerator(new Generator());
+
+
+        //mendel.run();
+    }
+
+
 /*
     public static int[][] getParams() {
         int[][] values = {
