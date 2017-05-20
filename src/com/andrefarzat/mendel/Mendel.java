@@ -4,57 +4,24 @@ import com.andrefarzat.mendel.individuals.Individual;
 import com.andrefarzat.mendel.individuals.IndividualGenerator;
 import com.andrefarzat.mendel.operators.MutationOperator;
 
-import java.util.ArrayList;
-import java.util.Random;
 
+public abstract class Mendel {
+    public Individual[] currentPopulation;
 
-public class Mendel {
-    protected int depth          = 3;
-    protected int populationSize = 1000;
+    public abstract int getDepth();
+    public abstract int getPopulationSize();
 
-    protected IFitEvaluator       fitEvaluator;
-    protected ITerminator         terminator;
-    protected IndividualGenerator generator;
-    protected Individual[]        currentPopulation;
+    public abstract MutationOperator[] getMutationOperators();
+    public abstract IndividualGenerator getGenerator();
 
-    protected ArrayList<MutationOperator> mutationOperators = new ArrayList<MutationOperator>();
-
-    public void addMutationOperator(MutationOperator operator) {
-        this.mutationOperators.add(operator);
-    }
-
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
-
-    public void setFitEvaluator(IFitEvaluator fitEvaluator) {
-        this.fitEvaluator = fitEvaluator;
-    }
-
-    public void setTerminator(ITerminator terminator) {
-        this.terminator = terminator;
-    }
-
-    public void setGenerator(IndividualGenerator generator) {
-        this.generator = generator;
-    }
-
-    public void setPopulationSize(int size) {
-        this.populationSize = size;
-    }
-
-    protected <T> T getRandomFromList(ArrayList<T> list) {
-        int index = (new Random()).nextInt(list.size()) - 1;
-        if (index < 0) index = 0;
-        return list.get(index);
-    }
-
+    public abstract void evaluate(Individual individual);
+    public abstract boolean shouldStop();
 
     public Individual[] mutateCurrentPopulation() {
-        Individual[] newGeneration = new Individual[this.populationSize];
+        Individual[] newGeneration = new Individual[this.getPopulationSize()];
 
         for(Individual individual : this.currentPopulation) {
-            MutationOperator operator = this.getRandomFromList(this.mutationOperators);
+            MutationOperator operator = this.getMutationOperators()[0];
             operator.mutate(individual);
         }
 
@@ -63,16 +30,16 @@ public class Mendel {
 
     public void run() {
         // 1. Generate initial population
-        this.currentPopulation = this.generator.generateInitialPopulation(this.populationSize, this.depth);
+        this.currentPopulation = this.getGenerator().generateInitialPopulation(this.getPopulationSize(), this.getDepth());
 
         while(true) {
             // 2. Evaluate all population
             for (Individual individual : this.currentPopulation) {
-                this.fitEvaluator.evaluate(individual);
+                this.evaluate(individual);
             }
 
             // 3. Run Terminator
-            if (this.terminator.shouldStop(this)) {
+            if (this.shouldStop()) {
                 break;
             }
 

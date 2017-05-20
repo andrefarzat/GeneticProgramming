@@ -1,6 +1,5 @@
 package com.andrefarzat.GP.individuals;
 
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import java.util.Random;
 
 import com.andrefarzat.mendel.individuals.Function;
@@ -18,7 +17,8 @@ public class Operator extends Function {
             case '*': return this.left.getValue(x) * this.right.getValue(x);
         }
 
-        throw new ValueException(String.format("Type %s doesn't exist", this.type));
+        // Fixme: Treat the exception
+        return this.left.getValue(x) + this.right.getValue(x);
     }
 
     public void mutate() {
