@@ -4,7 +4,7 @@ public abstract class Node {
     protected float value;
     protected float measure;
 
-    public void setMeature(float measure) { this.measure = measure; }
+    public void setMeasure(float measure) { this.measure = measure; }
     public float getMeasure() { return this.measure; }
 
     public float getValue(float value) {

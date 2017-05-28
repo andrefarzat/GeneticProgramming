@@ -41,7 +41,7 @@ public class GP extends Mendel {
     public void evaluate(Node node) {
         for(float[] param : this.getParams()) {
             float value = node.getValue(param[0]);
-            node.setMeature(value - param[1]);
+            node.setMeasure(value - param[1]);
         }
     }
 
