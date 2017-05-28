@@ -1,9 +1,9 @@
-package com.andrefarzat.mendel.individuals;
+package com.andrefarzat.mendel.nodes;
 
 
 public abstract class IndividualGenerator {
-    public Individual[] generateInitialPopulation(int populationSize, int depth) {
-        Individual[] population = new Individual[populationSize];
+    public Node[] generateInitialPopulation(int populationSize, int depth) {
+        Node[] population = new Node[populationSize];
 
         for(int i = 0; i < populationSize; i++) {
             population[i] = this.generateFunction(depth);

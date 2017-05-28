@@ -1,6 +1,6 @@
-package com.andrefarzat.mendel.individuals;
+package com.andrefarzat.mendel.nodes;
 
-public abstract class Individual {
+public abstract class Node {
     protected float value;
     protected float measure;
 

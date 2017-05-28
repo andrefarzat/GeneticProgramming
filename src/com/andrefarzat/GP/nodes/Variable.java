@@ -1,6 +1,6 @@
-package com.andrefarzat.GP.individuals;
+package com.andrefarzat.GP.nodes;
 
-import com.andrefarzat.mendel.individuals.Terminal;
+import com.andrefarzat.mendel.nodes.Terminal;
 
 
 public class Variable extends Terminal {

@@ -1,12 +1,12 @@
 package com.andrefarzat.mendel;
 
-import com.andrefarzat.mendel.individuals.Individual;
-import com.andrefarzat.mendel.individuals.IndividualGenerator;
+import com.andrefarzat.mendel.nodes.Node;
+import com.andrefarzat.mendel.nodes.IndividualGenerator;
 import com.andrefarzat.mendel.operators.MutationOperator;
 
 
 public abstract class Mendel {
-    public Individual[] currentPopulation;
+    public Node[] currentPopulation;
 
     public abstract int getDepth();
     public abstract int getPopulationSize();
@@ -14,15 +14,15 @@ public abstract class Mendel {
     public abstract MutationOperator[] getMutationOperators();
     public abstract IndividualGenerator getGenerator();
 
-    public abstract void evaluate(Individual individual);
+    public abstract void evaluate(Node node);
     public abstract boolean shouldStop();
 
-    public Individual[] mutateCurrentPopulation() {
-        Individual[] newGeneration = new Individual[this.getPopulationSize()];
+    public Node[] mutateCurrentPopulation() {
+        Node[] newGeneration = new Node[this.getPopulationSize()];
 
-        for(Individual individual : this.currentPopulation) {
+        for(Node node : this.currentPopulation) {
             MutationOperator operator = this.getMutationOperators()[0];
-            operator.mutate(individual);
+            operator.mutate(node);
         }
 
         return newGeneration;
@@ -34,8 +34,8 @@ public abstract class Mendel {
 
         while(true) {
             // 2. Evaluate all population
-            for (Individual individual : this.currentPopulation) {
-                this.evaluate(individual);
+            for (Node node : this.currentPopulation) {
+                this.evaluate(node);
             }
 
             // 3. Run Terminator

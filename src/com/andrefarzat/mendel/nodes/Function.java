@@ -1,24 +1,24 @@
-package com.andrefarzat.mendel.individuals;
+package com.andrefarzat.mendel.nodes;
 
 import java.util.ArrayList;
 
 
-public abstract class Function extends Individual {
-    public Individual left;
-    public Individual right;
+public abstract class Function extends Node {
+    public Node left;
+    public Node right;
 
     public float getValue(float value) {
         return this.left.getValue(value) + this.right.getValue(value);
     }
 
-    public Individual[] getNodes() {
-        return new Individual[] { this.left, this.right };
+    public Node[] getNodes() {
+        return new Node[] { this.left, this.right };
     }
 
     public ArrayList<Terminal> getTerminals() {
         ArrayList<Terminal> terminals = new ArrayList<Terminal>();
 
-        for (Individual node : this.getNodes()) {
+        for (Node node : this.getNodes()) {
             if (node instanceof Terminal) {
                 terminals.add((Terminal) node);
             }
@@ -35,7 +35,7 @@ public abstract class Function extends Individual {
     public ArrayList<Function> getFunctions() {
         ArrayList<Function> funcs = new ArrayList<Function>();
 
-        for (Individual node : this.getNodes()) {
+        for (Node node : this.getNodes()) {
             if (node instanceof Function) {
                 Function func = (Function) node;
                 funcs.addAll(func.getFunctions());

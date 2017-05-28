@@ -1,8 +1,8 @@
-package com.andrefarzat.GP.individuals;
+package com.andrefarzat.GP.nodes;
 
 import java.util.Random;
 
-import com.andrefarzat.mendel.individuals.Function;
+import com.andrefarzat.mendel.nodes.Function;
 
 
 public class Operator extends Function {

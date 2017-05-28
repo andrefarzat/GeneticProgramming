@@ -1,14 +1,12 @@
 package com.andrefarzat.mendel.operators;
 
-import com.andrefarzat.mendel.individuals.Function;
-import com.andrefarzat.mendel.individuals.Individual;
-import com.andrefarzat.mendel.individuals.Terminal;
+import com.andrefarzat.mendel.nodes.Node;
 
 
 public class PointMutation extends MutationOperator {
 
-    public void mutate(Individual individual) {
-        individual.mutate();
+    public void mutate(Node node) {
+        node.mutate();
     }
 
 }

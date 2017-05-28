@@ -1,7 +1,7 @@
-package com.andrefarzat.GP.individuals;
+package com.andrefarzat.GP.nodes;
 
-import com.andrefarzat.mendel.individuals.IndividualGenerator;
-import com.andrefarzat.mendel.individuals.Terminal;
+import com.andrefarzat.mendel.nodes.IndividualGenerator;
+import com.andrefarzat.mendel.nodes.Terminal;
 import java.util.Random;
 
 

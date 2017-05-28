@@ -1,7 +1,7 @@
-package com.andrefarzat.GP.individuals;
+package com.andrefarzat.GP.nodes;
 
 import java.util.Random;
-import com.andrefarzat.mendel.individuals.Terminal;
+import com.andrefarzat.mendel.nodes.Terminal;
 
 
 public class Literal extends Terminal {
