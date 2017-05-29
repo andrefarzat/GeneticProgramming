@@ -7,7 +7,7 @@ import com.andrefarzat.mendel.nodes.Function;
 
 public class Operator extends Function {
     protected static final char[] operators = { '+', '-', '*', '/' };
-    public char type;
+    public char type = operators[0];
 
     public float getValue(float x) {
         switch(this.type) {
@@ -22,8 +22,8 @@ public class Operator extends Function {
     }
 
     public void mutate() {
-        int index = (new Random()).nextInt(Operator.operators.length - 1);
-        this.type = Operator.operators[index];
+        int index = (new Random()).nextInt(this.operators.length);
+        this.type = this.operators[index];
     }
 
     public String toString() {

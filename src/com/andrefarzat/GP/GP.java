@@ -27,7 +27,7 @@ public class GP extends Mendel {
     }
 
     public int getPopulationSize() {
-        return 1000;
+        return 10;
     }
 
     public IndividualGenerator getGenerator() {
@@ -39,14 +39,40 @@ public class GP extends Mendel {
     }
 
     public void evaluate(Node node) {
+        float measure = 1000;
+
         for(float[] param : this.getParams()) {
             float value = node.getValue(param[0]);
-            node.setMeature(value - param[1]);
+
+            if (value - param[1] < measure) {
+                measure = value - param[1];
+            }
         }
+
+        node.setMeature(measure);
     }
 
     public boolean shouldStop() {
-        return true;
+        for(Node node : this.currentPopulation) {
+            boolean isValid = true;
+            for(float[] param : this.getParams()) {
+                float value = node.getValue(param[0]);
+                this.log("F(%s) = %s = %s", param[0], node.toString(), node);
+                if (value != param[1]) {
+                    isValid = false;
+                }
+            }
+
+            if(isValid) {
+                for(float[] param : this.getParams()) {
+                    this.log("F(%s) = %s = %s", param[0], node.toString(), param[1]);
+                }
+                this.log("Solution found! o/");
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

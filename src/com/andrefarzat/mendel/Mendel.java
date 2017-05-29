@@ -17,15 +17,22 @@ public abstract class Mendel {
     public abstract void evaluate(Node node);
     public abstract boolean shouldStop();
 
-    public Node[] mutateCurrentPopulation() {
-        Node[] newGeneration = new Node[this.getPopulationSize()];
+    public void log(String msg) {
+        System.out.println(msg);
+    }
 
+    public void log(String msg, Object ...params) {
+        msg = String.format(msg, params);
+        System.out.println(msg);
+    }
+
+    public Node[] mutateCurrentPopulation() {
         for(Node node : this.currentPopulation) {
             MutationOperator operator = this.getMutationOperators()[0];
             operator.mutate(node);
         }
 
-        return newGeneration;
+        return this.currentPopulation;
     }
 
     public void run() {
@@ -34,7 +41,7 @@ public abstract class Mendel {
 
         while(true) {
             // 2. Evaluate all population
-            for (Node node : this.currentPopulation) {
+            for(Node node : this.currentPopulation) {
                 this.evaluate(node);
             }
 

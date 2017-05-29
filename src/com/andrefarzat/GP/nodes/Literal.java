@@ -11,10 +11,11 @@ public class Literal extends Terminal {
     }
 
     private float generateRandomValue() {
-        float minX = -1.0f;
-        float maxX = 1.0f;
+        float minX = -10.0f;
+        float maxX = 10.0f;
 
         Random random = new Random();
-        return random.nextFloat() * (maxX - minX) + minX;
+        float value = random.nextFloat() * (maxX - minX) + minX;
+        return Float.parseFloat(String.format("%.2f", value));
     }
 }
