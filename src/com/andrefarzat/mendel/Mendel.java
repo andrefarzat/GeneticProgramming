@@ -3,6 +3,10 @@ package com.andrefarzat.mendel;
 import com.andrefarzat.mendel.nodes.Node;
 import com.andrefarzat.mendel.nodes.IndividualGenerator;
 import com.andrefarzat.mendel.operators.MutationOperator;
+import com.sun.tools.javac.code.Attribute;
+
+import java.util.Arrays;
+import java.util.Comparator;
 
 
 public abstract class Mendel {
@@ -27,12 +31,17 @@ public abstract class Mendel {
     }
 
     public Node[] mutateCurrentPopulation() {
+        Node[] newGeneration = new Node[this.getPopulationSize()];
+        Arrays.sort(this.currentPopulation);
+
+        //
+
         for(Node node : this.currentPopulation) {
             MutationOperator operator = this.getMutationOperators()[0];
             operator.mutate(node);
         }
 
-        return this.currentPopulation;
+        return newGeneration;
     }
 
     public void run() {

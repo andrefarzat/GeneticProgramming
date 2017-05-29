@@ -14,8 +14,8 @@ public class GP extends Mendel {
         new PointMutation()
     };
     private float[][] params = {
-            {12, 13},
-            {14, 15},
+            {12.0f, 13.0f},
+            {14.0f, 15.0f},
     };
 
     public float[][] getParams() {
@@ -57,7 +57,7 @@ public class GP extends Mendel {
             boolean isValid = true;
             for(float[] param : this.getParams()) {
                 float value = node.getValue(param[0]);
-                this.log("F(%s) = %s = %s", param[0], node.toString(), node);
+                this.log("F(%s) = %s = %s", param[0], node.toString(), value);
                 if (value != param[1]) {
                     isValid = false;
                 }

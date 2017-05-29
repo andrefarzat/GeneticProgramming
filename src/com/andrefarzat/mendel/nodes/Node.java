@@ -1,6 +1,6 @@
 package com.andrefarzat.mendel.nodes;
 
-public abstract class Node {
+public abstract class Node implements Comparable<Node> {
     protected float value;
     protected float measure;
 
@@ -15,5 +15,9 @@ public abstract class Node {
 
     public String toString() {
         return Float.toString(this.value);
+    }
+
+    public int compareTo(Node node) {
+        return Float.floatToIntBits(this.getMeasure() - node.getMeasure());
     }
 }
