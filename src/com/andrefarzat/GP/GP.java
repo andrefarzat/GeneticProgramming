@@ -7,6 +7,7 @@ import com.andrefarzat.mendel.operators.CreatorOperator;
 import com.andrefarzat.mendel.operators.GeneticOperator;
 import com.andrefarzat.mendel.operators.PointMutation;
 import com.andrefarzat.mendel.operators.SubtreeCrossover;
+import com.andrefarzat.mendel.operators.SubtreeMutation;
 
 
 public class GP extends Mendel {
@@ -16,10 +17,11 @@ public class GP extends Mendel {
         new CreatorOperator()
     };
     private GeneticOperator[] mutationOperators = new GeneticOperator[] {
-        new PointMutation()
+        new PointMutation(),
+        new SubtreeMutation()
     };
     private GeneticOperator[] crossOperators = new GeneticOperator[] {
-            new SubtreeCrossover()
+            new SubtreeCrossover(),
     };
     private double[][] simpleExampleParams = {
             {12.0f, 13.0f},

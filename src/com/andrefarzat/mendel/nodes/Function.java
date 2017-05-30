@@ -1,5 +1,6 @@
 package com.andrefarzat.mendel.nodes;
 
+import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.MendelValue;
 
 import java.util.ArrayList;
@@ -12,7 +13,22 @@ public abstract class Function extends Node {
     public abstract MendelValue getValue(MendelValue value);
 
     public int getDepth() {
-        return 1;
+        int maxDepth = 0;
+
+        for(Node node : this.getNodes()) {
+            int depth = 0;
+
+            if (node instanceof Function) {
+                depth = ((Function) node).getDepth() + 1;
+            }
+
+            if (depth > maxDepth) {
+                maxDepth = depth;
+            }
+        }
+
+
+        return maxDepth;
     }
 
     public ArrayList<Node> getNodes() {
