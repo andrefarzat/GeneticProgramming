@@ -1,17 +1,18 @@
 package com.andrefarzat.mendel.operators;
 
 import com.andrefarzat.mendel.Individual;
+import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.Utils;
 import com.andrefarzat.mendel.nodes.Node;
 
-import java.util.ArrayList;
-import java.util.Random;
 
+public class PointMutation extends GeneticOperator {
 
-public class PointMutation extends MutationOperator {
-
-    public void mutate(Individual ind) {
+    public Individual create(Mendel mendel, Individual ind) {
         Node node = Utils.getFromListRandomly(ind.getNodes());
         node.mutate();
+
+        return ind;
     }
+
 }

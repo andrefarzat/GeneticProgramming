@@ -11,6 +11,10 @@ public abstract class Function extends Node {
 
     public abstract MendelValue getValue(MendelValue value);
 
+    public int getDepth() {
+        return 1;
+    }
+
     public ArrayList<Node> getNodes() {
         ArrayList<Node> list = new ArrayList<Node>();;
         list.add(this.left);

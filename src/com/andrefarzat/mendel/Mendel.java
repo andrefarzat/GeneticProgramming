@@ -2,8 +2,7 @@ package com.andrefarzat.mendel;
 
 import java.util.Random;
 
-import com.andrefarzat.mendel.operators.CrossOperator;
-import com.andrefarzat.mendel.operators.MutationOperator;
+import com.andrefarzat.mendel.operators.GeneticOperator;
 
 
 public abstract class Mendel {
@@ -12,8 +11,9 @@ public abstract class Mendel {
     public abstract int getDepth();
     public abstract int getPopulationSize();
 
-    public abstract MutationOperator[] getMutationOperators();
-    public abstract CrossOperator[] getCrossOperators();
+    public abstract GeneticOperator[] getCreatorOperators();
+    public abstract GeneticOperator[] getMutationOperators();
+    public abstract GeneticOperator[] getCrossOperators();
     public abstract IndividualGenerator getGenerator();
 
     public abstract void evaluate(Individual individual);
@@ -30,14 +30,20 @@ public abstract class Mendel {
         this.log(msg);
     }
 
-    public MutationOperator getRandomMutationOperator() {
-        MutationOperator[] operators = this.getMutationOperators();
+    public GeneticOperator getRandomCreatorOperator() {
+        GeneticOperator[] operators = this.getCreatorOperators();
         int index = this.random.nextInt(operators.length);
         return operators[index];
     }
 
-    public CrossOperator getRandomCrossOperator() {
-        CrossOperator[] operators = this.getCrossOperators();
+    public GeneticOperator getRandomMutationOperator() {
+        GeneticOperator[] operators = this.getMutationOperators();
+        int index = this.random.nextInt(operators.length);
+        return operators[index];
+    }
+
+    public GeneticOperator getRandomCrossOperator() {
+        GeneticOperator[] operators = this.getCrossOperators();
         int index = this.random.nextInt(operators.length);
         return operators[index];
     }
@@ -78,26 +84,19 @@ public abstract class Mendel {
                 break;
             }
 
+            GeneticOperator operator;
+
             if (howManyWillBeCreated > 0) {
-                individual = this.getGenerator().generateIndividual(this.getDepth());
+                operator = this.getRandomCreatorOperator();
                 howManyWillBeCreated -= 1;
             } else if (howManyWillBeMutated > 0) {
-                MutationOperator operator = this.getRandomMutationOperator();
-                operator.mutate(individual);
+                operator = this.getRandomMutationOperator();
                 howManyWillBeMutated -= 1;
             } else {
-                Individual individualB = currentPopulation.getRandomIndividual();
-
-                if (individualB == null) {
-                    // No cookie for you, let's just mutate here
-                    MutationOperator operator = this.getRandomMutationOperator();
-                    operator.mutate(individual);
-                } else {
-                    CrossOperator operator = this.getRandomCrossOperator();
-                    individual = operator.cross(individual, individualB);
-                }
+                operator = this.getRandomCrossOperator();
             }
 
+            individual = operator.create(this, individual);
             newGeneration.add(individual);
         }
 

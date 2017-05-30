@@ -3,8 +3,8 @@ package com.andrefarzat.GP;
 import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.IndividualGenerator;
-import com.andrefarzat.mendel.operators.CrossOperator;
-import com.andrefarzat.mendel.operators.MutationOperator;
+import com.andrefarzat.mendel.operators.CreatorOperator;
+import com.andrefarzat.mendel.operators.GeneticOperator;
 import com.andrefarzat.mendel.operators.PointMutation;
 import com.andrefarzat.mendel.operators.SubtreeCrossover;
 
@@ -12,10 +12,13 @@ import com.andrefarzat.mendel.operators.SubtreeCrossover;
 public class GP extends Mendel {
     private int loopCounter = 0;
     private Generator generator = new Generator();
-    private MutationOperator[] mutationOperators = new MutationOperator[] {
+    private GeneticOperator[] creatorOperators = new GeneticOperator[] {
+        new CreatorOperator()
+    };
+    private GeneticOperator[] mutationOperators = new GeneticOperator[] {
         new PointMutation()
     };
-    private CrossOperator[] crossOperators = new CrossOperator[] {
+    private GeneticOperator[] crossOperators = new GeneticOperator[] {
             new SubtreeCrossover()
     };
     private double[][] simpleExampleParams = {
@@ -44,11 +47,13 @@ public class GP extends Mendel {
         return this.generator;
     }
 
-    public MutationOperator[] getMutationOperators() {
+    public GeneticOperator[] getCreatorOperators() { return this.creatorOperators; }
+
+    public GeneticOperator[] getMutationOperators() {
         return this.mutationOperators;
     }
 
-    public CrossOperator[] getCrossOperators() { return this.crossOperators; }
+    public GeneticOperator[] getCrossOperators() { return this.crossOperators; }
 
     public void evaluate(Individual ind) {
         double measure = 1000;
