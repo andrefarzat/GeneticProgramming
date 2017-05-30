@@ -21,6 +21,7 @@ public class Population {
             Collections.sort(this.individuals);
         } catch(IllegalArgumentException e) {
             // http://memes.andrefarzat.com/ta-de-boa
+            throw e;
         }
     }
 

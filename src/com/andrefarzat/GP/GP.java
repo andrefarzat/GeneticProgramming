@@ -3,11 +3,9 @@ package com.andrefarzat.GP;
 import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.IndividualGenerator;
-import com.andrefarzat.mendel.operators.CreatorOperator;
-import com.andrefarzat.mendel.operators.GeneticOperator;
-import com.andrefarzat.mendel.operators.PointMutation;
-import com.andrefarzat.mendel.operators.SubtreeCrossover;
-import com.andrefarzat.mendel.operators.SubtreeMutation;
+import com.andrefarzat.mendel.operators.*;
+
+import java.util.Scanner;
 
 
 public class GP extends Mendel {
@@ -18,7 +16,8 @@ public class GP extends Mendel {
     };
     private GeneticOperator[] mutationOperators = new GeneticOperator[] {
         new PointMutation(),
-        new SubtreeMutation()
+//        new SubtreeMutation(),
+        new SizeFairSubtreeMutation()
     };
     private GeneticOperator[] crossOperators = new GeneticOperator[] {
             new SubtreeCrossover(),
@@ -33,8 +32,8 @@ public class GP extends Mendel {
     };
 
     public double[][] getParams() {
-        //return this.simpleExampleParams;
-        return this.celsiusToFahrenheit;
+        return this.simpleExampleParams;
+//        return this.celsiusToFahrenheit;
     }
 
     public int getDepth() {
@@ -42,7 +41,7 @@ public class GP extends Mendel {
     }
 
     public int getPopulationSize() {
-        return 2000;
+        return 10;
     }
 
     public IndividualGenerator getGenerator() {
@@ -58,24 +57,25 @@ public class GP extends Mendel {
     public GeneticOperator[] getCrossOperators() { return this.crossOperators; }
 
     public void evaluate(Individual ind) {
-        double measure = 1000;
+        double maxMeasure = 0;
 
         for(double[] param : this.getParams()) {
             Value value = new Value();
             value.set(param[0]);
             value = (Value) ind.getValue(value);
 
-            if (value.get() - param[1] < measure) {
-                measure = Math.abs(param[1] - value.get());
+            double measure = ind.getTree().getDepth() * 10;
+            measure += Math.abs(value.get() - param[1]);
+
+            if (measure > maxMeasure) {
+                maxMeasure = measure;
             }
         }
 
-        ind.setMeasure(measure);
+        ind.setMeasure(maxMeasure);
     }
 
     public boolean shouldStop() {
-        System.out.println(String.format("Attempt %s", ++this.loopCounter));
-
         for(Individual individual : this.currentPopulation.getAll()) {
             boolean isValid = true;
             for(double[] param : this.getParams()) {
@@ -83,7 +83,9 @@ public class GP extends Mendel {
                 value.set(param[0]);
                 value = (Value) individual.getValue(value);
 
-                this.log("F(%s) = %s = %s", param[0], individual.toString(), value);
+                String msg = "[Measure: %s; Depth: %s;]F(%s): %s = %s";
+                this.log(msg, individual.getMeasure(), individual.getTree().getDepth(), param[0], individual.toString(), value);
+
                 if (value.get() != param[1]) {
                     isValid = false;
                 }
@@ -97,6 +99,9 @@ public class GP extends Mendel {
                 return true;
             }
         }
+
+        Scanner scanner = new Scanner(System.in);
+        scanner.next();
 
         return false;
     }

@@ -9,33 +9,42 @@ import java.util.ArrayList;
 
 public class Individual implements Comparable<Individual> {
     private double measure;
-    protected Function three;
+    private Function tree;
 
     public void setMeasure(double measure) { this.measure = measure; }
     public double getMeasure() { return this.measure; }
 
+    public void setTree(Function tree) { this.tree = tree; }
+    public Function getTree() { return this.tree; }
+
     public MendelValue getValue(MendelValue value) {
-        return this.three.getValue(value);
+        return this.tree.getValue(value);
     }
 
-    public String toString() { return this.three.toString(); }
+    public String toString() { return this.tree.toString(); }
 
     public Individual clone() {
         Individual ind = new Individual();
-        ind.three = (Function) this.three.clone();
+        ind.tree = (Function) this.tree.clone();
         ind.measure = this.measure;
         return ind;
     }
 
     public int compareTo(Individual individual) {
-        return (int) Double.doubleToLongBits(this.getMeasure() - individual.getMeasure());
+        if (this.getMeasure() > individual.getMeasure()) {
+            return 1;
+        } else if (this.getMeasure() == individual.getMeasure()) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
 
     public ArrayList<Node> getNodes() {
         ArrayList<Node> list = new ArrayList<Node>();
-        list.add(this.three);
-        list.add(this.three.left);
-        list.add(this.three.right);
+        list.add(this.tree);
+        list.add(this.tree.left);
+        list.add(this.tree.right);
         return list;
     }
 

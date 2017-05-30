@@ -20,7 +20,7 @@ public abstract class IndividualGenerator {
 
         do {
             ind = new Individual();
-            ind.three = this.generateFunction(depth);
+            ind.setTree(this.generateFunction(depth));
         } while (! this.validateIndividual(ind));
 
         return ind;
