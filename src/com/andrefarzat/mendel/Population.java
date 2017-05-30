@@ -17,7 +17,12 @@ public class Population {
     }
 
     public void sortByMeasure() {
-        Collections.sort(this.individuals);
+        try {
+            Collections.sort(this.individuals);
+        } catch(IllegalArgumentException e) {
+            System.out.println("How come?");
+            throw e;
+        }
     }
 
     public Individual get(int i) {

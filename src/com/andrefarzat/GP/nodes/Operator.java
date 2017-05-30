@@ -13,8 +13,17 @@ public class Operator extends Function {
         switch(this.type) {
             case '+': return this.left.getValue(x) + this.right.getValue(x);
             case '-': return this.left.getValue(x) - this.right.getValue(x);
-            case '/': return this.left.getValue(x) / this.right.getValue(x);
             case '*': return this.left.getValue(x) * this.right.getValue(x);
+        }
+
+        if (this.type == '/') {
+            // Division is the exception. We can't have zero at the right side
+            float rightValue = this.right.getValue(x);
+            if (rightValue == 0) {
+                rightValue = 1;
+            }
+
+            return this.left.getValue(x) / rightValue;
         }
 
         // Fixme: Treat the exception

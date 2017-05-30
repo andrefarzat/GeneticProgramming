@@ -21,7 +21,12 @@ public class Literal extends Terminal {
         float maxX = 1.0f;
 
         Random random = new Random();
-        float value = random.nextFloat() * (maxX - minX) + minX;
+        float value = 0;
+        while (value == 0) {
+            // To ensure value is NEVER zero
+            value = random.nextFloat() * (maxX - minX) + minX;
+        }
+
         return Float.parseFloat(String.format("%.2f", value));
     }
 }

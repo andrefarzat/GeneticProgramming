@@ -53,6 +53,10 @@ public class GP extends Mendel {
             if (value - param[1] < measure) {
                 measure = Math.abs(param[1] - value);
             }
+
+            if (Float.isInfinite(measure) || Float.isNaN(measure)) {
+                System.out.println("caralho");
+            }
         }
 
         ind.setMeasure(measure);

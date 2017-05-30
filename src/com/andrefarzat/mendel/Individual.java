@@ -12,17 +12,27 @@ public class Individual implements Comparable<Individual> {
     private float measure;
     protected Function three;
 
-    public void setMeasure(float measure) { this.measure = measure; }
+    public void setMeasure(float measure) {
+        this.measure = measure;
+    }
     public float getMeasure() { return this.measure; }
 
     public float getValue(float value) {
-        return this.three.getValue(value);
+        float ret = this.three.getValue(value);
+        return ret;
     }
 
     public String toString() { return this.three.toString(); }
 
     public int compareTo(Individual individual) {
-        return Float.floatToIntBits(this.getMeasure() - individual.getMeasure());
+        float m1 = this.getMeasure();
+        float m2 = individual.getMeasure();
+        float value = this.getMeasure() - individual.getMeasure();
+
+        if (Float.isInfinite(value) || Float.isNaN(value)) {
+            System.out.println("Da porra");
+        }
+        return Float.floatToIntBits(value);
     }
 
     public ArrayList<Node> getNodes() {
