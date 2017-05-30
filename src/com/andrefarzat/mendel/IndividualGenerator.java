@@ -16,10 +16,17 @@ public abstract class IndividualGenerator {
     }
 
     public Individual generateIndividual(int depth) {
-        Individual ind = new Individual();
-        ind.three = this.generateFunction(depth);
+        Individual ind = null;
+
+        do {
+            ind = new Individual();
+            ind.three = this.generateFunction(depth);
+        } while (! this.validateIndividual(ind));
+
         return ind;
     }
+
+    public abstract boolean validateIndividual(Individual ind);
 
     public abstract Function generateFunction(int depth);
 }

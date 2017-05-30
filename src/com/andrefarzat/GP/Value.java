@@ -7,7 +7,7 @@ public class Value implements MendelValue {
     private Double value;
 
     public Double get() {
-        return this.value;
+        return Double.parseDouble(String.format("%.2f", this.value));
     }
 
     public void set(Object value) {

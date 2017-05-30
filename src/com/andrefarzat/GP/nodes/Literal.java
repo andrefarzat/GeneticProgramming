@@ -19,8 +19,8 @@ public class Literal extends Terminal {
     }
 
     private Value generateRandomValue() {
-        float minX = -1.0f;
-        float maxX = 1.0f;
+        float minX = 0.0f;
+        float maxX = 50.0f;
 
         Random random = new Random();
         float value = 0;
@@ -30,7 +30,7 @@ public class Literal extends Terminal {
         }
 
         Value v = new Value();
-        v.set(Double.parseDouble(String.format("%.2f", value)));
+        v.set(Double.parseDouble(String.format("%.1f", value)));
 
         return v;
     }

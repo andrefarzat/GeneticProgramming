@@ -8,9 +8,9 @@ import com.andrefarzat.mendel.operators.MutationOperator;
 import com.andrefarzat.mendel.operators.PointMutation;
 import com.andrefarzat.mendel.operators.SubtreeCrossover;
 
-import com.andrefarzat.GP.Value;
 
 public class GP extends Mendel {
+    private int loopCounter = 0;
     private Generator generator = new Generator();
     private MutationOperator[] mutationOperators = new MutationOperator[] {
         new PointMutation()
@@ -18,21 +18,26 @@ public class GP extends Mendel {
     private CrossOperator[] crossOperators = new CrossOperator[] {
             new SubtreeCrossover()
     };
-    private double[][] params = {
+    private double[][] simpleExampleParams = {
             {12.0f, 13.0f},
             {14.0f, 15.0f},
     };
+    private double[][] celsiusToFahrenheit = {
+            {1.0f, 33.8f},
+            {10.0f, 50.0f},
+    };
 
     public double[][] getParams() {
-        return this.params;
+        //return this.simpleExampleParams;
+        return this.celsiusToFahrenheit;
     }
 
     public int getDepth() {
-        return 1;
+        return 0;
     }
 
     public int getPopulationSize() {
-        return 20;
+        return 2000;
     }
 
     public IndividualGenerator getGenerator() {
@@ -62,6 +67,8 @@ public class GP extends Mendel {
     }
 
     public boolean shouldStop() {
+        System.out.println(String.format("Attempt %s", ++this.loopCounter));
+
         for(Individual individual : this.currentPopulation.getAll()) {
             boolean isValid = true;
             for(double[] param : this.getParams()) {
@@ -79,7 +86,7 @@ public class GP extends Mendel {
                 for(double[] param : this.getParams()) {
                     this.log("F(%s) = %s = %s", param[0], individual.toString(), param[1]);
                 }
-                this.log("Solution found! o/");
+                this.log("Solution found in %s generations! o/", this.loopCounter);
                 return true;
             }
         }

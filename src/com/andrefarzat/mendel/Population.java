@@ -17,7 +17,11 @@ public class Population {
     }
 
     public void sortByMeasure() {
-        Collections.sort(this.individuals);
+        try {
+            Collections.sort(this.individuals);
+        } catch(IllegalArgumentException e) {
+            // http://memes.andrefarzat.com/ta-de-boa
+        }
     }
 
     public Individual get(int i) {

@@ -66,10 +66,10 @@ public abstract class Mendel {
         Population newGeneration = new Population();
 
         int size = population.size();
-        double howManyWillBeMutated = Math.ceil((size * 50.0) / 100.0);
-        double howManyWillBeCreated = Math.ceil((size * 40.0) / 100.0);
+        double howManyWillBeMutated = Math.ceil((size * 40.0) / 100.0);
+        double howManyWillBeCreated = Math.ceil((size * 10.0) / 100.0);
 
-        this.log(String.format("Size: %s; Mutated: %s; Created: %s", size, howManyWillBeMutated, howManyWillBeCreated));
+        //this.log(String.format("Size: %s; Mutated: %s; Created: %s", size, howManyWillBeMutated, howManyWillBeCreated));
 
         while (true) {
             Individual individual = currentPopulation.getRandomIndividualAndRemoveIt();

@@ -3,6 +3,7 @@ package com.andrefarzat.mendel;
 
 import com.andrefarzat.mendel.nodes.Function;
 import com.andrefarzat.mendel.nodes.Node;
+import com.andrefarzat.mendel.nodes.Terminal;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,19 @@ public class Individual implements Comparable<Individual> {
         list.add(this.three.left);
         list.add(this.three.right);
         return list;
+    }
+
+    public ArrayList<Terminal> getTerminals() {
+        ArrayList<Terminal> terminals = new ArrayList<Terminal>();
+
+        for (Node node : this.getNodes()) {
+            if (node instanceof Terminal) {
+                Terminal terminal = (Terminal) node;
+                terminals.add(terminal);
+            }
+        }
+
+        return terminals;
     }
 
     public ArrayList<Function> getFunctions() {
