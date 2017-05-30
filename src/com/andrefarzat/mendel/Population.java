@@ -62,4 +62,10 @@ public class Population {
         int index = Utils.random.nextInt(size);
         return this.getAndRemove(index);
     }
+
+    public Population slice(int from, int to) {
+        Population pop = this.clone();
+        pop.individuals = new ArrayList(pop.individuals.subList(from, to));
+        return pop;
+    }
 }

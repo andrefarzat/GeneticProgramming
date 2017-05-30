@@ -49,57 +49,44 @@ public abstract class Mendel {
     }
 
     public Population mutateCurrentPopulation() {
-        int size = this.getPopulationSize();
-        // 1. Ranking the current population by its measure
-        this.currentPopulation.sortByMeasure();
-
-        // 2. Getting only the half good
-        Population halfGeneration = new Population();
-        for(int i = 0; i < size / 2; i++) {
-            halfGeneration.add(this.currentPopulation.get(i));
-        }
-
-        // 3. Generating a muted generation
         Population newGeneration = new Population();
-        newGeneration.concat(halfGeneration);
-        newGeneration.concat(this.mutatePopulation(halfGeneration));
+        newGeneration.concat(this.mutatePopulation(this.currentPopulation));
 
         return newGeneration;
     }
 
     public Population mutatePopulation(Population population) {
-        Population currentPopulation = population.clone();
         Population newGeneration = new Population();
+        Population currentPopulation = population.clone();
 
+        // 1. Ranking the current population by its measure
+        currentPopulation.sortByMeasure();
+
+        // 2. We want only the top 25%
         int size = population.size();
-        double howManyWillBeMutated = Math.ceil((size * 80.0) / 100.0);
+        currentPopulation = currentPopulation.slice(0, size/4);
+
+        double howManyWillBeMutated = Math.ceil((size * 20.0) / 100.0);
         double howManyWillBeCreated = Math.ceil((size * 10.0) / 100.0);
 
-        //this.log(String.format("Size: %s; Mutated: %s; Created: %s", size, howManyWillBeMutated, howManyWillBeCreated));
+        for(int i = 0; i < 4; i ++) {
+            for(Individual individual : currentPopulation.getAll()) {
+                GeneticOperator operator;
 
-        while (true) {
-            Individual individual = currentPopulation.getRandomIndividualAndRemoveIt();
+                if (howManyWillBeCreated > 0) {
+                    operator = this.getRandomCreatorOperator();
+                    howManyWillBeCreated -= 1;
+                } else if (howManyWillBeMutated > 0) {
+                    operator = this.getRandomMutationOperator();
+                    howManyWillBeMutated -= 1;
+                } else {
+                    operator = this.getRandomCrossOperator();
+                }
 
-            if (individual == null) {
-                break;
+                individual = operator.create(this, individual);
+                newGeneration.add(individual);
             }
-
-            GeneticOperator operator;
-
-            if (howManyWillBeCreated > 0) {
-                operator = this.getRandomCreatorOperator();
-                howManyWillBeCreated -= 1;
-            } else if (howManyWillBeMutated > 0) {
-                operator = this.getRandomMutationOperator();
-                howManyWillBeMutated -= 1;
-            } else {
-                operator = this.getRandomCrossOperator();
-            }
-
-            individual = operator.create(this, individual);
-            newGeneration.add(individual);
         }
-
 
         return newGeneration;
     }

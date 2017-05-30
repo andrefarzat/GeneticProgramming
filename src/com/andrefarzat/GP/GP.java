@@ -16,7 +16,7 @@ public class GP extends Mendel {
     };
     private GeneticOperator[] mutationOperators = new GeneticOperator[] {
         new PointMutation(),
-//        new SubtreeMutation(),
+        new SubtreeMutation(),
         new SizeFairSubtreeMutation()
     };
     private GeneticOperator[] crossOperators = new GeneticOperator[] {
@@ -41,7 +41,7 @@ public class GP extends Mendel {
     }
 
     public int getPopulationSize() {
-        return 10;
+        return 1000;
     }
 
     public IndividualGenerator getGenerator() {
@@ -56,23 +56,26 @@ public class GP extends Mendel {
 
     public GeneticOperator[] getCrossOperators() { return this.crossOperators; }
 
-    public void evaluate(Individual ind) {
+    public void evaluate(Individual individual) {
         double maxMeasure = 0;
 
         for(double[] param : this.getParams()) {
             Value value = new Value();
             value.set(param[0]);
-            value = (Value) ind.getValue(value);
+            value = (Value) individual.getValue(value);
 
-            double measure = ind.getTree().getDepth() * 10;
+            double measure = individual.getTree().getDepth() * 10;
             measure += Math.abs(value.get() - param[1]);
 
             if (measure > maxMeasure) {
                 maxMeasure = measure;
             }
+
+            String msg = "[Measure: %s; Depth: %s;]F(%s): %s = %s";
+            this.log(msg, individual.getMeasure(), individual.getTree().getDepth(), param[0], individual.toString(), value);
         }
 
-        ind.setMeasure(maxMeasure);
+        individual.setMeasure(maxMeasure);
     }
 
     public boolean shouldStop() {
@@ -82,9 +85,6 @@ public class GP extends Mendel {
                 Value value = new Value();
                 value.set(param[0]);
                 value = (Value) individual.getValue(value);
-
-                String msg = "[Measure: %s; Depth: %s;]F(%s): %s = %s";
-                this.log(msg, individual.getMeasure(), individual.getTree().getDepth(), param[0], individual.toString(), value);
 
                 if (value.get() != param[1]) {
                     isValid = false;
@@ -99,10 +99,8 @@ public class GP extends Mendel {
                 return true;
             }
         }
-
-        Scanner scanner = new Scanner(System.in);
-        scanner.next();
-
+//        Scanner scanner = new Scanner(System.in);
+//        scanner.next();
         return false;
     }
 
