@@ -23,7 +23,7 @@ public class GP extends Mendel {
     }
 
     public int getDepth() {
-        return 3;
+        return 1;
     }
 
     public int getPopulationSize() {
@@ -45,7 +45,7 @@ public class GP extends Mendel {
             float value = node.getValue(param[0]);
 
             if (value - param[1] < measure) {
-                measure = value - param[1];
+                measure = Math.abs(param[1] - value);
             }
         }
 

@@ -1,12 +1,11 @@
 package com.andrefarzat.mendel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.andrefarzat.mendel.nodes.Node;
 import com.andrefarzat.mendel.nodes.IndividualGenerator;
 import com.andrefarzat.mendel.operators.MutationOperator;
-import com.sun.tools.javac.code.Attribute;
-
-import java.util.Arrays;
-import java.util.Comparator;
 
 
 public abstract class Mendel {
@@ -27,18 +26,44 @@ public abstract class Mendel {
 
     public void log(String msg, Object ...params) {
         msg = String.format(msg, params);
-        System.out.println(msg);
+        this.log(msg);
     }
 
     public Node[] mutateCurrentPopulation() {
-        Node[] newGeneration = new Node[this.getPopulationSize()];
+        int size = this.getPopulationSize();
+        // 1. Ranking the current population by its measure
         Arrays.sort(this.currentPopulation);
 
-        //
+        // 2. Getting only the half good
+        Node[] currentPopulation = Arrays.copyOfRange(this.currentPopulation, 0, size / 2);
 
-        for(Node node : this.currentPopulation) {
+        // 3. Generating a muted generation
+        ArrayList<Node> mutedGeneration = this.mutatePopulation(currentPopulation);
+
+        // 4. Instantiating new population
+        Node[] newGeneration = new Node[this.getPopulationSize()];
+
+        // 5. Concatenating remaining individuals with mutated generation
+        for(Node node : currentPopulation) {
+            size --;
+            newGeneration[size] = node;
+        }
+
+        for(Node node : mutedGeneration) {
+            size --;
+            newGeneration[size] = node;
+        }
+
+        return newGeneration;
+    }
+
+    public ArrayList<Node> mutatePopulation(Node[] population) {
+        ArrayList<Node> newGeneration = new ArrayList<Node>();
+
+        for(Node node : population) {
             MutationOperator operator = this.getMutationOperators()[0];
             operator.mutate(node);
+            newGeneration.add(node);
         }
 
         return newGeneration;
