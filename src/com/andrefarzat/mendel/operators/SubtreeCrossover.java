@@ -1,6 +1,8 @@
 package com.andrefarzat.mendel.operators;
 
 
+import com.andrefarzat.mendel.Individual;
+import com.andrefarzat.mendel.Utils;
 import com.andrefarzat.mendel.nodes.Function;
 import com.andrefarzat.mendel.nodes.Node;
 
@@ -10,19 +12,22 @@ import java.util.Random;
 
 public class SubtreeCrossover extends CrossOperator {
 
-    public Function cross(Function funcA, Function funcB) {
-        Function func = null;
-        ArrayList<Function> funcs = funcA.getFunctions();
+    public Individual cross(Individual indA, Individual indB) {
+        Individual ind = null;
+        ArrayList<Node> nodes = indA.getNodes();
+        ArrayList<Function> funcs = indA.getFunctions();
 
-        func = funcs.size() == 0 ? funcA : (Function) this.getRandomFromList(funcA.getFunctions()).clone();
+        Function func = (Function) Utils.getFromListRandomly(funcs).clone();
+        Node node = (Node) Utils.getFromListRandomly(nodes).clone();
 
-        boolean shouldBeLeft = (new Random()).nextInt(2) == 2;
+
+        boolean shouldBeLeft = (new Random()).nextInt(2) == 1;
         if (shouldBeLeft) {
-            func.left = this.getRandomFromList(funcB.getNodes()).clone();
+            func.left = node;
         } else {
-            func.right = this.getRandomFromList(funcB.getNodes()).clone();
+            func.right = node;
         }
 
-        return func;
+        return ind;
     }
 }

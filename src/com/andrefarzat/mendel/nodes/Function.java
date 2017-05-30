@@ -12,27 +12,10 @@ public abstract class Function extends Node {
     }
 
     public ArrayList<Node> getNodes() {
-        ArrayList<Node> list = new ArrayList<Node>();
+        ArrayList<Node> list = new ArrayList<Node>();;
         list.add(this.left);
         list.add(this.right);
         return list;
-    }
-
-    public ArrayList<Terminal> getTerminals() {
-        ArrayList<Terminal> terminals = new ArrayList<Terminal>();
-
-        for (Node node : this.getNodes()) {
-            if (node instanceof Terminal) {
-                terminals.add((Terminal) node);
-            }
-
-            if (node instanceof Function) {
-                Function func = (Function) node;
-                terminals.addAll(func.getTerminals());
-            }
-        }
-
-        return terminals;
     }
 
     public ArrayList<Function> getFunctions() {

@@ -1,24 +1,11 @@
 package com.andrefarzat.mendel.nodes;
 
-public abstract class Node implements Comparable<Node> {
-    protected float value;
-    protected float measure;
+public abstract class Node {
+    public abstract float getValue(float value);
 
-    public void setMeature(float measure) { this.measure = measure; }
-    public float getMeasure() { return this.measure; }
-
-    public float getValue(float value) {
-        return this.value;
-    }
-
-    public abstract void mutate();
     public abstract Node clone();
 
-    public String toString() {
-        return Float.toString(this.value);
-    }
+    public abstract void mutate();
 
-    public int compareTo(Node node) {
-        return Float.floatToIntBits(this.getMeasure() - node.getMeasure());
-    }
+    public abstract String toString();
 }

@@ -1,6 +1,9 @@
-package com.andrefarzat.GP.nodes;
+package com.andrefarzat.GP;
 
-import com.andrefarzat.mendel.nodes.IndividualGenerator;
+import com.andrefarzat.GP.nodes.Literal;
+import com.andrefarzat.GP.nodes.Operator;
+import com.andrefarzat.GP.nodes.Variable;
+import com.andrefarzat.mendel.IndividualGenerator;
 import com.andrefarzat.mendel.nodes.Terminal;
 import java.util.Random;
 
@@ -9,9 +12,14 @@ public class Generator extends IndividualGenerator {
     private Random random = new Random();
 
     public Terminal generateTerminal() {
-        Terminal terminal = this.random.nextInt(6) == 1 ? new Variable() : new Literal();
-        terminal.mutate();
-        return terminal;
+        if (this.random.nextInt(6) == 1) {
+            Variable var = new Variable();
+            return var;
+        } else {
+            Literal literal = new Literal();
+            literal.mutate();
+            return literal;
+        }
     }
 
     public Operator generateFunction(int depth) {

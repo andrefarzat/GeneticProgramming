@@ -1,18 +1,13 @@
 package com.andrefarzat.mendel;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
-import com.andrefarzat.mendel.nodes.Node;
-import com.andrefarzat.mendel.nodes.Function;
-import com.andrefarzat.mendel.nodes.IndividualGenerator;
 import com.andrefarzat.mendel.operators.CrossOperator;
 import com.andrefarzat.mendel.operators.MutationOperator;
 
 
 public abstract class Mendel {
-    public ArrayList<Function> currentPopulation;
+    public Population currentPopulation;
 
     public abstract int getDepth();
     public abstract int getPopulationSize();
@@ -21,7 +16,7 @@ public abstract class Mendel {
     public abstract CrossOperator[] getCrossOperators();
     public abstract IndividualGenerator getGenerator();
 
-    public abstract void evaluate(Node node);
+    public abstract void evaluate(Individual individual);
     public abstract boolean shouldStop();
 
     protected final Random random = new Random();
@@ -47,26 +42,26 @@ public abstract class Mendel {
         return operators[index];
     }
 
-    public ArrayList<Function> mutateCurrentPopulation() {
+    public Population mutateCurrentPopulation() {
         int size = this.getPopulationSize();
         // 1. Ranking the current population by its measure
-        Collections.sort(this.currentPopulation);
+        this.currentPopulation.sortByMeasure();
 
         // 2. Getting only the half good
-        ArrayList<Function> newGeneration = new ArrayList<Function>();
+        Population newGeneration = new Population();
         for(int i = 0; i < size / 2; i++) {
             newGeneration.add(this.currentPopulation.get(i));
         }
 
         // 3. Generating a muted generation
-        newGeneration.addAll(this.mutatePopulation(newGeneration));
+        newGeneration.concat(this.mutatePopulation(newGeneration));
 
         return newGeneration;
     }
 
-    public ArrayList<Function> mutatePopulation(ArrayList<Function> population) {
-        ArrayList<Function> currentPopulation = (ArrayList<Function>) population.clone();
-        ArrayList<Function> newGeneration = new ArrayList<Function>();
+    public Population mutatePopulation(Population population) {
+        Population currentPopulation = population.clone();
+        Population newGeneration = new Population();
 
         int size = population.size();
         double howManyWillBeMutated = Math.ceil((size * 8) / 100);
@@ -78,23 +73,22 @@ public abstract class Mendel {
 
         for(int i = 0; i < size; i ++) {
             int randomIndex = this.random.nextInt(size - i);
-            Function func = currentPopulation.get(randomIndex);
+            Individual individual = currentPopulation.getAndRemove(randomIndex);
 
             if (howManyWillBeCreated > 0) {
-                newGeneration.add(this.getGenerator().generateFunction(this.getDepth()));
+                newGeneration.add(this.getGenerator().generateIndividual(this.getDepth()));
                 howManyWillBeCreated -= 1;
             } else if (howManyWillBeMutated > 0) {
                 MutationOperator operator = this.getRandomMutationOperator();
-                operator.mutate(func);
+                operator.mutate(individual);
                 howManyWillBeMutated -= 1;
             } else {
                 CrossOperator operator = this.getRandomCrossOperator();
-                Function funcB = operator.getRandomFromList(currentPopulation);
-                operator.cross(func, funcB);
+                Individual individualB = currentPopulation.getRandomIndividual();
+                operator.cross(individual, individualB);
             }
 
-            newGeneration.add(func);
-            currentPopulation.remove(randomIndex);
+            newGeneration.add(individual);
         }
 
 
@@ -107,8 +101,8 @@ public abstract class Mendel {
 
         while(true) {
             // 2. Evaluate all population
-            for(Node node : this.currentPopulation) {
-                this.evaluate(node);
+            for(Individual individual : this.currentPopulation.getAll()) {
+                this.evaluate(individual);
             }
 
             // 3. Run Terminator

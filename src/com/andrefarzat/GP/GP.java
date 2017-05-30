@@ -1,9 +1,8 @@
 package com.andrefarzat.GP;
 
-import com.andrefarzat.GP.nodes.Generator;
+import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Mendel;
-import com.andrefarzat.mendel.nodes.Node;
-import com.andrefarzat.mendel.nodes.IndividualGenerator;
+import com.andrefarzat.mendel.IndividualGenerator;
 import com.andrefarzat.mendel.operators.CrossOperator;
 import com.andrefarzat.mendel.operators.MutationOperator;
 import com.andrefarzat.mendel.operators.PointMutation;
@@ -32,7 +31,7 @@ public class GP extends Mendel {
     }
 
     public int getPopulationSize() {
-        return 10;
+        return 4000;
     }
 
     public IndividualGenerator getGenerator() {
@@ -45,26 +44,26 @@ public class GP extends Mendel {
 
     public CrossOperator[] getCrossOperators() { return this.crossOperators; }
 
-    public void evaluate(Node node) {
+    public void evaluate(Individual ind) {
         float measure = 1000;
 
         for(float[] param : this.getParams()) {
-            float value = node.getValue(param[0]);
+            float value = ind.getValue(param[0]);
 
             if (value - param[1] < measure) {
                 measure = Math.abs(param[1] - value);
             }
         }
 
-        node.setMeature(measure);
+        ind.setMeasure(measure);
     }
 
     public boolean shouldStop() {
-        for(Node node : this.currentPopulation) {
+        for(Individual individual : this.currentPopulation.getAll()) {
             boolean isValid = true;
             for(float[] param : this.getParams()) {
-                float value = node.getValue(param[0]);
-                this.log("F(%s) = %s = %s", param[0], node.toString(), value);
+                float value = individual.getValue(param[0]);
+                this.log("F(%s) = %s = %s", param[0], individual.toString(), value);
                 if (value != param[1]) {
                     isValid = false;
                 }
@@ -72,7 +71,7 @@ public class GP extends Mendel {
 
             if(isValid) {
                 for(float[] param : this.getParams()) {
-                    this.log("F(%s) = %s = %s", param[0], node.toString(), param[1]);
+                    this.log("F(%s) = %s = %s", param[0], individual.toString(), param[1]);
                 }
                 this.log("Solution found! o/");
                 return true;

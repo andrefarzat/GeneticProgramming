@@ -7,18 +7,18 @@ import com.andrefarzat.mendel.nodes.Terminal;
 public class Literal extends Terminal {
 
     public void mutate() {
-        this.value = this.generateRandomValue();
+        this.setValue(this.generateRandomValue());
     }
 
     public Literal clone() {
         Literal literal = new Literal();
-        literal.value = this.value;
+        literal.setValue(this.getValue());
         return literal;
     }
 
     private float generateRandomValue() {
-        float minX = -10.0f;
-        float maxX = 10.0f;
+        float minX = -1.0f;
+        float maxX = 1.0f;
 
         Random random = new Random();
         float value = random.nextFloat() * (maxX - minX) + minX;

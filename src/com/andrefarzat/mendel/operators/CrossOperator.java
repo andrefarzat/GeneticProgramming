@@ -1,17 +1,17 @@
 package com.andrefarzat.mendel.operators;
 
-import com.andrefarzat.mendel.nodes.Function;
+import com.andrefarzat.mendel.Individual;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 
 public abstract class CrossOperator {
-    public abstract Function cross(Function nodeA, Function nodeB);
+    public abstract Individual cross(Individual indA, Individual indB);
 
-    public <T> T getRandomFromList(ArrayList<T> list){
+    public <T> T getFromListRandomly(ArrayList<T> list) {
         Random random = new Random();
-        System.out.println(list.size());
-        int index = random.nextInt(list.size());
+        int index = random.nextInt(list.size() - 1);
         return list.get(index);
     }
 }
