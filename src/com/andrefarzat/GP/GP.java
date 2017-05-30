@@ -8,6 +8,7 @@ import com.andrefarzat.mendel.operators.MutationOperator;
 import com.andrefarzat.mendel.operators.PointMutation;
 import com.andrefarzat.mendel.operators.SubtreeCrossover;
 
+import com.andrefarzat.GP.Value;
 
 public class GP extends Mendel {
     private Generator generator = new Generator();
@@ -17,12 +18,12 @@ public class GP extends Mendel {
     private CrossOperator[] crossOperators = new CrossOperator[] {
             new SubtreeCrossover()
     };
-    private float[][] params = {
+    private double[][] params = {
             {12.0f, 13.0f},
             {14.0f, 15.0f},
     };
 
-    public float[][] getParams() {
+    public double[][] getParams() {
         return this.params;
     }
 
@@ -31,7 +32,7 @@ public class GP extends Mendel {
     }
 
     public int getPopulationSize() {
-        return 4000;
+        return 20;
     }
 
     public IndividualGenerator getGenerator() {
@@ -45,17 +46,15 @@ public class GP extends Mendel {
     public CrossOperator[] getCrossOperators() { return this.crossOperators; }
 
     public void evaluate(Individual ind) {
-        float measure = 1000;
+        double measure = 1000;
 
-        for(float[] param : this.getParams()) {
-            float value = ind.getValue(param[0]);
+        for(double[] param : this.getParams()) {
+            Value value = new Value();
+            value.set(param[0]);
+            value = (Value) ind.getValue(value);
 
-            if (value - param[1] < measure) {
-                measure = Math.abs(param[1] - value);
-            }
-
-            if (Float.isInfinite(measure) || Float.isNaN(measure)) {
-                System.out.println("caralho");
+            if (value.get() - param[1] < measure) {
+                measure = Math.abs(param[1] - value.get());
             }
         }
 
@@ -65,16 +64,19 @@ public class GP extends Mendel {
     public boolean shouldStop() {
         for(Individual individual : this.currentPopulation.getAll()) {
             boolean isValid = true;
-            for(float[] param : this.getParams()) {
-                float value = individual.getValue(param[0]);
+            for(double[] param : this.getParams()) {
+                Value value = new Value();
+                value.set(param[0]);
+                value = (Value) individual.getValue(value);
+
                 this.log("F(%s) = %s = %s", param[0], individual.toString(), value);
-                if (value != param[1]) {
+                if (value.get() != param[1]) {
                     isValid = false;
                 }
             }
 
             if(isValid) {
-                for(float[] param : this.getParams()) {
+                for(double[] param : this.getParams()) {
                     this.log("F(%s) = %s = %s", param[0], individual.toString(), param[1]);
                 }
                 this.log("Solution found! o/");

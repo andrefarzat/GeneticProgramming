@@ -5,8 +5,8 @@ import java.util.Random;
 
 
 public class Utils {
+    public static Random random = new Random();
     public static <T> T getFromListRandomly(ArrayList<T> list) {
-        Random random = new Random();
         int size = list.size();
 
         if (size == 0) {

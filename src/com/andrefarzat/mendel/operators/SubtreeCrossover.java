@@ -13,14 +13,16 @@ import java.util.Random;
 public class SubtreeCrossover extends CrossOperator {
 
     public Individual cross(Individual indA, Individual indB) {
-        Individual ind = null;
-        ArrayList<Node> nodes = indA.getNodes();
-        ArrayList<Function> funcs = indA.getFunctions();
+        Individual ind = indA.clone();
 
-        Function func = (Function) Utils.getFromListRandomly(funcs).clone();
-        Node node = (Node) Utils.getFromListRandomly(nodes).clone();
+        // 1. Getting a random function from indA
+        Function func = Utils.getFromListRandomly(ind.getFunctions());
+
+        // 2. Getting a random node from indB\
+        Node node = Utils.getFromListRandomly(indB.getNodes()).clone();
 
 
+        // 3. Replacing either left or right from the gotten function
         boolean shouldBeLeft = (new Random()).nextInt(2) == 1;
         if (shouldBeLeft) {
             func.left = node;

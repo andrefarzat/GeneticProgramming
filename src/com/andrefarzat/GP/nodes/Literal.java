@@ -1,6 +1,8 @@
 package com.andrefarzat.GP.nodes;
 
 import java.util.Random;
+
+import com.andrefarzat.GP.Value;
 import com.andrefarzat.mendel.nodes.Terminal;
 
 
@@ -16,7 +18,7 @@ public class Literal extends Terminal {
         return literal;
     }
 
-    private float generateRandomValue() {
+    private Value generateRandomValue() {
         float minX = -1.0f;
         float maxX = 1.0f;
 
@@ -27,6 +29,9 @@ public class Literal extends Terminal {
             value = random.nextFloat() * (maxX - minX) + minX;
         }
 
-        return Float.parseFloat(String.format("%.2f", value));
+        Value v = new Value();
+        v.set(Double.parseDouble(String.format("%.2f", value)));
+
+        return v;
     }
 }

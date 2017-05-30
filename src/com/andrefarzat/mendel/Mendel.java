@@ -48,13 +48,15 @@ public abstract class Mendel {
         this.currentPopulation.sortByMeasure();
 
         // 2. Getting only the half good
-        Population newGeneration = new Population();
+        Population halfGeneration = new Population();
         for(int i = 0; i < size / 2; i++) {
-            newGeneration.add(this.currentPopulation.get(i));
+            halfGeneration.add(this.currentPopulation.get(i));
         }
 
         // 3. Generating a muted generation
-        newGeneration.concat(this.mutatePopulation(newGeneration));
+        Population newGeneration = new Population();
+        newGeneration.concat(halfGeneration);
+        newGeneration.concat(this.mutatePopulation(halfGeneration));
 
         return newGeneration;
     }
@@ -64,28 +66,36 @@ public abstract class Mendel {
         Population newGeneration = new Population();
 
         int size = population.size();
-        double howManyWillBeMutated = Math.ceil((size * 8) / 100);
-        double howManyWillBeCreated = Math.ceil((size * 2) / 100);
+        double howManyWillBeMutated = Math.ceil((size * 50.0) / 100.0);
+        double howManyWillBeCreated = Math.ceil((size * 40.0) / 100.0);
 
-        System.out.println(String.format("Size: %s", size));
-        System.out.println(String.format("Mutated: %s", howManyWillBeMutated));
-        System.out.println(String.format("Created: %s", howManyWillBeCreated));
+        this.log(String.format("Size: %s; Mutated: %s; Created: %s", size, howManyWillBeMutated, howManyWillBeCreated));
 
-        for(int i = 0; i < size; i ++) {
-            int randomIndex = this.random.nextInt(size - i);
-            Individual individual = currentPopulation.getAndRemove(randomIndex);
+        while (true) {
+            Individual individual = currentPopulation.getRandomIndividualAndRemoveIt();
+
+            if (individual == null) {
+                break;
+            }
 
             if (howManyWillBeCreated > 0) {
-                newGeneration.add(this.getGenerator().generateIndividual(this.getDepth()));
+                individual = this.getGenerator().generateIndividual(this.getDepth());
                 howManyWillBeCreated -= 1;
             } else if (howManyWillBeMutated > 0) {
                 MutationOperator operator = this.getRandomMutationOperator();
                 operator.mutate(individual);
                 howManyWillBeMutated -= 1;
             } else {
-                CrossOperator operator = this.getRandomCrossOperator();
                 Individual individualB = currentPopulation.getRandomIndividual();
-                operator.cross(individual, individualB);
+
+                if (individualB == null) {
+                    // No cookie for you, let's just mutate here
+                    MutationOperator operator = this.getRandomMutationOperator();
+                    operator.mutate(individual);
+                } else {
+                    CrossOperator operator = this.getRandomCrossOperator();
+                    individual = operator.cross(individual, individualB);
+                }
             }
 
             newGeneration.add(individual);

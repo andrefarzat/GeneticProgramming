@@ -17,12 +17,7 @@ public class Population {
     }
 
     public void sortByMeasure() {
-        try {
-            Collections.sort(this.individuals);
-        } catch(IllegalArgumentException e) {
-            System.out.println("How come?");
-            throw e;
-        }
+        Collections.sort(this.individuals);
     }
 
     public Individual get(int i) {
@@ -51,5 +46,15 @@ public class Population {
 
     public Individual getRandomIndividual() {
         return Utils.getFromListRandomly(this.individuals);
+    }
+
+    public Individual getRandomIndividualAndRemoveIt() {
+        int size = this.individuals.size();
+        if (size == 0) {
+            return null;
+        }
+
+        int index = Utils.random.nextInt(size);
+        return this.getAndRemove(index);
     }
 }

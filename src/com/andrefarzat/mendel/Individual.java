@@ -3,36 +3,31 @@ package com.andrefarzat.mendel;
 
 import com.andrefarzat.mendel.nodes.Function;
 import com.andrefarzat.mendel.nodes.Node;
-import com.andrefarzat.mendel.nodes.Terminal;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Individual implements Comparable<Individual> {
-    private float measure;
+    private double measure;
     protected Function three;
 
-    public void setMeasure(float measure) {
-        this.measure = measure;
-    }
-    public float getMeasure() { return this.measure; }
+    public void setMeasure(double measure) { this.measure = measure; }
+    public double getMeasure() { return this.measure; }
 
-    public float getValue(float value) {
-        float ret = this.three.getValue(value);
-        return ret;
+    public MendelValue getValue(MendelValue value) {
+        return this.three.getValue(value);
     }
 
     public String toString() { return this.three.toString(); }
 
-    public int compareTo(Individual individual) {
-        float m1 = this.getMeasure();
-        float m2 = individual.getMeasure();
-        float value = this.getMeasure() - individual.getMeasure();
+    public Individual clone() {
+        Individual ind = new Individual();
+        ind.three = (Function) this.three.clone();
+        ind.measure = this.measure;
+        return ind;
+    }
 
-        if (Float.isInfinite(value) || Float.isNaN(value)) {
-            System.out.println("Da porra");
-        }
-        return Float.floatToIntBits(value);
+    public int compareTo(Individual individual) {
+        return (int) Double.doubleToLongBits(this.getMeasure() - individual.getMeasure());
     }
 
     public ArrayList<Node> getNodes() {

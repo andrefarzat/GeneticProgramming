@@ -1,7 +1,9 @@
 package com.andrefarzat.mendel.nodes;
 
+import com.andrefarzat.mendel.MendelValue;
+
 public abstract class Node {
-    public abstract float getValue(float value);
+    public abstract MendelValue getValue(MendelValue value);
 
     public abstract Node clone();
 

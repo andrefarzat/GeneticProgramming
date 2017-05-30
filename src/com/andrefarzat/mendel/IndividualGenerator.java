@@ -1,8 +1,6 @@
 package com.andrefarzat.mendel;
 
 
-import com.andrefarzat.mendel.Individual;
-import com.andrefarzat.mendel.Population;
 import com.andrefarzat.mendel.nodes.Function;
 
 
