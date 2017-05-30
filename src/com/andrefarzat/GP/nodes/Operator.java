@@ -26,6 +26,13 @@ public class Operator extends Function {
         this.type = this.operators[index];
     }
 
+    public Operator clone() {
+        Operator op = new Operator();
+        op.left = this.left.clone();
+        op.right = this.right.clone();
+        return op;
+    }
+
     public String toString() {
         return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
     }

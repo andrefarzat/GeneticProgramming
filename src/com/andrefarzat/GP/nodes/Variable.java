@@ -9,6 +9,10 @@ public class Variable extends Terminal {
         // pass. I don't mutate #shrug
     }
 
+    public Variable clone() {
+        return new Variable();
+    }
+
     public String toString() {
         return "x";
     }

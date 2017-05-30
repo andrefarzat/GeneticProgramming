@@ -4,14 +4,19 @@ import com.andrefarzat.GP.nodes.Generator;
 import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.nodes.Node;
 import com.andrefarzat.mendel.nodes.IndividualGenerator;
+import com.andrefarzat.mendel.operators.CrossOperator;
 import com.andrefarzat.mendel.operators.MutationOperator;
 import com.andrefarzat.mendel.operators.PointMutation;
+import com.andrefarzat.mendel.operators.SubtreeCrossover;
 
 
 public class GP extends Mendel {
     private Generator generator = new Generator();
     private MutationOperator[] mutationOperators = new MutationOperator[] {
         new PointMutation()
+    };
+    private CrossOperator[] crossOperators = new CrossOperator[] {
+            new SubtreeCrossover()
     };
     private float[][] params = {
             {12.0f, 13.0f},
@@ -37,6 +42,8 @@ public class GP extends Mendel {
     public MutationOperator[] getMutationOperators() {
         return this.mutationOperators;
     }
+
+    public CrossOperator[] getCrossOperators() { return this.crossOperators; }
 
     public void evaluate(Node node) {
         float measure = 1000;

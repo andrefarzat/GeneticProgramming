@@ -11,8 +11,11 @@ public abstract class Function extends Node {
         return this.left.getValue(value) + this.right.getValue(value);
     }
 
-    public Node[] getNodes() {
-        return new Node[] { this.left, this.right };
+    public ArrayList<Node> getNodes() {
+        ArrayList<Node> list = new ArrayList<Node>();
+        list.add(this.left);
+        list.add(this.right);
+        return list;
     }
 
     public ArrayList<Terminal> getTerminals() {

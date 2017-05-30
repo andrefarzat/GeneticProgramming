@@ -12,6 +12,7 @@ public abstract class Node implements Comparable<Node> {
     }
 
     public abstract void mutate();
+    public abstract Node clone();
 
     public String toString() {
         return Float.toString(this.value);

@@ -10,6 +10,12 @@ public class Literal extends Terminal {
         this.value = this.generateRandomValue();
     }
 
+    public Literal clone() {
+        Literal literal = new Literal();
+        literal.value = this.value;
+        return literal;
+    }
+
     private float generateRandomValue() {
         float minX = -10.0f;
         float maxX = 10.0f;

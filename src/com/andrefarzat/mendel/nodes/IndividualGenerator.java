@@ -1,12 +1,14 @@
 package com.andrefarzat.mendel.nodes;
 
 
+import java.util.ArrayList;
+
 public abstract class IndividualGenerator {
-    public Node[] generateInitialPopulation(int populationSize, int depth) {
-        Node[] population = new Node[populationSize];
+    public ArrayList<Function> generateInitialPopulation(int populationSize, int depth) {
+        ArrayList<Function> population = new ArrayList<Function>();
 
         for(int i = 0; i < populationSize; i++) {
-            population[i] = this.generateFunction(depth);
+            population.add(this.generateFunction(depth));
         }
 
         return population;
