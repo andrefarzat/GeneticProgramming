@@ -80,11 +80,9 @@ public class GP extends Mendel {
             value = (Value) individual.getValue(value);
 
             if (value.get().signum() == -1) {
+                // Negative? We punish it with a high measure
                 measure = measure.add(new BigDecimal("1000"));
             } else {
-                /*BigDecimal diff = param[1].subtract(param[0]);
-                BigDecimal result = diff.subtract(value.get());
-                measure = measure.add(result.abs());*/
                 BigDecimal result = value.get().subtract(param[1]);
                 measure = measure.add(result.abs());
             }

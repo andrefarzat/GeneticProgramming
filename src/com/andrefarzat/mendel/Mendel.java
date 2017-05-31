@@ -112,7 +112,12 @@ public abstract class Mendel {
 
         int size = population.size();
         for(int i = 0; i < size; ) {
-            if(i < (size * 0.8)) {
+            if(i == 0) {
+                // The top 3% goes to maralto
+                nextGeneration.add(population.get(i).clone());
+
+                i += 1;
+            } else if(i < (size * 0.8)) {
                 // 1. Getting the best two candidates
                 Individual indA = population.get(i);
                 Individual indB = population.get(i + 1);

@@ -12,7 +12,15 @@ import java.util.ArrayList;
 public class Individual implements Comparable<Individual> {
     private BigDecimal measure;
     private Function tree;
-    private UUID uid = UUID.randomUUID();
+    private UUID uid;
+
+    public Individual() {
+        this.uid = UUID.randomUUID();
+    }
+
+    public Individual(UUID uid) {
+        this.uid = uid;
+    }
 
     public UUID getUid() {
         return this.uid;
@@ -34,14 +42,25 @@ public class Individual implements Comparable<Individual> {
     public String toString() { return this.tree.toString(); }
 
     public Individual clone() {
-        Individual ind = new Individual();
+        Individual ind = new Individual(this.uid);
         ind.tree = (Function) this.tree.clone();
         ind.measure = this.measure;
         return ind;
     }
 
     public int compareTo(Individual individual) {
-        return this.getMeasure().compareTo(individual.getMeasure());
+        int result = this.getMeasure().compareTo(individual.getMeasure());
+        if (result == 0) {
+            // They are equal? The untie is the depth
+            int thisSize = this.getFunctions().size();
+            int indSize  = individual.getFunctions().size();
+
+            if (thisSize > indSize) return 1;
+            if (thisSize < indSize) return -1;
+            return 0; // Well, they are really equal
+        }
+
+        return result;
     }
 
     public ArrayList<Node> getNodes() {
