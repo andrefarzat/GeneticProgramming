@@ -46,10 +46,10 @@ public class Generator extends IndividualGenerator {
     }
 
     public boolean validateIndividual(Individual ind) {
-        ArrayList<Terminal> terminals = ind.getTerminals();
-
         boolean hasOneVariable = false;
         boolean hasOneLiteral  = false;
+
+        ArrayList<Terminal> terminals = ind.getTerminals();
         for(Terminal terminal : terminals) {
             if (terminal instanceof Literal) {
                 hasOneLiteral = true;

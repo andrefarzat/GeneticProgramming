@@ -12,6 +12,8 @@ public class Population {
         this.individuals.add(individual);
     }
 
+    public void add(int index, Individual individual) { this.individuals.add(index, individual); }
+
     public void concat(Population population) {
         this.individuals.addAll(population.individuals);
     }

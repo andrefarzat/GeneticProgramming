@@ -4,6 +4,7 @@ import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.MendelValue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 
 public abstract class Function extends Node {
@@ -49,5 +50,20 @@ public abstract class Function extends Node {
         }
 
         return funcs;
+    }
+
+    public ArrayList<Terminal> getTerminals() {
+        ArrayList<Terminal> terminals = new ArrayList<Terminal>();
+
+        for (Node node : this.getNodes()) {
+            if (node instanceof Terminal) {
+                terminals.add((Terminal) node);
+            } else if (node instanceof Function) {
+                Function func = (Function) node;
+                terminals.addAll(func.getTerminals());
+            }
+        }
+
+        return terminals;
     }
 }

@@ -2,6 +2,7 @@ package com.andrefarzat.mendel.operators;
 
 
 import com.andrefarzat.mendel.Individual;
+import com.andrefarzat.mendel.Population;
 import com.andrefarzat.mendel.Utils;
 import com.andrefarzat.mendel.nodes.Function;
 import com.andrefarzat.mendel.Mendel;
@@ -21,5 +22,9 @@ public class SubtreeMutation extends GeneticOperator {
         }
 
         return ind;
+    }
+
+    public Individual create(Mendel mendel, Individual ind, Population population) {
+        return this.create(mendel, ind);
     }
 }

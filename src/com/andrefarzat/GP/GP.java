@@ -11,13 +11,13 @@ import java.util.Scanner;
 public class GP extends Mendel {
     private int loopCounter = 0;
     private Generator generator = new Generator();
-    private GeneticOperator[] creatorOperators = new GeneticOperator[] {
-        new CreatorOperator()
-    };
+    public int getLogLevel() {
+        return 2;
+    }
     private GeneticOperator[] mutationOperators = new GeneticOperator[] {
         new PointMutation(),
         new SubtreeMutation(),
-        new SizeFairSubtreeMutation()
+        //new SizeFairSubtreeMutation()
     };
     private GeneticOperator[] crossOperators = new GeneticOperator[] {
             new SubtreeCrossover(),
@@ -26,14 +26,22 @@ public class GP extends Mendel {
             {12.0f, 13.0f},
             {14.0f, 15.0f},
     };
+    private double[][] easeExampleParams = {
+            {12.0f, 32.0f},
+            {14.0f, 34.0f},
+            {120.0f, 140.0f},
+    };
     private double[][] celsiusToFahrenheit = {
             {1.0f, 33.8f},
             {10.0f, 50.0f},
     };
+    private double[][] celsiusToKelvin = {
+            {20.0f, 293.15f},
+            {40.0f, 313.15f},
+    };
 
     public double[][] getParams() {
-        return this.simpleExampleParams;
-//        return this.celsiusToFahrenheit;
+        return this.celsiusToKelvin;
     }
 
     public int getDepth() {
@@ -41,14 +49,12 @@ public class GP extends Mendel {
     }
 
     public int getPopulationSize() {
-        return 1000;
+        return 2000;
     }
 
     public IndividualGenerator getGenerator() {
         return this.generator;
     }
-
-    public GeneticOperator[] getCreatorOperators() { return this.creatorOperators; }
 
     public GeneticOperator[] getMutationOperators() {
         return this.mutationOperators;
@@ -64,15 +70,14 @@ public class GP extends Mendel {
             value.set(param[0]);
             value = (Value) individual.getValue(value);
 
-            double measure = individual.getTree().getDepth() * 10;
-            measure += Math.abs(value.get() - param[1]);
+            double measure = Math.abs(value.get() - param[1]);
 
             if (measure > maxMeasure) {
                 maxMeasure = measure;
             }
 
             String msg = "[Measure: %s; Depth: %s;]F(%s): %s = %s";
-            this.log(msg, individual.getMeasure(), individual.getTree().getDepth(), param[0], individual.toString(), value);
+            this.log(3, msg, individual.getMeasure(), individual.getTree().getDepth(), param[0], individual.toString(), value);
         }
 
         individual.setMeasure(maxMeasure);
@@ -93,12 +98,14 @@ public class GP extends Mendel {
 
             if(isValid) {
                 for(double[] param : this.getParams()) {
-                    this.log("F(%s) = %s = %s", param[0], individual.toString(), param[1]);
+                    this.log(1,"F(%s) = %s = %s", param[0], individual.toString(), param[1]);
                 }
-                this.log("Solution found in %s generations! o/", this.loopCounter);
+                this.log(1,"Solution found in %s generations! o/", this.loopCounter);
                 return true;
             }
         }
+        this.log(2, "Attempt %s", ++ this.loopCounter);
+
 //        Scanner scanner = new Scanner(System.in);
 //        scanner.next();
         return false;

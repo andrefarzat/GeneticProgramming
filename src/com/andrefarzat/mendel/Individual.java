@@ -52,9 +52,9 @@ public class Individual implements Comparable<Individual> {
         ArrayList<Terminal> terminals = new ArrayList<Terminal>();
 
         for (Node node : this.getNodes()) {
-            if (node instanceof Terminal) {
-                Terminal terminal = (Terminal) node;
-                terminals.add(terminal);
+            if (node instanceof Function) {
+                Function func = (Function) node;
+                terminals.addAll(func.getTerminals());
             }
         }
 

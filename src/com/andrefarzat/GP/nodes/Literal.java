@@ -20,7 +20,7 @@ public class Literal extends Terminal {
 
     private Value generateRandomValue() {
         float minX = 0.0f;
-        float maxX = 50.0f;
+        float maxX = 5.0f;
 
         Random random = new Random();
         float value = 0;

@@ -11,7 +11,6 @@ public abstract class Mendel {
     public abstract int getDepth();
     public abstract int getPopulationSize();
 
-    public abstract GeneticOperator[] getCreatorOperators();
     public abstract GeneticOperator[] getMutationOperators();
     public abstract GeneticOperator[] getCrossOperators();
     public abstract IndividualGenerator getGenerator();
@@ -21,19 +20,19 @@ public abstract class Mendel {
 
     protected final Random random = new Random();
 
-    public void log(String msg) {
-        System.out.println(msg);
+    public int getLogLevel() {
+        return 5;
     }
 
-    public void log(String msg, Object ...params) {
+    public void log(int level, String msg) {
+        if (this.getLogLevel() >= level) {
+            System.out.println(msg);
+        }
+    }
+
+    public void log(int level, String msg, Object ...params) {
         msg = String.format(msg, params);
-        this.log(msg);
-    }
-
-    public GeneticOperator getRandomCreatorOperator() {
-        GeneticOperator[] operators = this.getCreatorOperators();
-        int index = this.random.nextInt(operators.length);
-        return operators[index];
+        this.log(level, msg);
     }
 
     public GeneticOperator getRandomMutationOperator() {
@@ -56,39 +55,43 @@ public abstract class Mendel {
     }
 
     public Population mutatePopulation(Population population) {
-        Population newGeneration = new Population();
-        Population currentPopulation = population.clone();
+        Population nextGeneration = new Population();
 
-        // 1. Ranking the current population by its measure
-        currentPopulation.sortByMeasure();
+        // Ranking the current population by its measure
+        population.sortByMeasure();
 
-        // 2. We want only the top 25%
         int size = population.size();
-        currentPopulation = currentPopulation.slice(0, size/4);
+        for(int i = 0; i < size; i++) {
+            Individual individual = population.getAndRemove(0);
+            Individual neo = null;
+            if (individual == null) break;
 
-        double howManyWillBeMutated = Math.ceil((size * 20.0) / 100.0);
-        double howManyWillBeCreated = Math.ceil((size * 10.0) / 100.0);
-
-        for(int i = 0; i < 4; i ++) {
-            for(Individual individual : currentPopulation.getAll()) {
-                GeneticOperator operator;
-
-                if (howManyWillBeCreated > 0) {
-                    operator = this.getRandomCreatorOperator();
-                    howManyWillBeCreated -= 1;
-                } else if (howManyWillBeMutated > 0) {
-                    operator = this.getRandomMutationOperator();
-                    howManyWillBeMutated -= 1;
-                } else {
-                    operator = this.getRandomCrossOperator();
-                }
-
-                individual = operator.create(this, individual);
-                newGeneration.add(individual);
+            if (i < (size * 0.00)) {
+                // These are the untouchable ones! They simply go to the next generation
+                neo = individual.clone();
+            } else if (i < (size * 0.17)) {
+                // Here we mutate !
+                GeneticOperator operator = this.getRandomMutationOperator();
+                neo = operator.create(this, individual, population);
+            } else if (i < (size * 0.8)) {
+                // Almost everyone will cross
+                GeneticOperator operator = this.getRandomCrossOperator();
+                neo = operator.create(this, individual, population);
+            } else {
+                // The remaining is discarded and we create brand new ones
+                neo = this.getGenerator().generateIndividual(this.getDepth());
             }
+
+            if (!this.getGenerator().validateIndividual(neo)) {
+                i --;
+                population.add(0, individual);
+                continue;
+            }
+
+            nextGeneration.add(neo);
         }
 
-        return newGeneration;
+        return nextGeneration;
     }
 
     public void run() {
