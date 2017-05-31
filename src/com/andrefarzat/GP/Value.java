@@ -14,10 +14,7 @@ public class Value implements MendelValue {
     public void set(Object value) { this.set((BigDecimal) value); }
     public void set(int value)    { this.set(new BigDecimal(value)); }
     public void set(Double value) { this.value = new BigDecimal(value); }
-    public void set(BigDecimal value) {
-        value.setScale(1, BigDecimal.ROUND_DOWN);
-        this.value = value;
-    }
+    public void set(BigDecimal value) { this.value = value; }
 
     public String toString() {
         return String.format("%.1f", this.value);

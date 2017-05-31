@@ -5,6 +5,7 @@ import com.andrefarzat.GP.nodes.Operator;
 import com.andrefarzat.GP.nodes.Variable;
 import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.IndividualGenerator;
+import com.andrefarzat.mendel.Utils;
 import com.andrefarzat.mendel.nodes.Terminal;
 
 import java.util.ArrayList;
@@ -16,8 +17,7 @@ public class Generator extends IndividualGenerator {
 
     public Terminal generateTerminal() {
         if (this.random.nextInt(10) == 1) {
-            Variable var = new Variable();
-            return var;
+            return new Variable();
         } else {
             Literal literal = new Literal();
             literal.mutate();
@@ -30,8 +30,9 @@ public class Generator extends IndividualGenerator {
         operator.mutate();
 
         if (depth <= 0) {
-            operator.left  = this.generateTerminal();
-            operator.right = this.generateTerminal();
+            boolean shouldBeLeft = Utils.random.nextBoolean();
+            operator.left  = shouldBeLeft  ? new Variable() : this.generateTerminal();
+            operator.right = !shouldBeLeft ? new Variable() : this.generateTerminal();
         } else {
             operator.left  = this.generateFunction(depth - 1);
             operator.right = this.generateFunction(depth - 1);

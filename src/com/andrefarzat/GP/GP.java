@@ -1,5 +1,6 @@
 package com.andrefarzat.GP;
 
+import com.andrefarzat.GP.operators.DecimalMutation;
 import com.andrefarzat.GP.operators.ShrinkMutation;
 import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Mendel;
@@ -18,8 +19,9 @@ public class GP extends Mendel {
     private MutationOperator[] mutationOperators = new MutationOperator[] {
             new PointMutation(),
             new SubtreeMutation(),
-            new ShrinkMutation(),
-            //new SizeFairSubtreeMutation()
+            // new DecimalMutation(),
+            // new ShrinkMutation(),
+            // new SizeFairSubtreeMutation()
     };
     private CrossoverOperator[] crossOperators = new CrossoverOperator[] {
             new SubtreeCrossover(),
@@ -31,7 +33,7 @@ public class GP extends Mendel {
     };
     private BigDecimal[][] easeExampleParams = {
             {new BigDecimal("12"), new BigDecimal("32")},
-            {new BigDecimal("14"), new BigDecimal("32")},
+            {new BigDecimal("14"), new BigDecimal("34")},
             {new BigDecimal("120"), new BigDecimal("140")},
     };
     private BigDecimal[][] notEaseExampleParams = {
@@ -48,15 +50,15 @@ public class GP extends Mendel {
     };
 
     public BigDecimal[][] getParams() {
-        return this.simpleExampleParams;
+        return this.celsiusToFahrenheit;
     }
 
     public int getDepth() {
-        return 1;
+        return 0;
     }
 
     public int getPopulationSize() {
-        return 1000;
+        return 2000;
     }
 
     public IndividualGenerator getGenerator() {
@@ -70,33 +72,42 @@ public class GP extends Mendel {
     public CrossoverOperator[] getCrossOperators() { return this.crossOperators; }
 
     public void evaluate(Individual individual) {
-        BigDecimal maxMeasure = new BigDecimal("0");
+        BigDecimal measure = new BigDecimal("0");
 
         for(BigDecimal[] param : this.getParams()) {
             Value value = new Value();
             value.set(param[0]);
             value = (Value) individual.getValue(value);
 
-            BigDecimal measure = (value.get().subtract(param[1])).abs();
-
-            if (measure.compareTo(maxMeasure) > 0) {
-                maxMeasure = measure;
+            if (value.get().signum() == -1) {
+                measure = measure.add(new BigDecimal("1000"));
+            } else {
+                /*BigDecimal diff = param[1].subtract(param[0]);
+                BigDecimal result = diff.subtract(value.get());
+                measure = measure.add(result.abs());*/
+                BigDecimal result = value.get().subtract(param[1]);
+                measure = measure.add(result.abs());
             }
-
-            String msg = "[Measure: %.1f; Depth: %s;]F(%s): %s = %s";
-            this.log(3, msg, individual.getMeasure(), individual.getTree().getDepth(), param[0], individual.toString(), value);
         }
 
-        individual.setMeasure(maxMeasure);
+        individual.setMeasure(measure);
     }
 
     public boolean shouldStop() {
+        this.log(2, "Attempt %s", ++ this.loopCounter);
+        this.currentPopulation.sortByMeasure();
+
+        boolean isFirst = true;
+
         for(Individual individual : this.currentPopulation.getAll()) {
+
             boolean isValid = true;
             for(BigDecimal[] param : this.getParams()) {
                 Value value = new Value();
                 value.set(param[0]);
                 value = (Value) individual.getValue(value);
+
+                this.log(isFirst ? 2 : 4, "[UUID: %s; Measure: %s]F(%s): %s = %s", individual.getUid(), individual.getMeasure(), param[0], individual.toString(), value);
 
                 if (value.get().compareTo(param[1]) != 0) {
                     isValid = false;
@@ -107,11 +118,12 @@ public class GP extends Mendel {
                 for(BigDecimal[] param : this.getParams()) {
                     this.log(1,"F(%s) = %s = %s", param[0], individual.toString(), param[1]);
                 }
-                this.log(1,"Solution found in %s generations! o/", this.loopCounter);
+                this.log(1,"Solution found in %s generations of %s individuals! o/", this.loopCounter, this.getPopulationSize());
                 return true;
             }
+
+            isFirst = false;
         }
-        this.log(2, "Attempt %s", ++ this.loopCounter);
 
         return false;
     }

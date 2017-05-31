@@ -5,12 +5,18 @@ import com.andrefarzat.mendel.nodes.Function;
 import com.andrefarzat.mendel.nodes.Node;
 import com.andrefarzat.mendel.nodes.Terminal;
 
+import java.util.UUID;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Individual implements Comparable<Individual> {
     private BigDecimal measure;
     private Function tree;
+    private UUID uid = UUID.randomUUID();
+
+    public UUID getUid() {
+        return this.uid;
+    }
 
     public void setMeasure(BigDecimal measure) {
         measure.setScale(1, BigDecimal.ROUND_DOWN);

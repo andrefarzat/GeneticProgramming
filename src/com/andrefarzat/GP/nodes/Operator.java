@@ -10,7 +10,7 @@ import com.andrefarzat.mendel.nodes.Function;
 
 public class Operator extends Function {
     protected static final char[] operators = { '+', '-', '*', '/' };
-    public char type = operators[0];
+    public char type = '|';
 
     public Value getValue(MendelValue x) {
         Value left = (Value) this.left.getValue(x);
@@ -28,7 +28,6 @@ public class Operator extends Function {
                 BigDecimal rightValue = right.get();
 
                 BigDecimal zero = new BigDecimal("0");
-                zero.setScale(1);
 
                 if (rightValue.compareTo(zero) == 0) {
                     right.set(1);
@@ -36,7 +35,10 @@ public class Operator extends Function {
                 }
 
                 ret.set(leftValue.divide(rightValue, 1, BigDecimal.ROUND_DOWN));
+
                 break;
+            default:
+                System.out.println(this.type);
         }
 
         return ret;
@@ -51,6 +53,7 @@ public class Operator extends Function {
         Operator op = new Operator();
         op.left = this.left.clone();
         op.right = this.right.clone();
+        op.type = this.type;
         return op;
     }
 

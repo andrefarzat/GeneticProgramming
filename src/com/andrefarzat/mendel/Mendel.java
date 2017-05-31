@@ -75,7 +75,33 @@ public abstract class Mendel {
 
     public ArrayList<Individual> cross(Individual indA, Individual indB) {
         CrossoverOperator operator = this.getRandomCrossOperator();
-        return operator.cross(this, indA, indB);
+        ArrayList<Individual> neos = new ArrayList<Individual>();
+
+        int i = 5;
+        while (i > 0) {
+            // We try five times. If we can't have two good x-men after that, we create new ones
+            neos = operator.cross(this, indA, indB);
+            i--;
+
+            boolean allAreGood = true;
+            for(Individual ind : neos) {
+                if (!this.getGenerator().validateIndividual(ind)) {
+                    allAreGood = false;
+                }
+            }
+
+            if (allAreGood) {
+                return neos;
+            }
+
+            neos.clear();
+        }
+
+        // In case we don't have good candidates, we generate new ones
+        neos.clear();
+        neos.add(this.getGenerator().generateIndividual(this.getDepth()));
+        neos.add(this.getGenerator().generateIndividual(this.getDepth()));
+        return neos;
     }
 
     public Population mutatePopulation(Population population) {
@@ -86,7 +112,7 @@ public abstract class Mendel {
 
         int size = population.size();
         for(int i = 0; i < size; ) {
-            if(i < (size * 0.7)) {
+            if(i < (size * 0.8)) {
                 // 1. Getting the best two candidates
                 Individual indA = population.get(i);
                 Individual indB = population.get(i + 1);

@@ -16,10 +16,12 @@ public class SubtreeMutation implements MutationOperator {
         Function func = Utils.getFromListRandomly(neo.getFunctions());
 
         boolean shouldBeLeft = Utils.random.nextBoolean();
+        int depth = Utils.random.nextInt(mendel.getDepth() + 3);
+
         if (shouldBeLeft) {
-            func.left = mendel.getGenerator().generateFunction(mendel.getDepth());
+            func.left = mendel.getGenerator().generateFunction(depth);
         } else {
-            func.right = mendel.getGenerator().generateFunction(mendel.getDepth());
+            func.right = mendel.getGenerator().generateFunction(depth);
         }
 
         return neo;

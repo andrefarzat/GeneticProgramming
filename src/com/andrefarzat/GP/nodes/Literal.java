@@ -20,9 +20,9 @@ public class Literal extends Terminal {
         return literal;
     }
 
-    private Value generateRandomValue() {
-        BigDecimal min = new BigDecimal("0.1").setScale(1, BigDecimal.ROUND_DOWN);
-        BigDecimal max = new BigDecimal("50").setScale(1, BigDecimal.ROUND_DOWN);
+    public Value generateRandomValue() {
+        BigDecimal min = new BigDecimal("1");
+        BigDecimal max = new BigDecimal("50");
 
         BigDecimal value = this.generateRandomBigDecimalFromRange(min, max);
 
@@ -31,8 +31,8 @@ public class Literal extends Terminal {
         return v;
     }
 
-    private BigDecimal generateRandomBigDecimalFromRange(BigDecimal min, BigDecimal max) {
+    public static BigDecimal generateRandomBigDecimalFromRange(BigDecimal min, BigDecimal max) {
         BigDecimal randomBigDecimal = min.add(new BigDecimal(Math.random()).multiply(max.subtract(min)));
-        return randomBigDecimal.setScale(2, BigDecimal.ROUND_DOWN);
+        return randomBigDecimal.setScale(1, BigDecimal.ROUND_DOWN);
     }
 }

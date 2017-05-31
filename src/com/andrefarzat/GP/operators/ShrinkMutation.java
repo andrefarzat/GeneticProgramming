@@ -5,8 +5,6 @@ import com.andrefarzat.GP.nodes.Literal;
 import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.nodes.Function;
-import com.andrefarzat.mendel.nodes.Node;
-import com.andrefarzat.mendel.nodes.Terminal;
 import com.andrefarzat.mendel.operators.MutationOperator;
 
 
