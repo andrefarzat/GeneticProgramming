@@ -5,6 +5,7 @@ import com.andrefarzat.GP.operators.ShrinkMutation;
 import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.IndividualGenerator;
+import com.andrefarzat.mendel.Population;
 import com.andrefarzat.mendel.operators.*;
 
 import java.math.BigDecimal;
@@ -91,13 +92,13 @@ public class GP extends Mendel {
         individual.setMeasure(measure);
     }
 
-    public boolean shouldStop() {
+    public boolean shouldStop(Population population) {
         this.log(2, "Attempt %s", ++ this.loopCounter);
-        this.currentPopulation.sortByMeasure();
+        population.sortByMeasure();
 
         boolean isFirst = true;
 
-        for(Individual individual : this.currentPopulation.getAll()) {
+        for(Individual individual : population.getAll()) {
 
             boolean isValid = true;
             for(BigDecimal[] param : this.getParams()) {

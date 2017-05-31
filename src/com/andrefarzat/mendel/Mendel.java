@@ -8,8 +8,6 @@ import java.util.Random;
 
 
 public abstract class Mendel {
-    public Population currentPopulation;
-
     public abstract int getDepth();
     public abstract int getPopulationSize();
 
@@ -18,7 +16,7 @@ public abstract class Mendel {
     public abstract IndividualGenerator getGenerator();
 
     public abstract void evaluate(Individual individual);
-    public abstract boolean shouldStop();
+    public abstract boolean shouldStop(Population population);
 
     protected final Random random = new Random();
 
@@ -47,13 +45,6 @@ public abstract class Mendel {
         CrossoverOperator[] operators = this.getCrossOperators();
         int index = this.random.nextInt(operators.length);
         return operators[index];
-    }
-
-    public Population mutateCurrentPopulation() {
-        Population newGeneration = new Population();
-        newGeneration.concat(this.mutatePopulation(this.currentPopulation));
-
-        return newGeneration;
     }
 
     public Individual mutate(Individual individual) {
@@ -144,21 +135,21 @@ public abstract class Mendel {
 
     public void run() {
         // 1. Generate initial population
-        this.currentPopulation = this.getGenerator().generateInitialPopulation(this.getPopulationSize(), this.getDepth());
+        Population population = this.getGenerator().generateInitialPopulation(this.getPopulationSize(), this.getDepth());
 
         while(true) {
             // 2. Evaluate all population
-            for(Individual individual : this.currentPopulation.getAll()) {
+            for(Individual individual : population.getAll()) {
                 this.evaluate(individual);
             }
 
             // 3. Run Terminator
-            if (this.shouldStop()) {
+            if (this.shouldStop(population)) {
                 break;
             }
 
             // 4. We mutate !
-            this.currentPopulation = this.mutateCurrentPopulation();
+            population = this.mutatePopulation(population);
         }
 
         System.out.println("Done!");
