@@ -51,7 +51,7 @@ public class GP extends Mendel {
     };
 
     public BigDecimal[][] getParams() {
-        return this.celsiusToFahrenheit;
+        return this.simpleExampleParams;
     }
 
     public int getDepth() {
@@ -59,7 +59,7 @@ public class GP extends Mendel {
     }
 
     public int getPopulationSize() {
-        return 2000;
+        return 1000;
     }
 
     public IndividualGenerator getGenerator() {
