@@ -1,8 +1,10 @@
 package com.andrefarzat.GP.nodes;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 import com.andrefarzat.GP.Value;
+import com.andrefarzat.mendel.Utils;
 import com.andrefarzat.mendel.nodes.Terminal;
 
 
@@ -19,19 +21,18 @@ public class Literal extends Terminal {
     }
 
     private Value generateRandomValue() {
-        float minX = 0.0f;
-        float maxX = 50.0f;
+        BigDecimal min = new BigDecimal("0.1").setScale(1, BigDecimal.ROUND_DOWN);
+        BigDecimal max = new BigDecimal("50").setScale(1, BigDecimal.ROUND_DOWN);
 
-        Random random = new Random();
-        float value = 0;
-        while (value == 0) {
-            // To ensure value is NEVER zero
-            value = random.nextFloat() * (maxX - minX) + minX;
-        }
+        BigDecimal value = this.generateRandomBigDecimalFromRange(min, max);
 
         Value v = new Value();
-        v.set(Double.parseDouble(String.format("%.1f", value)));
-
+        v.set(value);
         return v;
+    }
+
+    private BigDecimal generateRandomBigDecimalFromRange(BigDecimal min, BigDecimal max) {
+        BigDecimal randomBigDecimal = min.add(new BigDecimal(Math.random()).multiply(max.subtract(min)));
+        return randomBigDecimal.setScale(2, BigDecimal.ROUND_DOWN);
     }
 }

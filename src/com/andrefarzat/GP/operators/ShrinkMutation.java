@@ -40,7 +40,7 @@ public class ShrinkMutation implements MutationOperator {
             // We get the computed value
             Value value = new Value();
             value.set(0.0);
-            value.set(((Value) func.left.getValue(value)).get() + ((Value) func.right.getValue(value)).get());
+            value.set(((Value) func.left.getValue(value)).get().add(((Value) func.right.getValue(value)).get()));
 
             // We create the new Literal
             Literal literal = new Literal();

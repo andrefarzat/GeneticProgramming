@@ -17,4 +17,8 @@ public class Utils {
         int index = random.nextInt(size);
         return list.get(index);
     }
+
+    public static double formatDouble(Double value) {
+        return Double.parseDouble(String.format("%.1f", value));
+    }
 }

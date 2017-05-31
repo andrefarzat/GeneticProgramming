@@ -1,5 +1,6 @@
 package com.andrefarzat.GP.nodes;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 import com.andrefarzat.GP.Value;
@@ -17,18 +18,25 @@ public class Operator extends Function {
 
         Value ret = new Value();
 
-        if (this.type == '/') {
-            // Division is the exception. We can't have zero at the right side
-            if (right.get() == 0) {
-                right.set(1.0);
-            }
-        }
-
         switch(this.type) {
-            case '+': ret.set(left.get() + right.get()); break;
-            case '-': ret.set(left.get() - right.get()); break;
-            case '*': ret.set(left.get() * right.get()); break;
-            case '/': ret.set(left.get() / right.get()); break;
+            case '+': ret.set(left.get().add(right.get()));      break;
+            case '-': ret.set(left.get().subtract(right.get())); break;
+            case '*': ret.set(left.get().multiply(right.get())); break;
+            case '/':
+                // Division is the exception. We can't have zero at the right side
+                BigDecimal leftValue = left.get();
+                BigDecimal rightValue = right.get();
+
+                BigDecimal zero = new BigDecimal("0");
+                zero.setScale(1);
+
+                if (rightValue.compareTo(zero) == 0) {
+                    right.set(1);
+                    rightValue = right.get();
+                }
+
+                ret.set(leftValue.divide(rightValue, 1, BigDecimal.ROUND_DOWN));
+                break;
         }
 
         return ret;

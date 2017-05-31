@@ -6,6 +6,8 @@ import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.IndividualGenerator;
 import com.andrefarzat.mendel.operators.*;
 
+import java.math.BigDecimal;
+
 
 public class GP extends Mendel {
     private int loopCounter = 0;
@@ -23,30 +25,30 @@ public class GP extends Mendel {
             new SubtreeCrossover(),
             new SizeFairSubtreeCrossover()
     };
-    private double[][] simpleExampleParams = {
-            {12.0f, 13.0f},
-            {14.0f, 15.0f},
+    private BigDecimal[][] simpleExampleParams = {
+            {new BigDecimal("12.0"), new BigDecimal("13")},
+            {new BigDecimal("14.0"), new BigDecimal("15")},
     };
-    private double[][] easeExampleParams = {
-            {12.0f, 32.0f},
-            {14.0f, 34.0f},
-            {120.0f, 140.0f},
+    private BigDecimal[][] easeExampleParams = {
+            {new BigDecimal("12"), new BigDecimal("32")},
+            {new BigDecimal("14"), new BigDecimal("32")},
+            {new BigDecimal("120"), new BigDecimal("140")},
     };
-    private double[][] notEaseExampleParams = {
-            {100.0f, 200.0f},
-            {350.0f, 450.0f},
+    private BigDecimal[][] notEaseExampleParams = {
+            {new BigDecimal("100.0"), new BigDecimal("200.0")},
+            {new BigDecimal("350.0"), new BigDecimal("450.0")},
     };
-    private double[][] celsiusToFahrenheit = {
-            {1.0f, 33.8f},
-            {10.0f, 50.0f},
+    private BigDecimal[][] celsiusToFahrenheit = {
+            {new BigDecimal("1.0"), new BigDecimal("33.8")},
+            {new BigDecimal("10.0"), new BigDecimal("50.0")},
     };
-    private double[][] celsiusToKelvin = {
-            {20.0f, 293.15f},
-            {40.0f, 313.15f},
+    private BigDecimal[][] celsiusToKelvin = {
+            {new BigDecimal("20.0"), new BigDecimal("293.15")},
+            {new BigDecimal("40.0"), new BigDecimal("313.15")},
     };
 
-    public double[][] getParams() {
-        return this.easeExampleParams;
+    public BigDecimal[][] getParams() {
+        return this.simpleExampleParams;
     }
 
     public int getDepth() {
@@ -68,20 +70,20 @@ public class GP extends Mendel {
     public CrossoverOperator[] getCrossOperators() { return this.crossOperators; }
 
     public void evaluate(Individual individual) {
-        double maxMeasure = 0;
+        BigDecimal maxMeasure = new BigDecimal("0");
 
-        for(double[] param : this.getParams()) {
+        for(BigDecimal[] param : this.getParams()) {
             Value value = new Value();
             value.set(param[0]);
             value = (Value) individual.getValue(value);
 
-            double measure = Math.abs(value.get() - param[1]);
+            BigDecimal measure = (value.get().subtract(param[1])).abs();
 
-            if (measure > maxMeasure) {
+            if (measure.compareTo(maxMeasure) > 0) {
                 maxMeasure = measure;
             }
 
-            String msg = "[Measure: %s; Depth: %s;]F(%s): %s = %s";
+            String msg = "[Measure: %.1f; Depth: %s;]F(%s): %s = %s";
             this.log(3, msg, individual.getMeasure(), individual.getTree().getDepth(), param[0], individual.toString(), value);
         }
 
@@ -91,18 +93,18 @@ public class GP extends Mendel {
     public boolean shouldStop() {
         for(Individual individual : this.currentPopulation.getAll()) {
             boolean isValid = true;
-            for(double[] param : this.getParams()) {
+            for(BigDecimal[] param : this.getParams()) {
                 Value value = new Value();
                 value.set(param[0]);
                 value = (Value) individual.getValue(value);
 
-                if (value.get() != param[1]) {
+                if (value.get().compareTo(param[1]) != 0) {
                     isValid = false;
                 }
             }
 
             if(isValid) {
-                for(double[] param : this.getParams()) {
+                for(BigDecimal[] param : this.getParams()) {
                     this.log(1,"F(%s) = %s = %s", param[0], individual.toString(), param[1]);
                 }
                 this.log(1,"Solution found in %s generations! o/", this.loopCounter);

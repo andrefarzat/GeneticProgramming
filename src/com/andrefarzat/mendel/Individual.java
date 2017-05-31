@@ -5,14 +5,18 @@ import com.andrefarzat.mendel.nodes.Function;
 import com.andrefarzat.mendel.nodes.Node;
 import com.andrefarzat.mendel.nodes.Terminal;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Individual implements Comparable<Individual> {
-    private double measure;
+    private BigDecimal measure;
     private Function tree;
 
-    public void setMeasure(double measure) { this.measure = measure; }
-    public double getMeasure() { return this.measure; }
+    public void setMeasure(BigDecimal measure) {
+        measure.setScale(1, BigDecimal.ROUND_DOWN);
+        this.measure = measure;
+    }
+    public BigDecimal getMeasure() { return this.measure; }
 
     public void setTree(Function tree) { this.tree = tree; }
     public Function getTree() { return this.tree; }
@@ -31,13 +35,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     public int compareTo(Individual individual) {
-        if (this.getMeasure() > individual.getMeasure()) {
-            return 1;
-        } else if (this.getMeasure() == individual.getMeasure()) {
-            return 0;
-        } else {
-            return -1;
-        }
+        return this.getMeasure().compareTo(individual.getMeasure());
     }
 
     public ArrayList<Node> getNodes() {
