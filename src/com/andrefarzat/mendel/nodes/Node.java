@@ -1,19 +1,13 @@
 package com.andrefarzat.mendel.nodes;
 
+import com.andrefarzat.mendel.MendelValue;
+
 public abstract class Node {
-    protected float value;
-    protected float measure;
+    public abstract MendelValue getValue(MendelValue value);
 
-    public void setMeasure(float measure) { this.measure = measure; }
-    public float getMeasure() { return this.measure; }
-
-    public float getValue(float value) {
-        return this.value;
-    }
+    public abstract Node clone();
 
     public abstract void mutate();
 
-    public String toString() {
-        return Float.toString(this.value);
-    }
+    public abstract String toString();
 }

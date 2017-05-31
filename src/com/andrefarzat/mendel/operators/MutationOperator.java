@@ -1,10 +1,9 @@
 package com.andrefarzat.mendel.operators;
 
-import com.andrefarzat.mendel.nodes.Node;
 
+import com.andrefarzat.mendel.Individual;
+import com.andrefarzat.mendel.Mendel;
 
-public abstract class MutationOperator {
-
-    public abstract void mutate(Node node);
-
+public interface MutationOperator {
+    Individual mutate(Mendel mendel, Individual ind);
 }
