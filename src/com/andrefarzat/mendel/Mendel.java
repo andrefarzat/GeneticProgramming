@@ -1,8 +1,10 @@
 package com.andrefarzat.mendel;
 
-import java.util.Random;
+import com.andrefarzat.mendel.operators.CrossoverOperator;
+import com.andrefarzat.mendel.operators.MutationOperator;
 
-import com.andrefarzat.mendel.operators.GeneticOperator;
+import java.util.ArrayList;
+import java.util.Random;
 
 
 public abstract class Mendel {
@@ -11,8 +13,8 @@ public abstract class Mendel {
     public abstract int getDepth();
     public abstract int getPopulationSize();
 
-    public abstract GeneticOperator[] getMutationOperators();
-    public abstract GeneticOperator[] getCrossOperators();
+    public abstract MutationOperator[]  getMutationOperators();
+    public abstract CrossoverOperator[] getCrossOperators();
     public abstract IndividualGenerator getGenerator();
 
     public abstract void evaluate(Individual individual);
@@ -35,14 +37,14 @@ public abstract class Mendel {
         this.log(level, msg);
     }
 
-    public GeneticOperator getRandomMutationOperator() {
-        GeneticOperator[] operators = this.getMutationOperators();
+    public MutationOperator getRandomMutationOperator() {
+        MutationOperator[] operators = this.getMutationOperators();
         int index = this.random.nextInt(operators.length);
         return operators[index];
     }
 
-    public GeneticOperator getRandomCrossOperator() {
-        GeneticOperator[] operators = this.getCrossOperators();
+    public CrossoverOperator getRandomCrossOperator() {
+        CrossoverOperator[] operators = this.getCrossOperators();
         int index = this.random.nextInt(operators.length);
         return operators[index];
     }
@@ -54,6 +56,28 @@ public abstract class Mendel {
         return newGeneration;
     }
 
+    public Individual mutate(Individual individual) {
+        MutationOperator operator = this.getRandomMutationOperator();
+
+        int i = 5;
+        while (i > 0) {
+            // We try five times. If we can't have a good x-man after that, we create a brand new
+            Individual neo = operator.mutate(this, individual);
+            i--;
+
+            if (this.getGenerator().validateIndividual(neo)) {
+                return neo;
+            }
+        }
+
+        return this.getGenerator().generateIndividual(this.getDepth());
+    }
+
+    public ArrayList<Individual> cross(Individual indA, Individual indB) {
+        CrossoverOperator operator = this.getRandomCrossOperator();
+        return operator.cross(this, indA, indB);
+    }
+
     public Population mutatePopulation(Population population) {
         Population nextGeneration = new Population();
 
@@ -61,34 +85,27 @@ public abstract class Mendel {
         population.sortByMeasure();
 
         int size = population.size();
-        for(int i = 0; i < size; i++) {
-            Individual individual = population.getAndRemove(0);
-            Individual neo = null;
-            if (individual == null) break;
+        for(int i = 0; i < size; ) {
+            if(i < (size * 0.7)) {
+                // 1. Getting the best two candidates
+                Individual indA = population.get(i);
+                Individual indB = population.get(i + 1);
 
-            if (i < (size * 0.00)) {
-                // These are the untouchable ones! They simply go to the next generation
-                neo = individual.clone();
-            } else if (i < (size * 0.17)) {
-                // Here we mutate !
-                GeneticOperator operator = this.getRandomMutationOperator();
-                neo = operator.create(this, individual, population);
-            } else if (i < (size * 0.8)) {
-                // Almost everyone will cross
-                GeneticOperator operator = this.getRandomCrossOperator();
-                neo = operator.create(this, individual, population);
+                // 2. Crossing them
+                nextGeneration.addAll(this.cross(indA, indB));
+
+                // 3. Moving forward
+                i += 2;
+            } else if (i < (size * 0.9)) {
+                // Mutating
+                Individual ind = population.get(i);
+                nextGeneration.add(this.mutate(ind));
+                i += 1;
             } else {
                 // The remaining is discarded and we create brand new ones
-                neo = this.getGenerator().generateIndividual(this.getDepth());
+                nextGeneration.add(this.getGenerator().generateIndividual(this.getDepth()));
+                i += 1;
             }
-
-            if (!this.getGenerator().validateIndividual(neo)) {
-                i --;
-                population.add(0, individual);
-                continue;
-            }
-
-            nextGeneration.add(neo);
         }
 
         return nextGeneration;

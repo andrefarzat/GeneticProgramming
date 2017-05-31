@@ -14,6 +14,10 @@ public class Population {
 
     public void add(int index, Individual individual) { this.individuals.add(index, individual); }
 
+    public void addAll(ArrayList<Individual> inds) {
+        for(Individual ind : inds) this.add(ind);
+    }
+
     public void concat(Population population) {
         this.individuals.addAll(population.individuals);
     }

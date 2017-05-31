@@ -6,13 +6,12 @@ import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.Population;
 import com.andrefarzat.mendel.Utils;
 import com.andrefarzat.mendel.nodes.Function;
-import com.andrefarzat.mendel.nodes.Node;
 
-public class SizeFairSubtreeMutation extends GeneticOperator {
+public class SizeFairSubtreeMutation implements MutationOperator {
 
-    public Individual create(Mendel mendel, Individual indA, Population population) {
-        Individual ind = indA.clone();
-        Function func = Utils.getFromListRandomly(ind.getFunctions());
+    public Individual mutate(Mendel mendel, Individual indA) {
+        Individual neo = indA.clone();
+        Function func = Utils.getFromListRandomly(neo.getFunctions());
 
         boolean shouldBeLeft = Utils.random.nextBoolean();
 
@@ -22,6 +21,6 @@ public class SizeFairSubtreeMutation extends GeneticOperator {
             func.right = mendel.getGenerator().generateFunction(func.getDepth());
         }
 
-        return ind;
+        return neo;
     }
 }

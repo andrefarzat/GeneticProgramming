@@ -45,6 +45,14 @@ public class Individual implements Comparable<Individual> {
         list.add(this.tree);
         list.add(this.tree.left);
         list.add(this.tree.right);
+
+        if (this.tree.left instanceof Function) {
+            list.addAll(((Function) this.tree.left).getNodes());
+        }
+
+        if (this.tree.right instanceof Function) {
+            list.addAll(((Function) this.tree.right).getNodes());
+        }
         return list;
     }
 

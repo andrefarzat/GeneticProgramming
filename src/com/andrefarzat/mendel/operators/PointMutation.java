@@ -7,9 +7,9 @@ import com.andrefarzat.mendel.Utils;
 import com.andrefarzat.mendel.nodes.Node;
 
 
-public class PointMutation extends GeneticOperator {
+public class PointMutation implements MutationOperator {
 
-    public Individual create(Mendel mendel, Individual ind, Population population) {
+    public Individual mutate(Mendel mendel, Individual ind) {
         ind = ind.clone();
         Node node = Utils.getFromListRandomly(ind.getNodes());
         node.mutate();

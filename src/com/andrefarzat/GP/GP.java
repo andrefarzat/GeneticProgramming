@@ -5,8 +5,6 @@ import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.IndividualGenerator;
 import com.andrefarzat.mendel.operators.*;
 
-import java.util.Scanner;
-
 
 public class GP extends Mendel {
     private int loopCounter = 0;
@@ -14,13 +12,14 @@ public class GP extends Mendel {
     public int getLogLevel() {
         return 2;
     }
-    private GeneticOperator[] mutationOperators = new GeneticOperator[] {
+    private MutationOperator[] mutationOperators = new MutationOperator[] {
         new PointMutation(),
         new SubtreeMutation(),
         //new SizeFairSubtreeMutation()
     };
-    private GeneticOperator[] crossOperators = new GeneticOperator[] {
+    private CrossoverOperator[] crossOperators = new CrossoverOperator[] {
             new SubtreeCrossover(),
+            new SizeFairCrossover()
     };
     private double[][] simpleExampleParams = {
             {12.0f, 13.0f},
@@ -30,6 +29,10 @@ public class GP extends Mendel {
             {12.0f, 32.0f},
             {14.0f, 34.0f},
             {120.0f, 140.0f},
+    };
+    private double[][] notEaseExampleParams = {
+            {100.0f, 200.0f},
+            {350.0f, 450.0f},
     };
     private double[][] celsiusToFahrenheit = {
             {1.0f, 33.8f},
@@ -41,26 +44,26 @@ public class GP extends Mendel {
     };
 
     public double[][] getParams() {
-        return this.celsiusToKelvin;
+        return this.easeExampleParams;
     }
 
     public int getDepth() {
-        return 0;
+        return 1;
     }
 
     public int getPopulationSize() {
-        return 2000;
+        return 1000;
     }
 
     public IndividualGenerator getGenerator() {
         return this.generator;
     }
 
-    public GeneticOperator[] getMutationOperators() {
+    public MutationOperator[] getMutationOperators() {
         return this.mutationOperators;
     }
 
-    public GeneticOperator[] getCrossOperators() { return this.crossOperators; }
+    public CrossoverOperator[] getCrossOperators() { return this.crossOperators; }
 
     public void evaluate(Individual individual) {
         double maxMeasure = 0;
@@ -106,8 +109,6 @@ public class GP extends Mendel {
         }
         this.log(2, "Attempt %s", ++ this.loopCounter);
 
-//        Scanner scanner = new Scanner(System.in);
-//        scanner.next();
         return false;
     }
 

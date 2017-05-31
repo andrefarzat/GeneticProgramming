@@ -32,10 +32,30 @@ public abstract class Function extends Node {
         return maxDepth;
     }
 
+    public Function getFunctionParentOf(Node node) {
+        ArrayList<Function> funcs = this.getFunctions();
+        funcs.add(0, this);
+
+        for(Function func : funcs) {
+            if (func.left == node || func.right == node) return func;
+        }
+
+        return null;
+    }
+
     public ArrayList<Node> getNodes() {
-        ArrayList<Node> list = new ArrayList<Node>();;
+        ArrayList<Node> list = new ArrayList<Node>();
         list.add(this.left);
         list.add(this.right);
+
+        if (this.left instanceof Function) {
+            list.addAll(((Function) this.left).getNodes());
+        }
+
+        if (this.right instanceof Function) {
+            list.addAll(((Function) this.right).getNodes());
+        }
+
         return list;
     }
 
@@ -65,5 +85,16 @@ public abstract class Function extends Node {
         }
 
         return terminals;
+    }
+
+    public void replaceNode(Node nodeA, Node nodeB) {
+        Function parent = this.getFunctionParentOf(nodeA);
+
+        if (parent == null) {
+            // We can't replace =/
+        } else {
+            if (parent.left  == nodeA) parent.left  = nodeB.clone();
+            if (parent.right == nodeA) parent.right = nodeB.clone();
+        }
     }
 }

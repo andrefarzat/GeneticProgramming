@@ -8,23 +8,21 @@ import com.andrefarzat.mendel.nodes.Function;
 import com.andrefarzat.mendel.Mendel;
 
 
-public class SubtreeMutation extends GeneticOperator {
+public class SubtreeMutation implements MutationOperator {
 
-    public Individual create(Mendel mendel, Individual ind) {
-        Function func = Utils.getFromListRandomly(ind.getFunctions());
-        Function neoFunc = mendel.getGenerator().generateFunction(func.getDepth());
+    public Individual mutate(Mendel mendel, Individual ind) {
+        Individual neo = ind.clone();
+
+        Function func = Utils.getFromListRandomly(neo.getFunctions());
 
         boolean shouldBeLeft = Utils.random.nextBoolean();
         if (shouldBeLeft) {
-            func.left = neoFunc;
+            func.left = mendel.getGenerator().generateFunction(mendel.getDepth());
         } else {
-            func.right = neoFunc;
+            func.right = mendel.getGenerator().generateFunction(mendel.getDepth());
         }
 
-        return ind;
+        return neo;
     }
 
-    public Individual create(Mendel mendel, Individual ind, Population population) {
-        return this.create(mendel, ind);
-    }
 }

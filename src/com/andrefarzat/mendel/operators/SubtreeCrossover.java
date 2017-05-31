@@ -8,32 +8,29 @@ import com.andrefarzat.mendel.Utils;
 import com.andrefarzat.mendel.nodes.Function;
 import com.andrefarzat.mendel.nodes.Node;
 
+import java.util.ArrayList;
 
-public class SubtreeCrossover extends GeneticOperator {
 
-    public Individual create(Mendel mendel, Individual ind, Population population) {
-        Individual indA = ind.clone();
-        Individual indB = population.get(0); // The best at the moment
+public class SubtreeCrossover implements CrossoverOperator {
 
-        if (indB == null) {
-            // Population is empty? Well, let's create one and cross with it
-            indB = mendel.getGenerator().generateIndividual(mendel.getDepth());
-        }
+    public ArrayList<Individual> cross(Mendel mendel, Individual indA, Individual indB) {
+        Individual neoA = indA.clone();
+        Individual neoB = indB.clone();
 
-        // 1. Getting a random function from indA
-        Function func = Utils.getFromListRandomly(indA.getFunctions());
+        // 1. Getting a random node from A
+        Node nodeA = Utils.getFromListRandomly(neoA.getNodes());
 
         // 2. Getting a random node from indB
-        Node node = Utils.getFromListRandomly(indB.getNodes()).clone();
+        Node nodeB = Utils.getFromListRandomly(neoB.getNodes());
 
-        // 3. Replacing either left or right from the gotten function
-        boolean shouldBeLeft = Utils.random.nextBoolean();
-        if (shouldBeLeft) {
-            func.left = node;
-        } else {
-            func.right = node;
-        }
+        // 3. Switching them
+        neoA.getTree().replaceNode(nodeA, nodeB);
+        neoB.getTree().replaceNode(nodeB, nodeA);
 
-        return indA;
+        // 4. Returning from saturn
+        ArrayList<Individual> ret = new ArrayList<Individual>();
+        ret.add(neoA);
+        ret.add(neoB);
+        return ret;
     }
 }

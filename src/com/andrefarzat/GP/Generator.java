@@ -15,7 +15,7 @@ public class Generator extends IndividualGenerator {
     private Random random = new Random();
 
     public Terminal generateTerminal() {
-        if (this.random.nextInt(6) == 1) {
+        if (this.random.nextInt(10) == 1) {
             Variable var = new Variable();
             return var;
         } else {
@@ -25,18 +25,13 @@ public class Generator extends IndividualGenerator {
         }
     }
 
-    public Variable generateVariable() {
-        return new Variable();
-    }
-
     public Operator generateFunction(int depth) {
         Operator operator = new Operator();
         operator.mutate();
 
         if (depth <= 0) {
-            boolean variableShouldBeLeft = this.random.nextInt(6) == 1;
-            operator.left  = variableShouldBeLeft ? this.generateVariable() : this.generateTerminal();
-            operator.right = !variableShouldBeLeft ? this.generateVariable() : this.generateTerminal();
+            operator.left  = this.generateTerminal();
+            operator.right = this.generateTerminal();
         } else {
             operator.left  = this.generateFunction(depth - 1);
             operator.right = this.generateFunction(depth - 1);
