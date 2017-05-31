@@ -8,7 +8,7 @@ import com.andrefarzat.mendel.nodes.Function;
 import java.util.ArrayList;
 
 
-public class SizeFairCrossover implements CrossoverOperator {
+public class SizeFairSubtreeCrossover implements CrossoverOperator {
 
     public ArrayList<Individual> cross(Mendel mendel, Individual indA, Individual indB) {
         Individual neoA = indA.clone();

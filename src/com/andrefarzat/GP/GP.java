@@ -1,5 +1,6 @@
 package com.andrefarzat.GP;
 
+import com.andrefarzat.GP.operators.ShrinkMutation;
 import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.IndividualGenerator;
@@ -13,13 +14,14 @@ public class GP extends Mendel {
         return 2;
     }
     private MutationOperator[] mutationOperators = new MutationOperator[] {
-        new PointMutation(),
-        new SubtreeMutation(),
-        //new SizeFairSubtreeMutation()
+            new PointMutation(),
+            new SubtreeMutation(),
+            new ShrinkMutation(),
+            //new SizeFairSubtreeMutation()
     };
     private CrossoverOperator[] crossOperators = new CrossoverOperator[] {
             new SubtreeCrossover(),
-            new SizeFairCrossover()
+            new SizeFairSubtreeCrossover()
     };
     private double[][] simpleExampleParams = {
             {12.0f, 13.0f},
