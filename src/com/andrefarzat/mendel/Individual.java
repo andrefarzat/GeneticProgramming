@@ -5,53 +5,36 @@ import com.andrefarzat.mendel.nodes.Function;
 import com.andrefarzat.mendel.nodes.Node;
 import com.andrefarzat.mendel.nodes.Terminal;
 
-import java.util.UUID;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
+
 public class Individual implements Comparable<Individual> {
-    private BigDecimal measure;
+    private double measure;
+    public void setMeasure(double measure) { this.measure = measure; }
+    public double getMeasure() { return this.measure; }
+
     private Function tree;
-    private UUID uid;
-
-    public Individual() {
-        this.uid = UUID.randomUUID();
-    }
-
-    public Individual(UUID uid) {
-        this.uid = uid;
-    }
-
-    public UUID getUid() {
-        return this.uid;
-    }
-
-    public void setMeasure(BigDecimal measure) {
-        measure.setScale(1, BigDecimal.ROUND_DOWN);
-        this.measure = measure;
-    }
-    public BigDecimal getMeasure() { return this.measure; }
-
     public void setTree(Function tree) { this.tree = tree; }
     public Function getTree() { return this.tree; }
-
-    public MendelValue getValue(MendelValue value) {
-        return this.tree.getValue(value);
-    }
 
     public String toString() { return this.tree.toString(); }
 
     public Individual clone() {
-        Individual ind = new Individual(this.uid);
+        Individual ind = new Individual();
         ind.tree = (Function) this.tree.clone();
         ind.measure = this.measure;
         return ind;
     }
 
+    public double getValue(double value) {
+        return this.getTree().getValue(value);
+    }
+
     public int compareTo(Individual individual) {
-        int result = this.getMeasure().compareTo(individual.getMeasure());
+        int result = Double.compare(this.getMeasure(), individual.getMeasure());
+
         if (result == 0) {
-            // They are equal? The untie is the depth
+            // They are equal? The tiebreaker is the depth
             int thisSize = this.getFunctions().size();
             int indSize  = individual.getFunctions().size();
 
@@ -64,7 +47,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     public ArrayList<Node> getNodes() {
-        ArrayList<Node> list = new ArrayList<Node>();
+        ArrayList<Node> list = new ArrayList();
         list.add(this.tree);
         list.add(this.tree.left);
         list.add(this.tree.right);
@@ -80,7 +63,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     public ArrayList<Terminal> getTerminals() {
-        ArrayList<Terminal> terminals = new ArrayList<Terminal>();
+        ArrayList<Terminal> terminals = new ArrayList();
 
         for (Node node : this.getNodes()) {
             if (node instanceof Function) {
@@ -93,7 +76,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     public ArrayList<Function> getFunctions() {
-        ArrayList<Function> funcs = new ArrayList<Function>();
+        ArrayList<Function> funcs = new ArrayList();
 
         for (Node node : this.getNodes()) {
             if (node instanceof Function) {

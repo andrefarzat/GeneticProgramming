@@ -1,17 +1,14 @@
 package com.andrefarzat.mendel.nodes;
 
-import com.andrefarzat.mendel.Individual;
-import com.andrefarzat.mendel.MendelValue;
-
 import java.util.ArrayList;
-import java.util.Collection;
 
 
-public abstract class Function extends Node {
+public abstract class Function implements Node {
     public Node left;
     public Node right;
 
-    public abstract MendelValue getValue(MendelValue value);
+    public abstract Function clone();
+    public abstract void mutate();
 
     public int getDepth() {
         int maxDepth = 0;

@@ -1,6 +1,5 @@
 package com.andrefarzat.GP.nodes;
 
-import com.andrefarzat.mendel.MendelValue;
 import com.andrefarzat.mendel.nodes.Terminal;
 
 
@@ -14,7 +13,7 @@ public class Variable extends Terminal {
         return new Variable();
     }
 
-    public MendelValue getValue(MendelValue value) { return value; }
+    public double getValue(double value) { return value; }
 
     public String toString() {
         return "x";

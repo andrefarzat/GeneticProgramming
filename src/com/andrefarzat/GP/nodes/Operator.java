@@ -1,10 +1,8 @@
 package com.andrefarzat.GP.nodes;
 
-import java.math.BigDecimal;
-import java.util.Random;
+import java.security.InvalidParameterException;
 
-import com.andrefarzat.GP.Value;
-import com.andrefarzat.mendel.MendelValue;
+import com.andrefarzat.mendel.Utils;
 import com.andrefarzat.mendel.nodes.Function;
 
 
@@ -12,40 +10,28 @@ public class Operator extends Function {
     protected static final char[] operators = { '+', '-', '*', '/' };
     public char type = '|';
 
-    public Value getValue(MendelValue x) {
-        Value left = (Value) this.left.getValue(x);
-        Value right = (Value) this.right.getValue(x);
-
-        Value ret = new Value();
+    public double getValue(double x) throws InvalidParameterException {
+        double left = this.left.getValue(x);
+        double right = this.right.getValue(x);
 
         switch(this.type) {
-            case '+': ret.set(left.get().add(right.get()));      break;
-            case '-': ret.set(left.get().subtract(right.get())); break;
-            case '*': ret.set(left.get().multiply(right.get())); break;
+            case '+': return left + right;
+            case '-': return left - right;
+            case '*': return left * right;
             case '/':
                 // Division is the exception. We can't have zero at the right side
-                BigDecimal leftValue = left.get();
-                BigDecimal rightValue = right.get();
-
-                BigDecimal zero = new BigDecimal("0");
-
-                if (rightValue.compareTo(zero) == 0) {
-                    right.set(1);
-                    rightValue = right.get();
+                if (Double.compare(right, 0d) == 0d) {
+                    right = 1d;
                 }
 
-                ret.set(leftValue.divide(rightValue, 1, BigDecimal.ROUND_DOWN));
-
-                break;
-            default:
-                System.out.println(this.type);
+                return left / right;
         }
 
-        return ret;
+        throw new InvalidParameterException(String.format("Type %s doesn't exist", this.type));
     }
 
     public void mutate() {
-        int index = (new Random()).nextInt(this.operators.length);
+        int index = Utils.random.nextInt(this.operators.length);
         this.type = this.operators[index];
     }
 

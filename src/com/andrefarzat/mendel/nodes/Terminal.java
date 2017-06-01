@@ -1,16 +1,16 @@
 package com.andrefarzat.mendel.nodes;
 
 
-import com.andrefarzat.mendel.MendelValue;
+public abstract class Terminal implements Node {
+    private double value;
 
-public abstract class Terminal extends Node {
-    private MendelValue value;
+    public void setValue(double value) { this.value = value; }
+    public double getValue() { return value; }
+    public double getValue(double value) { return value; }
 
-    public void setValue(MendelValue value) { this.value = value; }
-    public MendelValue getValue() { return this.value; }
-    public MendelValue getValue(MendelValue value) { return this.value; }
+    public abstract Terminal clone();
 
     public String toString() {
-        return this.value.toString();
+        return String.format( "%.2f", this.value);
     }
 }

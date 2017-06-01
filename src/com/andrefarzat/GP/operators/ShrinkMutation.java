@@ -1,6 +1,5 @@
 package com.andrefarzat.GP.operators;
 
-import com.andrefarzat.GP.Value;
 import com.andrefarzat.GP.nodes.Literal;
 import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Mendel;
@@ -36,9 +35,7 @@ public class ShrinkMutation implements MutationOperator {
             }
 
             // We get the computed value
-            Value value = new Value();
-            value.set(0.0);
-            value.set(((Value) func.left.getValue(value)).get().add(((Value) func.right.getValue(value)).get()));
+            double value = ((Literal) func.left).getValue() + ((Literal) func.right).getValue();
 
             // We create the new Literal
             Literal literal = new Literal();

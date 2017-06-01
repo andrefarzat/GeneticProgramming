@@ -4,7 +4,6 @@ import com.andrefarzat.mendel.operators.CrossoverOperator;
 import com.andrefarzat.mendel.operators.MutationOperator;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public abstract class Mendel {
@@ -17,8 +16,6 @@ public abstract class Mendel {
 
     public abstract void evaluate(Individual individual);
     public abstract boolean shouldStop(Population population);
-
-    protected final Random random = new Random();
 
     public int getLogLevel() {
         return 5;
@@ -37,13 +34,13 @@ public abstract class Mendel {
 
     public MutationOperator getRandomMutationOperator() {
         MutationOperator[] operators = this.getMutationOperators();
-        int index = this.random.nextInt(operators.length);
+        int index = Utils.random.nextInt(operators.length);
         return operators[index];
     }
 
     public CrossoverOperator getRandomCrossOperator() {
         CrossoverOperator[] operators = this.getCrossOperators();
-        int index = this.random.nextInt(operators.length);
+        int index = Utils.random.nextInt(operators.length);
         return operators[index];
     }
 
@@ -66,7 +63,7 @@ public abstract class Mendel {
 
     public ArrayList<Individual> cross(Individual indA, Individual indB) {
         CrossoverOperator operator = this.getRandomCrossOperator();
-        ArrayList<Individual> neos = new ArrayList<Individual>();
+        ArrayList<Individual> neos = new ArrayList();
 
         int i = 5;
         while (i > 0) {
