@@ -21,7 +21,7 @@ public class Individual implements Comparable<Individual> {
 
     public Individual clone() {
         Individual ind = new Individual();
-        ind.tree = (Function) this.tree.clone();
+        ind.tree = this.tree.clone();
         ind.measure = this.measure;
         return ind;
     }

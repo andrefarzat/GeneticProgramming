@@ -1,5 +1,7 @@
 package com.andrefarzat.mendel;
 
+import com.andrefarzat.mendel.logging.CLILogger;
+import com.andrefarzat.mendel.logging.MendelLogger;
 import com.andrefarzat.mendel.operators.CrossoverOperator;
 import com.andrefarzat.mendel.operators.MutationOperator;
 
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 
 
 public abstract class Mendel {
+    protected int generationNumber = 0;
     public abstract int getDepth();
     public abstract int getPopulationSize();
 
@@ -16,6 +19,8 @@ public abstract class Mendel {
 
     public abstract void evaluate(Individual individual);
     public abstract boolean shouldStop(Population population);
+
+    public abstract MendelLogger getLogger();
 
     public int getLogLevel() {
         return 5;
@@ -131,14 +136,19 @@ public abstract class Mendel {
     }
 
     public void run() {
+        this.getLogger().logInitialTime();
+
         // 1. Generate initial population
         Population population = this.getGenerator().generateInitialPopulation(this.getPopulationSize(), this.getDepth());
+        population.setGenerationNumber(++this.generationNumber);
+        this.getLogger().logPopulation("Initial", population);
 
         while(true) {
             // 2. Evaluate all population
             for(Individual individual : population.getAll()) {
                 this.evaluate(individual);
             }
+            this.getLogger().logPopulation("Evaluated", population);
 
             // 3. Run Terminator
             if (this.shouldStop(population)) {
@@ -147,8 +157,11 @@ public abstract class Mendel {
 
             // 4. We mutate !
             population = this.mutatePopulation(population);
+            population.setGenerationNumber(++this.generationNumber);
+            this.getLogger().logPopulation("Mutated", population);
         }
 
+        this.getLogger().logFinishTime();
         System.out.println("Done!");
     }
 }

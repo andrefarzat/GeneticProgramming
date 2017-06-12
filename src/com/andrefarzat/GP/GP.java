@@ -4,12 +4,15 @@ import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Mendel;
 import com.andrefarzat.mendel.IndividualGenerator;
 import com.andrefarzat.mendel.Population;
+import com.andrefarzat.mendel.logging.CLILogger;
+import com.andrefarzat.mendel.logging.MendelLogger;
 import com.andrefarzat.mendel.operators.*;
 
 
 public class GP extends Mendel {
-    private int loopCounter = 0;
     private Generator generator = new Generator();
+    private MendelLogger logger = new CLILogger();
+
     public int getLogLevel() {
         return 2;
     }
@@ -52,11 +55,15 @@ public class GP extends Mendel {
     }
 
     public int getPopulationSize() {
-        return 1000;
+        return 2000;
     }
 
     public IndividualGenerator getGenerator() {
         return this.generator;
+    }
+
+    public MendelLogger getLogger() {
+        return this.logger;
     }
 
     public MutationOperator[] getMutationOperators() {
@@ -84,7 +91,7 @@ public class GP extends Mendel {
     }
 
     public boolean shouldStop(Population population) {
-        this.log(2, "Attempt %s", ++ this.loopCounter);
+        this.log(2, "Attempt %s", this.generationNumber);
         population.sortByMeasure();
 
         boolean isFirst = true;
@@ -106,7 +113,7 @@ public class GP extends Mendel {
                 for(double[] param : this.getParams()) {
                     this.log(1,"F(%s): %s = %.2f", param[0], individual.toString(), param[1]);
                 }
-                this.log(1,"Solution found in %s generations of %s individuals! o/", this.loopCounter, this.getPopulationSize());
+                this.log(1,"Solution found in %s generations of %s individuals! o/", this.generationNumber, this.getPopulationSize());
                 return true;
             }
 

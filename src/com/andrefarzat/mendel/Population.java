@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.Random;
 
 public class Population {
+    private int generationNumber;
+    public void setGenerationNumber(int generationNumber) { this.generationNumber = generationNumber; }
+    public int getGenerationNumber() { return this.generationNumber; }
+
     protected ArrayList<Individual> individuals = new ArrayList<Individual>();
 
     public void add(Individual individual) {
