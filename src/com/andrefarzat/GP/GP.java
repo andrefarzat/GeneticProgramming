@@ -44,7 +44,7 @@ public class GP extends Mendel {
     };
 
     public double[][] getParams() {
-        return this.simpleExampleParams;
+        return this.easeExampleParams;
     }
 
     public int getDepth() {
@@ -103,9 +103,6 @@ public class GP extends Mendel {
 
                 if (Utils.compareDouble(value, param[1]) != 0) {
                     isValid = false;
-                } else {
-                    System.out.println("aqui");
-                    this.log(1, "%s, %s, %s", value, param[1], individual.getMeasure());
                 }
             }
 
