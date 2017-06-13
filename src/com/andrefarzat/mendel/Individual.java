@@ -31,7 +31,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     public int compareTo(Individual individual) {
-        int result = Double.compare(this.getMeasure(), individual.getMeasure());
+        int result = Utils.compareDouble(this.getMeasure(), individual.getMeasure());
 
         if (result == 0) {
             // They are equal? The tiebreaker is the depth

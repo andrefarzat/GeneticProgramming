@@ -6,7 +6,7 @@ public abstract class Terminal implements Node {
 
     public void setValue(double value) { this.value = value; }
     public double getValue() { return value; }
-    public double getValue(double value) { return value; }
+    public double getValue(double value) { return Double.parseDouble(this.toString()); }
 
     public abstract Terminal clone();
 

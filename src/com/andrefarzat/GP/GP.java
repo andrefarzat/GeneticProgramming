@@ -1,9 +1,6 @@
 package com.andrefarzat.GP;
 
-import com.andrefarzat.mendel.Individual;
-import com.andrefarzat.mendel.Mendel;
-import com.andrefarzat.mendel.IndividualGenerator;
-import com.andrefarzat.mendel.Population;
+import com.andrefarzat.mendel.*;
 import com.andrefarzat.mendel.logging.CLILogger;
 import com.andrefarzat.mendel.logging.MendelLogger;
 import com.andrefarzat.mendel.operators.*;
@@ -47,11 +44,11 @@ public class GP extends Mendel {
     };
 
     public double[][] getParams() {
-        return this.easeExampleParams;
+        return this.simpleExampleParams;
     }
 
     public int getDepth() {
-        return 0;
+        return this.generationNumber == 0 ? 0 : Utils.random.nextInt(5);
     }
 
     public int getPopulationSize() {
@@ -78,7 +75,7 @@ public class GP extends Mendel {
         for(double[] param : this.getParams()) {
             double value = individual.getValue(param[0]);
 
-            if (Double.compare(value, 0d) < 0) {
+            if (Utils.compareDouble(value, 0d) == -1) {
                 // Negative? We punish it with a high measure
                 measure = 1000d;
             } else {
@@ -104,8 +101,11 @@ public class GP extends Mendel {
 
                 this.log(isFirst ? 2 : 4, "[Measure: %.2f]F(%s): %s = %.2f", individual.getMeasure(), param[0], individual.toString(), value);
 
-                if (Double.compare(value, param[1]) != 0) {
+                if (Utils.compareDouble(value, param[1]) != 0) {
                     isValid = false;
+                } else {
+                    System.out.println("aqui");
+                    this.log(1, "%s, %s, %s", value, param[1], individual.getMeasure());
                 }
             }
 

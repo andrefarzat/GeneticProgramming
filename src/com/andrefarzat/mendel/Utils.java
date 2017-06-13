@@ -18,7 +18,12 @@ public class Utils {
         return list.get(index);
     }
 
-    public static double formatDouble(Double value) {
-        return Double.parseDouble(String.format("%.1f", value));
+    public static int compareDouble(double one, double two) {
+        double diff = one - two;
+        if (Math.abs(diff) < 0.001) {
+            return 0; // equals
+        }
+
+        return one > two ? 1 : -1;
     }
 }
