@@ -20,7 +20,7 @@ public class Operator extends Function {
             case '*': return left * right;
             case '/':
                 // Division is the exception. We can't have zero at the right side
-                if (Double.compare(right, 0d) == 0d) {
+                if (Utils.compareDouble(right, 0d) == 0d) {
                     right = 1d;
                 }
 

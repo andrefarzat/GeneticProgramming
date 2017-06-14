@@ -1,5 +1,6 @@
 package com.andrefarzat.mendel;
 
+import com.andrefarzat.mendel.logging.MendelLogger;
 import com.andrefarzat.mendel.operators.CrossoverOperator;
 import com.andrefarzat.mendel.operators.MutationOperator;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 
 
 public abstract class Mendel {
+    protected int generationNumber = 0;
     public abstract int getDepth();
     public abstract int getPopulationSize();
 
@@ -17,20 +19,7 @@ public abstract class Mendel {
     public abstract void evaluate(Individual individual);
     public abstract boolean shouldStop(Population population);
 
-    public int getLogLevel() {
-        return 5;
-    }
-
-    public void log(int level, String msg) {
-        if (this.getLogLevel() >= level) {
-            System.out.println(msg);
-        }
-    }
-
-    public void log(int level, String msg, Object ...params) {
-        msg = String.format(msg, params);
-        this.log(level, msg);
-    }
+    public abstract MendelLogger getLogger();
 
     public MutationOperator getRandomMutationOperator() {
         MutationOperator[] operators = this.getMutationOperators();
@@ -63,7 +52,7 @@ public abstract class Mendel {
 
     public ArrayList<Individual> cross(Individual indA, Individual indB) {
         CrossoverOperator operator = this.getRandomCrossOperator();
-        ArrayList<Individual> neos = new ArrayList();
+        ArrayList<Individual> neos = new ArrayList<>();
 
         int i = 5;
         while (i > 0) {
@@ -94,6 +83,7 @@ public abstract class Mendel {
 
     public Population mutatePopulation(Population population) {
         Population nextGeneration = new Population();
+        this.getLogger().logPopulation(nextGeneration);
 
         // Ranking the current population by its measure
         population.sortByMeasure();
@@ -102,7 +92,12 @@ public abstract class Mendel {
         for(int i = 0; i < size; ) {
             if(i == 0) {
                 // The top 3% goes to maralto
-                nextGeneration.add(population.get(i).clone());
+                Individual ind = population.get(i);
+                Individual neo = ind.clone();
+                nextGeneration.add(neo);
+
+                this.getLogger().logIndividual(nextGeneration, neo);
+                this.getLogger().logClone(ind, neo);
 
                 i += 1;
             } else if(i < (size * 0.8)) {
@@ -111,18 +106,31 @@ public abstract class Mendel {
                 Individual indB = population.get(i + 1);
 
                 // 2. Crossing them
-                nextGeneration.addAll(this.cross(indA, indB));
+                ArrayList<Individual> neos = this.cross(indA, indB);
+                nextGeneration.addAll(neos);
+
+                for(Individual neo : neos) {
+                    this.getLogger().logIndividual(nextGeneration, neo);
+                    this.getLogger().logCross(indA, indB, neo);
+                }
 
                 // 3. Moving forward
                 i += 2;
             } else if (i < (size * 0.9)) {
                 // Mutating
                 Individual ind = population.get(i);
-                nextGeneration.add(this.mutate(ind));
+                Individual neo = this.mutate(ind);
+                nextGeneration.add(neo);
+
+                this.getLogger().logIndividual(nextGeneration, neo);
+                this.getLogger().logMutation(ind, neo);
+
                 i += 1;
             } else {
                 // The remaining is discarded and we create brand new ones
-                nextGeneration.add(this.getGenerator().generateIndividual(this.getDepth()));
+                Individual neo = this.getGenerator().generateIndividual(this.getDepth());
+                nextGeneration.add(neo);
+                this.getLogger().logIndividual(nextGeneration, neo);
                 i += 1;
             }
         }
@@ -131,8 +139,12 @@ public abstract class Mendel {
     }
 
     public void run() {
+        this.getLogger().logStartTime();
+
         // 1. Generate initial population
         Population population = this.getGenerator().generateInitialPopulation(this.getPopulationSize(), this.getDepth());
+        population.setGenerationNumber(++this.generationNumber);
+        this.getLogger().logInitialPopulation(population);
 
         while(true) {
             // 2. Evaluate all population
@@ -147,8 +159,10 @@ public abstract class Mendel {
 
             // 4. We mutate !
             population = this.mutatePopulation(population);
+            population.setGenerationNumber(++this.generationNumber);
         }
 
+        this.getLogger().logEndTime();
         System.out.println("Done!");
     }
 }

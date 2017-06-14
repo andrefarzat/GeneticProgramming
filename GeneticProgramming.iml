@@ -7,5 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="org.neo4j.driver:neo4j-java-driver:1.4.0" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

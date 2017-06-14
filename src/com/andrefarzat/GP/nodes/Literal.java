@@ -17,15 +17,9 @@ public class Literal extends Terminal {
     }
 
     public double generateRandomValue() {
-        double min = 0.0f;
-        double max = 50.0f;
+        int first = Utils.random.nextInt(10);
+        int second = Utils.random.nextInt(10) + 1;
 
-        double value = 0d;
-        while (Double.compare(value, 0d) == 0) {
-            // To ensure value is NEVER zero
-            value = Utils.random.nextDouble() * (max - min) + min;
-        }
-
-        return value;
+        return Double.parseDouble(first + "." + second);
     }
 }

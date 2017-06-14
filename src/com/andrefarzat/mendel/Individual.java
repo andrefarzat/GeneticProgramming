@@ -6,9 +6,13 @@ import com.andrefarzat.mendel.nodes.Node;
 import com.andrefarzat.mendel.nodes.Terminal;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 
 public class Individual implements Comparable<Individual> {
+    private UUID id = UUID.randomUUID();
+    public String getId() { return this.id.toString(); }
+
     private double measure;
     public void setMeasure(double measure) { this.measure = measure; }
     public double getMeasure() { return this.measure; }
@@ -21,7 +25,7 @@ public class Individual implements Comparable<Individual> {
 
     public Individual clone() {
         Individual ind = new Individual();
-        ind.tree = (Function) this.tree.clone();
+        ind.tree = this.tree.clone();
         ind.measure = this.measure;
         return ind;
     }
@@ -31,7 +35,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     public int compareTo(Individual individual) {
-        int result = Double.compare(this.getMeasure(), individual.getMeasure());
+        int result = Utils.compareDouble(this.getMeasure(), individual.getMeasure());
 
         if (result == 0) {
             // They are equal? The tiebreaker is the depth

@@ -1,18 +1,16 @@
 package com.andrefarzat.GP;
 
-import com.andrefarzat.mendel.Individual;
-import com.andrefarzat.mendel.Mendel;
-import com.andrefarzat.mendel.IndividualGenerator;
-import com.andrefarzat.mendel.Population;
+import com.andrefarzat.GP.logging.Neo4Logger;
+import com.andrefarzat.mendel.*;
+import com.andrefarzat.mendel.logging.CLILogger;
+import com.andrefarzat.mendel.logging.MendelLogger;
 import com.andrefarzat.mendel.operators.*;
 
 
 public class GP extends Mendel {
-    private int loopCounter = 0;
     private Generator generator = new Generator();
-    public int getLogLevel() {
-        return 2;
-    }
+    private MendelLogger logger = new CLILogger(); //
+
     private MutationOperator[] mutationOperators = new MutationOperator[] {
             new PointMutation(),
             new SubtreeMutation(),
@@ -44,11 +42,11 @@ public class GP extends Mendel {
     };
 
     public double[][] getParams() {
-        return this.easeExampleParams;
+        return this.notEaseExampleParams;
     }
 
     public int getDepth() {
-        return 0;
+        return 0; //this.generationNumber == 0 ? 0 : Utils.random.nextInt(5);
     }
 
     public int getPopulationSize() {
@@ -57,6 +55,10 @@ public class GP extends Mendel {
 
     public IndividualGenerator getGenerator() {
         return this.generator;
+    }
+
+    public MendelLogger getLogger() {
+        return this.logger;
     }
 
     public MutationOperator[] getMutationOperators() {
@@ -71,7 +73,7 @@ public class GP extends Mendel {
         for(double[] param : this.getParams()) {
             double value = individual.getValue(param[0]);
 
-            if (Double.compare(value, 0d) < 0) {
+            if (Utils.compareDouble(value, 0d) == -1) {
                 // Negative? We punish it with a high measure
                 measure = 1000d;
             } else {
@@ -84,7 +86,7 @@ public class GP extends Mendel {
     }
 
     public boolean shouldStop(Population population) {
-        this.log(2, "Attempt %s", ++ this.loopCounter);
+        this.getLogger().log( "Attempt %s", this.generationNumber);
         population.sortByMeasure();
 
         boolean isFirst = true;
@@ -95,22 +97,28 @@ public class GP extends Mendel {
             for(double[] param : this.getParams()) {
                 double value = individual.getValue(param[0]);
 
-                this.log(isFirst ? 2 : 4, "[Measure: %.2f]F(%s): %s = %.2f", individual.getMeasure(), param[0], individual.toString(), value);
+                if (isFirst) {
+                    this.getLogger().log("[Measure: %.2f]F(%s): %s = %.2f", individual.getMeasure(), param[0], individual.toString(), value);
+                }
 
-                if (Double.compare(value, param[1]) != 0) {
+                if (Utils.compareDouble(value, param[1]) != 0) {
                     isValid = false;
                 }
             }
 
             if(isValid) {
                 for(double[] param : this.getParams()) {
-                    this.log(1,"F(%s): %s = %.2f", param[0], individual.toString(), param[1]);
+                    this.getLogger().log("F(%s): %s = %.2f", param[0], individual.toString(), param[1]);
                 }
-                this.log(1,"Solution found in %s generations of %s individuals! o/", this.loopCounter, this.getPopulationSize());
+                this.getLogger().log("Solution found in %s generations of %s individuals! o/", this.generationNumber, this.getPopulationSize());
                 return true;
             }
 
             isFirst = false;
+        }
+
+        if (this.generationNumber > 1000) {
+            return true;
         }
 
         return false;

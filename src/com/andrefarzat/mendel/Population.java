@@ -4,8 +4,18 @@ package com.andrefarzat.mendel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.UUID;
 
 public class Population {
+    private UUID id = UUID.randomUUID();
+    private int generationNumber;
+    public void setGenerationNumber(int generationNumber) { this.generationNumber = generationNumber; }
+    public int getGenerationNumber() { return this.generationNumber; }
+
+    public String getId() {
+        return this.id.toString();
+    }
+
     protected ArrayList<Individual> individuals = new ArrayList<Individual>();
 
     public void add(Individual individual) {
