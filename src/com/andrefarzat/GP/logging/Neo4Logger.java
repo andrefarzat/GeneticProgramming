@@ -48,14 +48,14 @@ public class Neo4Logger implements MendelLogger {
         driver.close();
         */
 
-        //MATCH (i:Individual {tree: "(0.50 + (x + 0.50))"}) MATCH b=(Individual)-[:GENERATED]->(Individual) return i, b
+        //MATCH (i:Individual {tree: "((x + 0.50) + 0.50)"}) MATCH b=(Individual)-[:GENERATED]->(Individual) return i, b
     }
 
     private void execute(String query, Object ...params) {
 //        this.driver = GraphDatabase.driver( "bolt://localhost:7687", AuthTokens.basic( "neo4j", "h4rdP4ss" ) );
 //        this.session = driver.session();
 
-        session.run(query, parameters(params));
+        this.session.run(query, parameters(params));
 
 //        session.close();
 //        driver.close();
@@ -123,5 +123,16 @@ public class Neo4Logger implements MendelLogger {
     public void logMutation(Individual ind, Individual neo) {
         String query = "MATCH (ind:Individual {id: {ind}}) MATCH (neo:Individual {id: {neo}}) CREATE (ind)-[:GENERATED]->(neo)";
         this.execute(query, "ind", ind.getId(), "neo", neo.getId());
+    }
+
+    @Override
+    public void log(String msg) {
+        System.out.println(msg);
+    }
+
+    @Override
+    public void log(String msg, Object ...params) {
+        msg = String.format(msg, params);
+        this.log(msg);
     }
 }

@@ -20,4 +20,9 @@ public interface MendelLogger {
     void logCross(Individual indA, Individual indB, Individual neo);
 
     void logMutation(Individual ind, Individual neo);
+
+    void log(String msg);
+
+    void log(String msg, Object ...params);
+
 }

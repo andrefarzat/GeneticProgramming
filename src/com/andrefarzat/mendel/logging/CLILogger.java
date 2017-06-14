@@ -60,4 +60,15 @@ public class CLILogger implements MendelLogger {
     public void logMutation(Individual ind, Individual neo) {
 
     }
+
+    @Override
+    public void log(String msg) {
+        System.out.println(msg);
+    }
+
+    @Override
+    public void log(String msg, Object ...params) {
+        msg = String.format(msg, params);
+        this.log(msg);
+    }
 }

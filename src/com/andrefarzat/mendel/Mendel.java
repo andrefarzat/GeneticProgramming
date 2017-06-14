@@ -21,21 +21,6 @@ public abstract class Mendel {
 
     public abstract MendelLogger getLogger();
 
-    public int getLogLevel() {
-        return 5;
-    }
-
-    public void log(int level, String msg) {
-        if (this.getLogLevel() >= level) {
-            System.out.println(msg);
-        }
-    }
-
-    public void log(int level, String msg, Object ...params) {
-        msg = String.format(msg, params);
-        this.log(level, msg);
-    }
-
     public MutationOperator getRandomMutationOperator() {
         MutationOperator[] operators = this.getMutationOperators();
         int index = Utils.random.nextInt(operators.length);
