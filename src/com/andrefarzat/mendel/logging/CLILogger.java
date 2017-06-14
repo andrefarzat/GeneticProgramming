@@ -1,6 +1,7 @@
 package com.andrefarzat.mendel.logging;
 
 
+import com.andrefarzat.mendel.Individual;
 import com.andrefarzat.mendel.Population;
 
 import java.time.Duration;
@@ -31,7 +32,32 @@ public class CLILogger implements MendelLogger {
     }
 
     @Override
-    public void logPopulation(String label, Population population) {
+    public void logPopulation(Population population) {
+
+    }
+
+    @Override
+    public void logIndividual(Population population, Individual individual) {
+
+    }
+
+    @Override
+    public void logInitialPopulation(Population population) {
+
+    }
+
+    @Override
+    public void logClone(Individual ind, Individual neo) {
+
+    }
+
+    @Override
+    public void logCross(Individual indA, Individual indB, Individual neo) {
+
+    }
+
+    @Override
+    public void logMutation(Individual ind, Individual neo) {
 
     }
 }

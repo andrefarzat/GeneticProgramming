@@ -6,9 +6,13 @@ import com.andrefarzat.mendel.nodes.Node;
 import com.andrefarzat.mendel.nodes.Terminal;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 
 public class Individual implements Comparable<Individual> {
+    private UUID id = UUID.randomUUID();
+    public String getId() { return this.id.toString(); }
+
     private double measure;
     public void setMeasure(double measure) { this.measure = measure; }
     public double getMeasure() { return this.measure; }

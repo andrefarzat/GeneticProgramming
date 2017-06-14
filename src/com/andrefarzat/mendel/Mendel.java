@@ -98,6 +98,7 @@ public abstract class Mendel {
 
     public Population mutatePopulation(Population population) {
         Population nextGeneration = new Population();
+        this.getLogger().logPopulation(nextGeneration);
 
         // Ranking the current population by its measure
         population.sortByMeasure();
@@ -106,7 +107,12 @@ public abstract class Mendel {
         for(int i = 0; i < size; ) {
             if(i == 0) {
                 // The top 3% goes to maralto
-                nextGeneration.add(population.get(i).clone());
+                Individual ind = population.get(i);
+                Individual neo = ind.clone();
+                nextGeneration.add(neo);
+
+                this.getLogger().logIndividual(nextGeneration, neo);
+                this.getLogger().logClone(ind, neo);
 
                 i += 1;
             } else if(i < (size * 0.8)) {
@@ -115,18 +121,31 @@ public abstract class Mendel {
                 Individual indB = population.get(i + 1);
 
                 // 2. Crossing them
-                nextGeneration.addAll(this.cross(indA, indB));
+                ArrayList<Individual> neos = this.cross(indA, indB);
+                nextGeneration.addAll(neos);
+
+                for(Individual neo : neos) {
+                    this.getLogger().logIndividual(nextGeneration, neo);
+                    this.getLogger().logCross(indA, indB, neo);
+                }
 
                 // 3. Moving forward
                 i += 2;
             } else if (i < (size * 0.9)) {
                 // Mutating
                 Individual ind = population.get(i);
-                nextGeneration.add(this.mutate(ind));
+                Individual neo = this.mutate(ind);
+                nextGeneration.add(neo);
+
+                this.getLogger().logIndividual(nextGeneration, neo);
+                this.getLogger().logMutation(ind, neo);
+
                 i += 1;
             } else {
                 // The remaining is discarded and we create brand new ones
-                nextGeneration.add(this.getGenerator().generateIndividual(this.getDepth()));
+                Individual neo = this.getGenerator().generateIndividual(this.getDepth());
+                nextGeneration.add(neo);
+                this.getLogger().logIndividual(nextGeneration, neo);
                 i += 1;
             }
         }
@@ -140,14 +159,13 @@ public abstract class Mendel {
         // 1. Generate initial population
         Population population = this.getGenerator().generateInitialPopulation(this.getPopulationSize(), this.getDepth());
         population.setGenerationNumber(++this.generationNumber);
-        this.getLogger().logPopulation("Initial", population);
+        this.getLogger().logInitialPopulation(population);
 
         while(true) {
             // 2. Evaluate all population
             for(Individual individual : population.getAll()) {
                 this.evaluate(individual);
             }
-            this.getLogger().logPopulation("Evaluated", population);
 
             // 3. Run Terminator
             if (this.shouldStop(population)) {
@@ -157,7 +175,6 @@ public abstract class Mendel {
             // 4. We mutate !
             population = this.mutatePopulation(population);
             population.setGenerationNumber(++this.generationNumber);
-            this.getLogger().logPopulation("Mutated", population);
         }
 
         this.getLogger().logEndTime();
