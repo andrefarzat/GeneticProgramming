@@ -12,10 +12,8 @@ public class CLILogger implements MendelLogger {
     private LocalDateTime finishTime;
     private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-
-
     @Override
-    public void logInitialTime() {
+    public void logStartTime() {
         this.initialTime = LocalDateTime.now();
         String time = this.initialTime.format(this.dateTimeFormat);
 
@@ -23,7 +21,7 @@ public class CLILogger implements MendelLogger {
     }
 
     @Override
-    public void logFinishTime() {
+    public void logEndTime() {
         this.finishTime = LocalDateTime.now();
         String time = this.finishTime.format(this.dateTimeFormat);
 

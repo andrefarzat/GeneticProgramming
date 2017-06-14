@@ -1,5 +1,6 @@
 package com.andrefarzat.GP;
 
+import com.andrefarzat.GP.logging.Neo4Logger;
 import com.andrefarzat.mendel.*;
 import com.andrefarzat.mendel.logging.CLILogger;
 import com.andrefarzat.mendel.logging.MendelLogger;
@@ -8,7 +9,7 @@ import com.andrefarzat.mendel.operators.*;
 
 public class GP extends Mendel {
     private Generator generator = new Generator();
-    private MendelLogger logger = new CLILogger();
+    private MendelLogger logger = new Neo4Logger();
 
     public int getLogLevel() {
         return 2;
@@ -44,7 +45,7 @@ public class GP extends Mendel {
     };
 
     public double[][] getParams() {
-        return this.easeExampleParams;
+        return this.simpleExampleParams;
     }
 
     public int getDepth() {

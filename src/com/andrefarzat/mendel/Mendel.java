@@ -1,6 +1,5 @@
 package com.andrefarzat.mendel;
 
-import com.andrefarzat.mendel.logging.CLILogger;
 import com.andrefarzat.mendel.logging.MendelLogger;
 import com.andrefarzat.mendel.operators.CrossoverOperator;
 import com.andrefarzat.mendel.operators.MutationOperator;
@@ -68,7 +67,7 @@ public abstract class Mendel {
 
     public ArrayList<Individual> cross(Individual indA, Individual indB) {
         CrossoverOperator operator = this.getRandomCrossOperator();
-        ArrayList<Individual> neos = new ArrayList();
+        ArrayList<Individual> neos = new ArrayList<>();
 
         int i = 5;
         while (i > 0) {
@@ -136,7 +135,7 @@ public abstract class Mendel {
     }
 
     public void run() {
-        this.getLogger().logInitialTime();
+        this.getLogger().logStartTime();
 
         // 1. Generate initial population
         Population population = this.getGenerator().generateInitialPopulation(this.getPopulationSize(), this.getDepth());
@@ -161,7 +160,7 @@ public abstract class Mendel {
             this.getLogger().logPopulation("Mutated", population);
         }
 
-        this.getLogger().logFinishTime();
+        this.getLogger().logEndTime();
         System.out.println("Done!");
     }
 }
