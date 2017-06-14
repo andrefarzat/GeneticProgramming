@@ -9,7 +9,7 @@ import com.andrefarzat.mendel.operators.*;
 
 public class GP extends Mendel {
     private Generator generator = new Generator();
-    private MendelLogger logger = new CLILogger(); // Neo4Logger
+    private MendelLogger logger = new CLILogger(); //
 
     private MutationOperator[] mutationOperators = new MutationOperator[] {
             new PointMutation(),
@@ -42,15 +42,15 @@ public class GP extends Mendel {
     };
 
     public double[][] getParams() {
-        return this.celsiusToFahrenheit;
+        return this.notEaseExampleParams;
     }
 
     public int getDepth() {
-        return this.generationNumber == 0 ? 0 : Utils.random.nextInt(5);
+        return 0; //this.generationNumber == 0 ? 0 : Utils.random.nextInt(5);
     }
 
     public int getPopulationSize() {
-        return 2000;
+        return 1000;
     }
 
     public IndividualGenerator getGenerator() {
@@ -115,6 +115,10 @@ public class GP extends Mendel {
             }
 
             isFirst = false;
+        }
+
+        if (this.generationNumber > 1000) {
+            return true;
         }
 
         return false;
