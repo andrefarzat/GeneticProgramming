@@ -32,14 +32,8 @@ public class Population {
         this.individuals.add(individual);
     }
 
-    public void add(int index, Individual individual) { this.individuals.add(index, individual); }
-
     public void addAll(ArrayList<Individual> inds) {
         for(Individual ind : inds) this.add(ind);
-    }
-
-    public void concat(Population population) {
-        this.individuals.addAll(population.individuals);
     }
 
     public void sortByFitness() {
@@ -69,37 +63,6 @@ public class Population {
         return this.individuals.size();
     }
 
-    public Individual getAndRemove(int index) {
-        Individual individual = this.individuals.get(index);
-        this.individuals.remove(index);
-        return individual;
-    }
-
-    public Individual getRandomIndividual() {
-        return Utils.getFromListRandomly(this.individuals);
-    }
-
-    public Individual[] selectTwoIndividuals() {
-        Individual[] neos = new Individual[2];
-
-        int i = 0;
-        int numberA = Utils.random.nextInt(10);
-        int numberB = Utils.random.nextInt(10);
-        double chance = Double.parseDouble(String.format("0.%s%s", numberA, numberB));
-
-        for (Individual ind : this.individuals) {
-            double probability = ind.getProbability(); // This is because the lower fitness the better
-            System.out.println(String.format("[%s > %s]", chance, probability));
-            if (Utils.compareDouble(chance, probability) == 1) {
-                neos[i] = ind;
-                i++;
-
-                if (i >= 2) break;
-            }
-        }
-
-        return neos;
-    }
 
     public void calculateProbability() {
         double sum = this.getFitnessTotal();
