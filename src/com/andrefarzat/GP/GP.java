@@ -4,11 +4,14 @@ import com.andrefarzat.mendel.*;
 import com.andrefarzat.mendel.logging.CLILogger;
 import com.andrefarzat.mendel.logging.MendelLogger;
 import com.andrefarzat.mendel.operators.*;
+import com.andrefarzat.mendel.selectors.AleatorySelector;
+import com.andrefarzat.mendel.selectors.Selector;
 
 
 public class GP extends Mendel {
     private Generator generator = new Generator();
     private MendelLogger logger = new CLILogger(); //
+    private Selector selector = new AleatorySelector();
 
     private MutationOperator[] mutationOperators = new MutationOperator[] {
             new PointMutation(),
@@ -18,30 +21,13 @@ public class GP extends Mendel {
             new SubtreeCrossover(),
             new SizeFairSubtreeCrossover()
     };
-    private double[][] simpleExampleParams = {
-            {12d, 13d},
-            {14d, 15d},
-    };
-    private double[][] easeExampleParams = {
-            {12d, 32d},
-            {14d, 34d},
-            {120d, 140d},
-    };
-    private double[][] notEaseExampleParams = {
-            {100.0d, 200.0d},
-            {350.0d, 450.0d},
-    };
-    private double[][] celsiusToFahrenheit = {
-            {1.0d, 33.8d},
-            {10.0d, 50.0d},
-    };
-    private double[][] celsiusToKelvin = {
-            {20.0d, 293.15d},
-            {40.0d, 313.15d},
-    };
 
     public double[][] getParams() {
-        return this.notEaseExampleParams;
+        //return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
+        //return new double[][] { {12d, 32d}, {14d, 34d}, {120d, 140d} }; // Ease Example
+        //return new double[][] { {100.0d, 200.0d}, {350.0d, 450.0d} }; // Not Ease Example
+        //return new double[][] { {1.0d, 33.8d}, {10.0d, 50.0d} }; // celsius to Fahrenheit
+        return new double[][] { {20.0d, 293.15d}, {40.0d, 313.15d} }; // celsius to Kelvin
     }
 
     public int getDepth() {
@@ -60,11 +46,13 @@ public class GP extends Mendel {
         return this.logger;
     }
 
+    public Selector getSelector() { return this.selector; }
+
     public MutationOperator[] getMutationOperators() {
         return this.mutationOperators;
     }
 
-    public CrossoverOperator[] getCrossOperators() {return this.crossOperators; }
+    public CrossoverOperator[] getCrossOperators() { return this.crossOperators; }
 
     public void evaluate(Individual individual) {
         double measure = 0d;

@@ -3,6 +3,8 @@ package com.andrefarzat.mendel;
 import com.andrefarzat.mendel.logging.MendelLogger;
 import com.andrefarzat.mendel.operators.CrossoverOperator;
 import com.andrefarzat.mendel.operators.MutationOperator;
+import com.andrefarzat.mendel.selectors.Selection;
+import com.andrefarzat.mendel.selectors.Selector;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,8 @@ public abstract class Mendel {
     public abstract boolean shouldStop(Population population);
 
     public abstract MendelLogger getLogger();
+
+    public abstract Selector getSelector();
 
     public MutationOperator getRandomMutationOperator() {
         MutationOperator[] operators = this.getMutationOperators();
@@ -92,48 +96,43 @@ public abstract class Mendel {
         population.calculateProbability();
 
         int size = population.size();
-        for(int i = 0; i < size; ) {
-            if(i == 0) {
-                // The top 3% goes to maralto
-                Individual ind = population.get(i);
-                Individual neo = ind.clone();
+        for (int i = 0; i < size; ) {
+            Selection selection = this.getSelector().get(i, size, population);
+
+            if (selection.getType() == Selection.Types.clone) {
+                Individual neo = selection.getFather().clone();
                 nextGeneration.add(neo);
 
                 this.getLogger().logIndividual(nextGeneration, neo);
-                this.getLogger().logClone(ind, neo);
+                this.getLogger().logClone(selection.getFather(), neo);
 
                 i += 1;
-            } else if(i < (size * 0.8)) {
-                // 1. Getting the best two candidates
-                Individual[] inds = population.selectTwoIndividuals();
-
-                // 2. Crossing them
-                ArrayList<Individual> neos = this.cross(inds[0], inds[1]);
+            } else if (selection.getType() == Selection.Types.crossover) {
+                ArrayList<Individual> neos = this.cross(selection.getFather(), selection.getMother());
                 nextGeneration.addAll(neos);
 
                 for(Individual neo : neos) {
                     this.getLogger().logIndividual(nextGeneration, neo);
-                    this.getLogger().logCross(inds[0], inds[1], neo);
-                }
+                    this.getLogger().logCross(selection.getFather(), selection.getMother(), neo);
 
-                // 3. Moving forward
-                i += 2;
-            } else if (i < (size * 0.9)) {
-                // Mutating
-                Individual ind = population.get(i);
-                Individual neo = this.mutate(ind);
+                    i += 1;
+                }
+            } else if (selection.getType() == Selection.Types.mutation) {
+                Individual neo = this.mutate(selection.getFather());
                 nextGeneration.add(neo);
 
                 this.getLogger().logIndividual(nextGeneration, neo);
-                this.getLogger().logMutation(ind, neo);
+                this.getLogger().logMutation(selection.getFather(), neo);
 
                 i += 1;
-            } else {
+            } else if (selection.getType() == Selection.Types.discarded) {
                 // The remaining is discarded and we create brand new ones
                 Individual neo = this.getGenerator().generateIndividual(this.getDepth());
                 nextGeneration.add(neo);
                 this.getLogger().logIndividual(nextGeneration, neo);
                 i += 1;
+            } else {
+                this.getLogger().log("Should never reach here");
             }
         }
 

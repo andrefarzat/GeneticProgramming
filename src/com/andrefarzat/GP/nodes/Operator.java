@@ -27,7 +27,7 @@ public class Operator extends Function {
                 return left / right;
         }
 
-        throw new InvalidParameterException(String.format("Type %s doesn't exist", this.type));
+        throw new InvalidParameterException(String.format("Types %s doesn't exist", this.type));
     }
 
     public void mutate() {
