@@ -13,9 +13,13 @@ public class Individual implements Comparable<Individual> {
     private UUID id = UUID.randomUUID();
     public String getId() { return this.id.toString(); }
 
-    private double measure;
-    public void setMeasure(double measure) { this.measure = measure; }
-    public double getMeasure() { return this.measure; }
+    private double fitness;
+    public void setFitness(double fitness) { this.fitness = fitness; }
+    public double getFitness() { return this.fitness; }
+
+    private double probability;
+    public double getProbability() { return this.probability; }
+    public void setProbability(double probability) { this.probability = probability; }
 
     private Function tree;
     public void setTree(Function tree) { this.tree = tree; }
@@ -26,7 +30,7 @@ public class Individual implements Comparable<Individual> {
     public Individual clone() {
         Individual ind = new Individual();
         ind.tree = this.tree.clone();
-        ind.measure = this.measure;
+        ind.fitness = this.fitness;
         return ind;
     }
 
@@ -35,7 +39,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     public int compareTo(Individual individual) {
-        int result = Utils.compareDouble(this.getMeasure(), individual.getMeasure());
+        int result = Utils.compareDouble(this.getFitness(), individual.getFitness());
 
         if (result == 0) {
             // They are equal? The tiebreaker is the depth

@@ -95,7 +95,7 @@ public class Neo4Logger implements MendelLogger {
         String query = "MATCH (p:Population {id: {pid}}) CREATE (i:Individual {id: {iid}, fitness: {fitness}, tree: {tree}})";
         query += " CREATE (i)-[:BELONGS_TO]->(p)";
 
-        this.execute(query, "pid", population.getId(), "iid", individual.getId(), "fitness", individual.getMeasure(), "tree", individual.getTree().toString());
+        this.execute(query, "pid", population.getId(), "iid", individual.getId(), "fitness", individual.getFitness(), "tree", individual.getTree().toString());
     }
 
     public void logInitialPopulation(Population population) {

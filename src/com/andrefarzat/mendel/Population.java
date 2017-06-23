@@ -3,15 +3,25 @@ package com.andrefarzat.mendel;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import java.util.UUID;
 
 public class Population {
-    private UUID id = UUID.randomUUID();
     private int generationNumber;
     public void setGenerationNumber(int generationNumber) { this.generationNumber = generationNumber; }
     public int getGenerationNumber() { return this.generationNumber; }
 
+    private double fitnessTotal = 0;
+    public double getFitnessTotal() {
+        if (Utils.compareDouble(this.fitnessTotal, 0) == 0) {
+            for(Individual ind : this.individuals) {
+                this.fitnessTotal += ind.getFitness();
+            }
+        }
+
+        return this.fitnessTotal;
+    }
+
+    private UUID id = UUID.randomUUID();
     public String getId() {
         return this.id.toString();
     }
@@ -32,7 +42,7 @@ public class Population {
         this.individuals.addAll(population.individuals);
     }
 
-    public void sortByMeasure() {
+    public void sortByFitness() {
         try {
             Collections.sort(this.individuals);
         } catch(IllegalArgumentException e) {
@@ -69,19 +79,34 @@ public class Population {
         return Utils.getFromListRandomly(this.individuals);
     }
 
-    public Individual getRandomIndividualAndRemoveIt() {
-        int size = this.individuals.size();
-        if (size == 0) {
-            return null;
+    public Individual[] selectTwoIndividuals() {
+        Individual[] neos = new Individual[2];
+
+        int i = 0;
+        int numberA = Utils.random.nextInt(10);
+        int numberB = Utils.random.nextInt(10);
+        double chance = Double.parseDouble(String.format("0.%s%s", numberA, numberB));
+
+        for (Individual ind : this.individuals) {
+            double probability = ind.getProbability(); // This is because the lower fitness the better
+            System.out.println(String.format("[%s > %s]", chance, probability));
+            if (Utils.compareDouble(chance, probability) == 1) {
+                neos[i] = ind;
+                i++;
+
+                if (i >= 2) break;
+            }
         }
 
-        int index = Utils.random.nextInt(size);
-        return this.getAndRemove(index);
+        return neos;
     }
 
-    public Population slice(int from, int to) {
-        Population pop = this.clone();
-        pop.individuals = new ArrayList(pop.individuals.subList(from, to));
-        return pop;
+    public void calculateProbability() {
+        double sum = this.getFitnessTotal();
+
+        for (Individual ind : this.individuals) {
+            double probability = ind.getFitness() / sum;
+            ind.setProbability(probability);
+        }
     }
 }

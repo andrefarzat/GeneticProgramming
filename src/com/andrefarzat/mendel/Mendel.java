@@ -85,8 +85,11 @@ public abstract class Mendel {
         Population nextGeneration = new Population();
         this.getLogger().logPopulation(nextGeneration);
 
-        // Ranking the current population by its measure
-        population.sortByMeasure();
+        // Ranking the current population by its fitness
+        population.sortByFitness();
+
+        // Calculating all the selection probability at once
+        population.calculateProbability();
 
         int size = population.size();
         for(int i = 0; i < size; ) {
@@ -102,16 +105,15 @@ public abstract class Mendel {
                 i += 1;
             } else if(i < (size * 0.8)) {
                 // 1. Getting the best two candidates
-                Individual indA = population.get(i);
-                Individual indB = population.get(i + 1);
+                Individual[] inds = population.selectTwoIndividuals();
 
                 // 2. Crossing them
-                ArrayList<Individual> neos = this.cross(indA, indB);
+                ArrayList<Individual> neos = this.cross(inds[0], inds[1]);
                 nextGeneration.addAll(neos);
 
                 for(Individual neo : neos) {
                     this.getLogger().logIndividual(nextGeneration, neo);
-                    this.getLogger().logCross(indA, indB, neo);
+                    this.getLogger().logCross(inds[0], inds[1], neo);
                 }
 
                 // 3. Moving forward

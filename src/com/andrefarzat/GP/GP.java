@@ -1,6 +1,5 @@
 package com.andrefarzat.GP;
 
-import com.andrefarzat.GP.logging.Neo4Logger;
 import com.andrefarzat.mendel.*;
 import com.andrefarzat.mendel.logging.CLILogger;
 import com.andrefarzat.mendel.logging.MendelLogger;
@@ -82,12 +81,12 @@ public class GP extends Mendel {
             }
         }
 
-        individual.setMeasure(measure);
+        individual.setFitness(measure);
     }
 
     public boolean shouldStop(Population population) {
         this.getLogger().log( "Attempt %s", this.generationNumber);
-        population.sortByMeasure();
+        population.sortByFitness();
 
         boolean isFirst = true;
 
@@ -98,7 +97,7 @@ public class GP extends Mendel {
                 double value = individual.getValue(param[0]);
 
                 if (isFirst) {
-                    this.getLogger().log("[Measure: %.2f]F(%s): %s = %.2f", individual.getMeasure(), param[0], individual.toString(), value);
+                    this.getLogger().log("[Measure: %.2f]F(%s): %s = %.2f", individual.getFitness(), param[0], individual.toString(), value);
                 }
 
                 if (Utils.compareDouble(value, param[1]) != 0) {
@@ -118,6 +117,7 @@ public class GP extends Mendel {
         }
 
         if (this.generationNumber > 1000) {
+            this.getLogger().log("Solution *NOT* found in 1000 generations. Giving up =/");
             return true;
         }
 
