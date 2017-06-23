@@ -4,14 +4,13 @@ import com.andrefarzat.mendel.*;
 import com.andrefarzat.mendel.logging.CLILogger;
 import com.andrefarzat.mendel.logging.MendelLogger;
 import com.andrefarzat.mendel.operators.*;
-import com.andrefarzat.mendel.selectors.AleatorySelector;
-import com.andrefarzat.mendel.selectors.Selector;
+import com.andrefarzat.mendel.selectors.*;
 
 
 public class GP extends Mendel {
     private Generator generator = new Generator();
     private MendelLogger logger = new CLILogger(); //
-    private Selector selector = new AleatorySelector();
+    private Selector selector = new ElitismSelector();
 
     private MutationOperator[] mutationOperators = new MutationOperator[] {
             new PointMutation(),
