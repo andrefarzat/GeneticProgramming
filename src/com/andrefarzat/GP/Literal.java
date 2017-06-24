@@ -25,4 +25,10 @@ public class Literal implements Node {
 
         return Utils.fixDouble(first + "." + second);
     }
+
+    public static Literal create() {
+        Literal literal = new Literal();
+        literal.mutate();
+        return literal;
+    }
 }
