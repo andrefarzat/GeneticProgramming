@@ -2,11 +2,17 @@ package com.andrefarzat.GP;
 
 
 public class GP {
-    protected static final int MAX_TRIES_TO_GENERATE_AN_INDIVIDUAL = 10;
-
     protected Population population;
     protected final int maxDepth = 2;
     protected final int populationSize = 1000;
+
+    public double[][] getParams() {
+        return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
+        //return new double[][] { {12d, 32d}, {14d, 34d}, {120d, 140d} }; // Ease Example
+        //return new double[][] { {100.0d, 200.0d}, {350.0d, 450.0d} }; // Not Ease Example
+        //return new double[][] { {1.0d, 33.8d}, {10.0d, 50.0d} }; // celsius to Fahrenheit
+        //return new double[][] { {20.0d, 293.15d}, {40.0d, 313.15d} }; // celsius to Kelvin
+    }
 
     protected Individual generateIndividual() {
         Individual individual = new Individual();
@@ -24,7 +30,21 @@ public class GP {
     }
 
     public void evaluate(Individual individual) {
-        // TODO:
+        double fitness = 0d;
+
+        for(double[] param : this.getParams()) {
+            double value = individual.getValue(param[0]);
+
+            if (Utils.compareDouble(value, 0d) == -1) {
+                // Negative? We punish it with a high measure
+                fitness = 1000d;
+            } else {
+                double result = value - param[1];
+                fitness += Math.abs(result);
+            }
+        }
+
+        individual.fitness = fitness;
     }
 
     public void run() {

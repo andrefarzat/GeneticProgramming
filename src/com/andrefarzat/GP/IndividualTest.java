@@ -5,11 +5,6 @@ import org.junit.Test;
 
 
 public class IndividualTest {
-    @Test
-    public void testIsValid() {
-        Individual individual = new Individual();
-        Assert.assertTrue(individual.isValid());
-    }
 
     @Test
     public void testCreation() {
@@ -17,5 +12,6 @@ public class IndividualTest {
 
         Assert.assertNotNull(individual.tree);
         Assert.assertSame(individual.tree, Node.class);
+        Assert.assertTrue(individual.isValid());
     }
 }

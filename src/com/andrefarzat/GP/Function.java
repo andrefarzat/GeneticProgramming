@@ -8,6 +8,32 @@ public class Function implements Node {
     protected Node left;
     protected Node right;
 
+    public static Function create(int depth) {
+        Function func = new Function();
+        func.mutate();
+
+        if (depth <= 0) {
+            
+        }
+
+    }
+
+    public Operator generateFunction(int depth) {
+        Operator operator = new Operator();
+        operator.mutate();
+
+        if (depth <= 0) {
+            boolean shouldBeLeft = Utils.random.nextBoolean();
+            operator.left  = shouldBeLeft  ? new Variable() : this.generateTerminal();
+            operator.right = !shouldBeLeft ? new Variable() : this.generateTerminal();
+        } else {
+            operator.left  = this.generateFunction(depth - 1);
+            operator.right = this.generateFunction(depth - 1);
+        }
+
+        return operator;
+    }
+
 
     @Override
     public Function clone() {

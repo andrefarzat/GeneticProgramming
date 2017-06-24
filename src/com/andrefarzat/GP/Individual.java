@@ -9,6 +9,10 @@ public class Individual {
         this.tree = new Function();
     }
 
+    public double getValue(double value) {
+        return this.tree.getValue(value);
+    }
+
     public boolean isValid() {
         return false;
     }
