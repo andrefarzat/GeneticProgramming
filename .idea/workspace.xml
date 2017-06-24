@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="573d02f4-e013-420e-be67-15a35e522281" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/GPTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/Function.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/Function.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/FunctionTest.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/FunctionTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/Individual.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/Individual.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/IndividualTest.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/IndividualTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/Literal.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/Literal.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/LiteralTest.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/LiteralTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/Utils.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/Utils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/Variable.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/Variable.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,8 +30,8 @@
       <file leaf-file-name="LiteralTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/LiteralTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="10" lean-forward="false" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
+            <state relative-caret-position="180">
+              <caret line="12" column="25" lean-forward="true" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -898,7 +888,7 @@
       <workItem from="1497403679887" duration="42000" />
       <workItem from="1497403774665" duration="1038000" />
       <workItem from="1497449178732" duration="15165000" />
-      <workItem from="1498251800995" duration="33638000" />
+      <workItem from="1498251800995" duration="33656000" />
     </task>
     <servers />
   </component>
@@ -935,7 +925,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58223000" />
+    <option name="totallyTimeSpent" value="58241000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="53" width="1566" height="885" extended-state="0" />
@@ -950,7 +940,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32950193" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40226987" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40226987" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1410,8 +1400,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/andrefarzat/GP/LiteralTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="10" lean-forward="false" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
+        <state relative-caret-position="180">
+          <caret line="12" column="25" lean-forward="true" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

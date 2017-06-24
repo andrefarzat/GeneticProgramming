@@ -13,7 +13,7 @@ public class LiteralTest {
         Assert.assertThat(literal.generateRandomValue(), instanceOf(double.class));
     }
 
-    @Test`
+    @Test
     public void testMutation() {
         Literal literal = new Literal();
 
