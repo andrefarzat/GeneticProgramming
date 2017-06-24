@@ -13,6 +13,7 @@ public class Literal implements Node {
         return Utils.fixDouble(this.value);
     }
 
+    @Override
     public Literal clone() {
         Literal literal = new Literal();
         literal.value = this.value;

@@ -16,4 +16,8 @@ public class Variable implements Node {
     public String toString() {
         return "x";
     }
+
+    public static Variable create() {
+        return new Variable();
+    }
 }

@@ -1,13 +1,14 @@
 package com.andrefarzat.GP;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
 public class Utils {
     public static Random random = new Random();
 
-    public static <T> T getFromListRandomly(ArrayList<T> list) {
+    public static <T> T getFromListRandomly(List<T> list) {
         int size = list.size();
 
         if (size == 0) {

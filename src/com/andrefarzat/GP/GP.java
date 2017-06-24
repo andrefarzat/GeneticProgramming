@@ -1,10 +1,14 @@
 package com.andrefarzat.GP;
 
 
+import java.util.List;
+import java.util.Random;
+
 public class GP {
     protected Population population;
     protected final int maxDepth = 2;
     protected final int populationSize = 1000;
+    protected final Random random = new Random();
 
     public double[][] getParams() {
         return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
@@ -16,6 +20,18 @@ public class GP {
 
     protected Individual generateIndividual() {
         Individual individual = new Individual();
+        individual.tree = Function.create(this.random.nextInt(this.maxDepth));
+
+        List<Function> funcs = individual.tree.getFunctions();
+        Function selectedFunc = Utils.getFromListRandomly(funcs);
+
+        boolean shouldBeLeft = this.random.nextBoolean();
+        if (shouldBeLeft) {
+            selectedFunc.left = Variable.create();
+        } else {
+            selectedFunc.right = Variable.create();
+        }
+
         return individual;
     }
 

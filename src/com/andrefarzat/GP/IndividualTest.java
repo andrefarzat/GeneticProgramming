@@ -3,6 +3,8 @@ package com.andrefarzat.GP;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 
 public class IndividualTest {
 
@@ -10,8 +12,7 @@ public class IndividualTest {
     public void testCreation() {
         Individual individual = new Individual();
 
-        Assert.assertNotNull(individual.tree);
-        Assert.assertSame(individual.tree, Node.class);
-        Assert.assertTrue(individual.isValid());
+        Assert.assertNull(individual.tree);
+        Assert.assertFalse(individual.isValid());
     }
 }

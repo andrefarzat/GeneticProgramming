@@ -42,6 +42,22 @@ public class Function implements Node {
         return nodes;
     }
 
+    public List<Function> getFunctions() {
+        LinkedList<Function> funcs = new LinkedList<>();
+
+        if (this.left instanceof Function) {
+            funcs.add((Function)this.left);
+            funcs.addAll(((Function) this.left).getFunctions());
+        }
+
+        if (this.right instanceof Function) {
+            funcs.add((Function) this.right);
+            funcs.addAll(((Function) this.right).getFunctions());
+        }
+
+        return funcs;
+    }
+
     public int getDepth() {
         int maxDepth = 0;
 
@@ -72,7 +88,11 @@ public class Function implements Node {
 
     @Override
     public String toString() {
-        return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
+        try {
+            return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
+        } catch(NullPointerException e) {
+            return "No left or no right";
+        }
     }
 
     @Override

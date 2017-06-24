@@ -13,13 +13,13 @@ public class LiteralTest {
         Assert.assertThat(literal.generateRandomValue(), instanceOf(double.class));
     }
 
-    @Test
+    @Test`
     public void testMutation() {
         Literal literal = new Literal();
 
-        Assert.assertNull(literal.value);
+        Assert.assertTrue(Utils.compareDouble(literal.value, 0.0d) == 0);
         literal.mutate();
-        Assert.assertNotNull(literal.value);
+        Assert.assertTrue(Utils.compareDouble(literal.value, 0.0d) != 0);
     }
 
     @Test

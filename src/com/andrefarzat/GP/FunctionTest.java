@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -15,8 +14,8 @@ public class FunctionTest {
         Function func = Function.create(2);
 
         Assert.assertEquals(func.getDepth(), 2);
-        Assert.assertSame(func.left, Function.class);
-        Assert.assertSame(func.right, Function.class);
+        Assert.assertThat(func.left, instanceOf(Function.class));
+        Assert.assertThat(func.right, instanceOf(Function.class));
     }
 
     @Test
@@ -50,6 +49,18 @@ public class FunctionTest {
         }
 
         Assert.assertEquals(funcNodes.size(), nodes.size());
+    }
+
+    @Test
+    public void testGetFunctions() {
+        Function func = Function.create(0);
+        Assert.assertEquals(func.getFunctions().size(), 0);
+
+        func = Function.create(1);
+        Assert.assertEquals(func.getFunctions().size(), 2);
+
+        func = Function.create(2);
+        Assert.assertEquals(func.getFunctions().size(), 6);
     }
 
     @Test
