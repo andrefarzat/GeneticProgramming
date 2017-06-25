@@ -1,7 +1,7 @@
 package com.andrefarzat.GP;
 
 
-public class Individual {
+public class Individual implements Comparable<Individual> {
     protected Function tree;
     protected double fitness;
 
@@ -23,5 +23,22 @@ public class Individual {
         }
 
         return howManyVariables == 1;
+    }
+
+    @Override
+    public int compareTo(Individual individual) {
+        int result = Utils.compareDouble(this.fitness, individual.fitness);
+
+        if (result == 0) {
+            // Are they equal? The tiebreaker is the depth
+            int thisSize = this.tree.getFunctions().size();
+            int indSize  = individual.tree.getFunctions().size();
+
+            if (thisSize > indSize) return 1;
+            if (thisSize < indSize) return -1;
+            return 0; // Well, they are really equal
+        }
+
+        return result;
     }
 }
