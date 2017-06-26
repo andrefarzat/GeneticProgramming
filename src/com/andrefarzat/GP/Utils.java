@@ -22,7 +22,7 @@ public class Utils {
 
     public static int compareDouble(double one, double two) {
         double diff = one - two;
-        if (Math.abs(diff) < 0.001) {
+        if (Math.abs(diff) < 0.01) {
             return 0; // equals
         }
 

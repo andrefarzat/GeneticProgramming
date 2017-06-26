@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Population {
+    protected int generationNumber = 0;
     protected ArrayList<Individual> individuals = new ArrayList<>();
 
+    public void setGenerationNumber(int generationNumber) { this.generationNumber = generationNumber; }
     public void add(Individual individual) {
         this.individuals.add(individual);
     }
@@ -30,6 +32,4 @@ public class Population {
             throw e;
         }
     }
-
-
 }

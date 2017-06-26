@@ -54,4 +54,8 @@ public class Individual implements Comparable<Individual> {
 
         return result;
     }
+
+    public String toString() {
+        return this.tree.toString();
+    }
 }

@@ -26,4 +26,12 @@ public class IndividualTest {
         Assert.assertEquals(individual.tree.toString(), cloned.tree.toString());
         Assert.assertNotEquals(individual.id, cloned.id);
     }
+
+    @Test
+    public void testToString() {
+        Individual individual = new Individual();
+        individual.tree       = Function.create(0);
+
+        Assert.assertEquals(individual.toString(), individual.tree.toString());
+    }
 }

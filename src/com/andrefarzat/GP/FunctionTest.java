@@ -54,13 +54,13 @@ public class FunctionTest {
     @Test
     public void testGetFunctions() {
         Function func = Function.create(0);
-        Assert.assertEquals(func.getFunctions().size(), 0);
+        Assert.assertEquals(func.getFunctions().size(), 1);
 
         func = Function.create(1);
-        Assert.assertEquals(func.getFunctions().size(), 2);
+        Assert.assertEquals(func.getFunctions().size(), 3);
 
         func = Function.create(2);
-        Assert.assertEquals(func.getFunctions().size(), 6);
+        Assert.assertEquals(func.getFunctions().size(), 7);
     }
 
     @Test

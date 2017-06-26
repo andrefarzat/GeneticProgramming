@@ -44,14 +44,13 @@ public class Function implements Node {
 
     public List<Function> getFunctions() {
         LinkedList<Function> funcs = new LinkedList<>();
+        funcs.add(this);
 
         if (this.left instanceof Function) {
-            funcs.add((Function)this.left);
             funcs.addAll(((Function) this.left).getFunctions());
         }
 
         if (this.right instanceof Function) {
-            funcs.add((Function) this.right);
             funcs.addAll(((Function) this.right).getFunctions());
         }
 
