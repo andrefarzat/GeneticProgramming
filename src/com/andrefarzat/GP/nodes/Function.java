@@ -1,5 +1,7 @@
-package com.andrefarzat.GP;
+package com.andrefarzat.GP.nodes;
 
+
+import com.andrefarzat.GP.Utils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -118,5 +120,31 @@ public class Function implements Node {
         }
 
         return left / right;
+    }
+
+    public Function getFunctionParentOf(Node node) {
+        List<Function> funcs = this.getFunctions();
+        funcs.add(0, this);
+
+        for(Function func : funcs) {
+            if (func.left == node || func.right == node) {
+                return func;
+            }
+        }
+
+        return null;
+    }
+
+    public Node shrink() {
+        this.left = this.left.shrink();
+        this.right = this.right.shrink();
+
+        if (this.left instanceof Literal && this.right instanceof Literal) {
+            Literal literal = new Literal();
+            literal.value = this.getValue(0);
+            return literal;
+        }
+
+        return this;
     }
 }

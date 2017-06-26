@@ -1,6 +1,8 @@
-package com.andrefarzat.GP;
+package com.andrefarzat.GP.nodes;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+
+import com.andrefarzat.GP.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 

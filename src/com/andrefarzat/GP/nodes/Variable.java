@@ -1,4 +1,4 @@
-package com.andrefarzat.GP;
+package com.andrefarzat.GP.nodes;
 
 
 public class Variable implements Node {
@@ -20,4 +20,5 @@ public class Variable implements Node {
     public static Variable create() {
         return new Variable();
     }
+    public Variable shrink() { return this; }
 }

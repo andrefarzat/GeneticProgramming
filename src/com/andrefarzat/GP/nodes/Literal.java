@@ -1,8 +1,10 @@
-package com.andrefarzat.GP;
+package com.andrefarzat.GP.nodes;
 
+
+import com.andrefarzat.GP.Utils;
 
 public class Literal implements Node {
-    protected double value;
+    public double value;
 
     public void mutate() {
         this.value = this.generateRandomValue();
@@ -36,4 +38,5 @@ public class Literal implements Node {
     public String toString() {
         return String.format( "%.2f", this.value);
     }
+    public Literal shrink() { return this; }
 }

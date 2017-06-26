@@ -2,7 +2,7 @@ package com.andrefarzat.GP.operators;
 
 
 import com.andrefarzat.GP.Individual;
-import com.andrefarzat.GP.Node;
+import com.andrefarzat.GP.nodes.Node;
 import com.andrefarzat.GP.Utils;
 
 public class PointMutation implements MutationOperator {

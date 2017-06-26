@@ -1,4 +1,4 @@
-package com.andrefarzat.GP;
+package com.andrefarzat.GP.nodes;
 
 
 public interface Node {
@@ -6,4 +6,5 @@ public interface Node {
     void mutate();
     String toString();
     double getValue(double value);
+    Node shrink();
 }

@@ -1,5 +1,9 @@
 package com.andrefarzat.GP;
 
+import com.andrefarzat.GP.nodes.Function;
+import com.andrefarzat.GP.nodes.Node;
+import com.andrefarzat.GP.nodes.Variable;
+
 import java.util.UUID;
 
 
@@ -57,5 +61,10 @@ public class Individual implements Comparable<Individual> {
 
     public String toString() {
         return this.tree.toString();
+    }
+
+    public void shrink() {
+        this.tree.left  = this.tree.left.shrink();
+        this.tree.right = this.tree.right.shrink();
     }
 }

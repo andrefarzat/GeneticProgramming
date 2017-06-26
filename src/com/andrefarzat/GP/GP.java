@@ -1,6 +1,8 @@
 package com.andrefarzat.GP;
 
 
+import com.andrefarzat.GP.nodes.Function;
+import com.andrefarzat.GP.nodes.Variable;
 import com.andrefarzat.GP.operators.*;
 
 import java.util.List;
@@ -126,6 +128,13 @@ public class GP {
                 for(double[] param : this.getParams()) {
                     this.log("F(%s): %s = %.2f", param[0], individual.toString(), param[1]);
                 }
+
+                this.log("The shrunk version:");
+                individual.shrink();
+                for(double[] param : this.getParams()) {
+                    this.log("F(%s): %s = %.2f", param[0], individual.toString(), param[1]);
+                }
+
                 this.log("Solution found in %s generations of %s individuals! o/", this.generationNumber, this.populationSize);
                 return true;
             }

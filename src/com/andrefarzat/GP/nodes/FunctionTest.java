@@ -1,6 +1,7 @@
-package com.andrefarzat.GP;
+package com.andrefarzat.GP.nodes;
 
 import static org.hamcrest.CoreMatchers.*;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -70,5 +71,59 @@ public class FunctionTest {
         Assert.assertEquals(func.type, '|');
         func.mutate();
         Assert.assertNotNull(func.type);
+    }
+
+    @Test
+    public void testGetFunctionParentOf() {
+        Function func = new Function();
+
+        func.left = new Function();
+        ((Function)func.left).left = Literal.create();
+
+        Node parent = func.getFunctionParentOf(((Function)func.left).left);
+        Assert.assertSame(parent, func.left);
+    }
+
+    @Test
+    public void testShrink() {
+        Function func = new Function();
+        func.type = '+';
+        func.left = new Literal();
+        ((Literal) func.left).value = 1;
+        func.right = new Literal();
+        ((Literal) func.right).value = 2;
+
+        Assert.assertEquals(func.toString(), "(1.00 + 2.00)");
+        Node node = func.shrink();
+        Assert.assertEquals(node.toString(), "3.00");
+
+        // Case 2
+        func = new Function();
+        func.type = '-';
+        func.left = new Variable();
+        func.right = new Literal();
+        ((Literal) func.right).value = 2;
+
+        Assert.assertEquals(func.toString(), "(x - 2.00)");
+        node = func.shrink();
+        Assert.assertEquals(node.toString(), "(x - 2.00)");
+
+        // Case 3
+        func = new Function();
+        func.type = '*';
+
+        func.left = new Function();
+        ((Function) func.left).type = '+';
+        ((Function) func.left).left = new Literal();
+        ((Literal) ((Function) func.left).left).value = 1;
+        ((Function) func.left).right = new Variable();
+        Assert.assertEquals(func.left.toString(), "(1.00 + x)");
+
+        func.right = new Literal();
+        ((Literal) func.right).value = 3;
+        Assert.assertEquals(func.toString(), "((1.00 + x) * 3.00)");
+
+        node = func.shrink();
+        Assert.assertEquals(node.toString(), "((1.00 + x) * 3.00)");
     }
 }

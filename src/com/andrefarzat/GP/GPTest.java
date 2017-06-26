@@ -1,5 +1,8 @@
 package com.andrefarzat.GP;
 
+import com.andrefarzat.GP.nodes.Function;
+import com.andrefarzat.GP.nodes.Literal;
+import com.andrefarzat.GP.nodes.Variable;
 import org.junit.Assert;
 import org.junit.Test;
 
