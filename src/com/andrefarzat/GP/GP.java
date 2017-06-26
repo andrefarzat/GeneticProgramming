@@ -1,8 +1,7 @@
 package com.andrefarzat.GP;
 
 
-import com.andrefarzat.GP.operators.CrossoverOperator;
-import com.andrefarzat.GP.operators.SubtreeCrossover;
+import com.andrefarzat.GP.operators.*;
 
 import java.util.List;
 import java.util.Random;
@@ -92,8 +91,13 @@ public class GP {
     public void doCrossover(Individual father) {
         Individual mother = this.population.getAtRandom(this.populationSize);
         CrossoverOperator operator = new SubtreeCrossover();
-
         Individual neo = operator.cross(father, mother);
+        this.population.add(neo);
+    }
+
+    public void doMutation(Individual father) {
+        MutationOperator operator = new PointMutation();
+        Individual neo = operator.mutate(father);
         this.population.add(neo);
     }
 

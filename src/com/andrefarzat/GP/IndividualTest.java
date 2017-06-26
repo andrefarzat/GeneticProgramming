@@ -19,6 +19,7 @@ public class IndividualTest {
     @Test
     public void testClone() {
         Individual individual = new Individual();
+        individual.tree       = Function.create(0);
         Individual cloned     = individual.clone();
 
         Assert.assertTrue(Utils.compareDouble(individual.fitness, cloned.fitness) == 0);

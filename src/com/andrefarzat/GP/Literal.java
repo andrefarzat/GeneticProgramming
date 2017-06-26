@@ -32,4 +32,8 @@ public class Literal implements Node {
         literal.mutate();
         return literal;
     }
+
+    public String toString() {
+        return String.format( "%.2f", this.value);
+    }
 }

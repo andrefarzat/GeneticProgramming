@@ -30,4 +30,12 @@ public class LiteralTest {
         double value2 = literal.generateRandomValue();
         Assert.assertTrue(Utils.compareDouble(value1, value2) != 0);
     }
+
+    @Test
+    public void testToString() {
+        Literal literal = new Literal();
+        literal.value = 11.1d;
+
+        Assert.assertEquals(literal.toString(), "11.10");
+    }
 }
