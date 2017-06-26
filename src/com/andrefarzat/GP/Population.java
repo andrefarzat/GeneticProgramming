@@ -10,6 +10,17 @@ public class Population {
     public void add(Individual individual) {
         this.individuals.add(individual);
     }
+    public int size() { return this.individuals.size(); }
+    public Individual get(int index) { return this.individuals.get(index); }
+
+    public Individual getAtRandom() {
+        return this.getAtRandom(this.individuals.size());
+    }
+
+    public Individual getAtRandom(int size) {
+        int index = Utils.random.nextInt(size);
+        return this.get(index);
+    }
 
     public void sortByFitness() {
         try {
@@ -20,5 +31,5 @@ public class Population {
         }
     }
 
-    public int size() { return this.individuals.size(); }
+
 }

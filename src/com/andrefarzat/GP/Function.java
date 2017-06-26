@@ -8,8 +8,8 @@ public class Function implements Node {
     protected static final char[] operators = { '+', '-', '*', '/' };
     public char type = '|';
 
-    protected Node left;
-    protected Node right;
+    public Node left;
+    public Node right;
 
     public static Function create(int depth) {
         Function func = new Function();

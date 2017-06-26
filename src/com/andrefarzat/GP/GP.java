@@ -1,6 +1,9 @@
 package com.andrefarzat.GP;
 
 
+import com.andrefarzat.GP.operators.CrossoverOperator;
+import com.andrefarzat.GP.operators.SubtreeCrossover;
+
 import java.util.List;
 import java.util.Random;
 
@@ -9,6 +12,8 @@ public class GP {
     protected Population population;
     protected final int maxDepth = 2;
     protected final int populationSize = 1000;
+    protected final int crossoverProbability = 80;
+    protected final int mutationProbability = 10;
     protected final Random random = new Random();
 
     public double[][] getParams() {
@@ -84,6 +89,14 @@ public class GP {
         }
     }
 
+    public void doCrossover(Individual father) {
+        Individual mother = this.population.getAtRandom(this.populationSize);
+        CrossoverOperator operator = new SubtreeCrossover();
+
+        Individual neo = operator.cross(father, mother);
+        this.population.add(neo);
+    }
+
     public boolean shouldStop(Population population) {
         this.log( "Attempt %s", this.generationNumber);
 
@@ -125,25 +138,34 @@ public class GP {
 
         do {
             // 2. Evaluate population
-            for(Individual individual : population.individuals) {
+            for(Individual individual : this.population.individuals) {
                 this.evaluate(individual, this.getParams());
             }
 
             // 3. Select
-            this.doSelection(population);
+            this.doSelection(this.population);
 
             // 4. Should stop ?
-            if (this.shouldStop(population)) {
+            if (this.shouldStop(this.population)) {
                 break;
             }
 
-            // 5. Cross
-//            this.doCrossover(population);
+            // 5. Cross and Mutation
+            for (int i = 0; i < this.populationSize; i ++) {
+                Individual individual = this.population.get(i);
 
-            // 6. Mutate
-//            this.doMutation(population);
+                int chance = this.random.nextInt(100);
+                if (chance < this.crossoverProbability) {
+                    this.doCrossover(individual);
+                }
 
-            // 7. We loop
+                chance = this.random.nextInt(100);
+                if (chance < this.mutationProbability) {
+                    this.doMutation(individual);
+                }
+            }
+
+            // 6. We loop
         } while (true);
     }
 }

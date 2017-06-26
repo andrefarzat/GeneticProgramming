@@ -1,13 +1,17 @@
 package com.andrefarzat.GP;
 
+import java.util.UUID;
+
 
 public class Individual implements Comparable<Individual> {
+    protected UUID id = UUID.randomUUID();
     protected Function tree;
     protected double fitness;
 
     public double getValue(double value) {
         return this.tree.getValue(value);
     }
+    public Function getTree() { return this.tree; }
 
     public boolean isValid() {
         if (this.tree == null) {
@@ -23,6 +27,15 @@ public class Individual implements Comparable<Individual> {
         }
 
         return howManyVariables == 1;
+    }
+
+    public Individual clone() {
+        Individual individual = new Individual();
+        individual.id         = UUID.randomUUID();
+        individual.tree       = this.tree.clone();
+        individual.fitness    = this.fitness;
+
+        return individual;
     }
 
     @Override
