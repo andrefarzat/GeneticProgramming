@@ -142,7 +142,14 @@ public class Function implements Node {
 
         if (this.left instanceof Literal && this.right instanceof Literal) {
             Literal literal = new Literal();
-            literal.value = this.getValue(0);
+
+            boolean areEqual = Utils.compareDouble(((Literal) this.left).value, ((Literal) this.right).value) == 0;
+            if (this.type == '/' && areEqual) {
+                literal.value = 1;
+            } else {
+                literal.value = this.getValue(0);
+            }
+
             return literal;
         }
 
