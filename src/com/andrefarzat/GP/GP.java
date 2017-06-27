@@ -110,7 +110,6 @@ public class GP {
 
         for(Individual individual : population.individuals) {
 
-            boolean isValid = true;
             for(double[] param : this.getParams()) {
                 double value = individual.getValue(param[0]);
 
@@ -119,27 +118,25 @@ public class GP {
                     this.log("[Fitness: %.2f]F(%s): %s = %.2f", individual.fitness, param[0], txt, value);
                 }
 
-                if (Utils.compareDouble(value, param[1]) != 0) {
-                    isValid = false;
-                }
-            }
-
-            if(isValid) {
-                for(double[] param : this.getParams()) {
-                    this.log("F(%s): %s = %.2f", param[0], individual.toString(), param[1]);
-                }
-
-                this.log("The shrunk version:");
-                individual.shrink();
-                for(double[] param : this.getParams()) {
-                    this.log("F(%s): %s = %.2f", param[0], individual.toString(), param[1]);
-                }
-
-                this.log("Solution found in %s generations of %s individuals! o/", this.generationNumber, this.populationSize);
-                return true;
             }
 
             isFirst = false;
+        }
+
+        if (this.generationNumber >= 1000) {
+            Individual bestIndividual = population.individuals.get(0);
+            this.log("Best solution found is:");
+            for(double[] param : this.getParams()) {
+                this.log("F(%s): %s = %.2f", param[0], bestIndividual.toString(), param[1]);
+            }
+
+            this.log("The shrunk version:");
+            bestIndividual.shrink();
+            for(double[] param : this.getParams()) {
+                this.log("F(%s): %s = %.2f", param[0], bestIndividual.toString(), param[1]);
+            }
+
+            return true;
         }
 
         return false;
