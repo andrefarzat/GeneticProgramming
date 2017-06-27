@@ -21,8 +21,8 @@ public class GP {
         //return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
         //return new double[][] { {12d, 32d}, {14d, 34d}, {120d, 140d} }; // Ease Example
         //return new double[][] { {100.0d, 200.0d}, {350.0d, 450.0d} }; // Not Ease Example
-        //return new double[][] { {1.0d, 33.8d}, {10.0d, 50.0d} }; // celsius to Fahrenheit
-        return new double[][] { {20.0d, 293.15d}, {40.0d, 313.15d} }; // celsius to Kelvin
+        return new double[][] { {1.0d, 33.8d}, {10.0d, 50.0d} }; // celsius to Fahrenheit
+        //return new double[][] { {20.0d, 293.15d}, {40.0d, 313.15d} }; // celsius to Kelvin
     }
 
     protected void log(String msg) {
@@ -116,7 +116,7 @@ public class GP {
 
                 if (isFirst) {
                     String txt = individual.toString();
-                    this.log("[Measure: %.2f]F(%s): %s = %.2f", individual.fitness, param[0], txt, value);
+                    this.log("[Fitness: %.2f]F(%s): %s = %.2f", individual.fitness, param[0], txt, value);
                 }
 
                 if (Utils.compareDouble(value, param[1]) != 0) {
