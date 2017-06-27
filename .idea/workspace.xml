@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="573d02f4-e013-420e-be67-15a35e522281" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java" afterPath="$PROJECT_DIR$/src/com/andrefarzat/GP/GP.java" />
-    </list>
+    <list default="true" id="573d02f4-e013-420e-be67-15a35e522281" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -907,7 +905,7 @@
       <workItem from="1497403774665" duration="1038000" />
       <workItem from="1497449178732" duration="15165000" />
       <workItem from="1498251800995" duration="35092000" />
-      <workItem from="1498496561555" duration="10284000" />
+      <workItem from="1498496561555" duration="10343000" />
     </task>
     <servers />
   </component>
@@ -944,7 +942,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69961000" />
+    <option name="totallyTimeSpent" value="70020000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="66" y="50" width="1566" height="885" extended-state="0" />
