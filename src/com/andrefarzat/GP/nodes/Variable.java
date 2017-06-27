@@ -1,9 +1,7 @@
 package com.andrefarzat.GP.nodes;
 
-import com.andrefarzat.mendel.nodes.Terminal;
 
-
-public class Variable extends Terminal {
+public class Variable implements Node {
 
     public void mutate() {
         // pass. I don't mutate #shrug
@@ -18,4 +16,9 @@ public class Variable extends Terminal {
     public String toString() {
         return "x";
     }
+
+    public static Variable create() {
+        return new Variable();
+    }
+    public Variable shrink() { return this; }
 }

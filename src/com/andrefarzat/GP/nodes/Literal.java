@@ -1,18 +1,24 @@
 package com.andrefarzat.GP.nodes;
 
-import com.andrefarzat.mendel.Utils;
-import com.andrefarzat.mendel.nodes.Terminal;
 
+import com.andrefarzat.GP.Utils;
 
-public class Literal extends Terminal {
+public class Literal implements Node {
+    public double value;
 
     public void mutate() {
-        this.setValue(this.generateRandomValue());
+        this.value = this.generateRandomValue();
     }
 
+    @Override
+    public double getValue(double value) {
+        return Utils.fixDouble(this.value);
+    }
+
+    @Override
     public Literal clone() {
         Literal literal = new Literal();
-        literal.setValue(this.getValue());
+        literal.value = this.value;
         return literal;
     }
 
@@ -20,6 +26,17 @@ public class Literal extends Terminal {
         int first = Utils.random.nextInt(10);
         int second = Utils.random.nextInt(10) + 1;
 
-        return Double.parseDouble(first + "." + second);
+        return Utils.fixDouble(first + "." + second);
     }
+
+    public static Literal create() {
+        Literal literal = new Literal();
+        literal.mutate();
+        return literal;
+    }
+
+    public String toString() {
+        return String.format( "%.2f", this.value);
+    }
+    public Literal shrink() { return this; }
 }

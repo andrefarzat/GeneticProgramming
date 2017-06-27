@@ -1,19 +1,20 @@
 package com.andrefarzat.GP.operators;
 
+import com.andrefarzat.GP.Individual;
+import com.andrefarzat.GP.nodes.Function;
 import com.andrefarzat.GP.nodes.Literal;
-import com.andrefarzat.mendel.Individual;
-import com.andrefarzat.mendel.Mendel;
-import com.andrefarzat.mendel.nodes.Function;
-import com.andrefarzat.mendel.operators.MutationOperator;
 
-
+/**
+ * Created by andrefarzat on 2017-06-26.
+ */
 public class ShrinkMutation implements MutationOperator {
-    public Individual mutate(Mendel mendel, Individual individual) {
-        Individual neo = individual.clone();
-        Function root  = neo.getTree();
+    @Override
+    public Individual mutate(Individual father) {
+        Individual neo = father.clone();
+        Function root = neo.getTree();
 
         if (root.getDepth() < 2) {
-            // Too small. We do nothing here
+            // Too Small. We do nothing here
             return neo;
         }
 
@@ -35,11 +36,11 @@ public class ShrinkMutation implements MutationOperator {
             }
 
             // We get the computed value
-            double value = ((Literal) func.left).getValue() + ((Literal) func.right).getValue();
+            double value = ((Literal) func.left).value + ((Literal) func.right).value;
 
             // We create the new Literal
             Literal literal = new Literal();
-            literal.setValue(value);
+            literal.value = value;
 
             // We set it
             if (parent.left  == func) parent.left  = literal;
