@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Function implements Node {
-    protected static final char[] operators = { '+', '-', '*', '/' };
+    protected static final char[] operators = { '+', '-', '*', '/', '^' };
     public char type = '|';
 
     public Node left;
@@ -112,6 +112,7 @@ public class Function implements Node {
             case '+': return left + right;
             case '-': return left - right;
             case '*': return left * right;
+            case '^': return Math.pow(left, right);
         }
 
         // Division is the exception. We can't have zero at the right side
