@@ -6,7 +6,6 @@ import com.andrefarzat.GP.Individual;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 import org.neo4j.driver.v1.*;
 import static org.neo4j.driver.v1.Values.parameters;
