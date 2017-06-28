@@ -1,14 +1,18 @@
 package com.andrefarzat.GP;
 
-
+import com.andrefarzat.GP.logging.EmptyLogger;
+import com.andrefarzat.GP.logging.Logger;
 import com.andrefarzat.GP.nodes.Function;
 import com.andrefarzat.GP.nodes.Variable;
 import com.andrefarzat.GP.operators.*;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
+
 
 public class GP {
+    protected UUID id = UUID.randomUUID();
     protected int generationNumber = 0;
     protected Population population;
     protected final int maxDepth = 2;
@@ -17,12 +21,16 @@ public class GP {
     protected final int mutationProbability = 10;
     protected final Random random = new Random();
 
+    private CrossoverOperator crossoverOperator = new SubtreeCrossover();
+    private MutationOperator mutationOperator   = new PointMutation();
+    private Logger logger = new EmptyLogger();
+
     public double[][] getParams() {
-        return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
+        //return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
         //return new double[][] { {12d, 32d}, {14d, 34d}, {120d, 140d} }; // Ease Example
         //return new double[][] { {100.0d, 200.0d}, {350.0d, 450.0d} }; // Not Ease Example
         //return new double[][] { {1.0d, 33.8d}, {10.0d, 50.0d} }; // celsius to Fahrenheit
-        //return new double[][] { {20.0d, 293.15d}, {40.0d, 313.15d} }; // celsius to Kelvin
+        return new double[][] { {20.0d, 293.15d}, {40.0d, 313.15d} }; // celsius to Kelvin
     }
 
     protected void log(String msg) {
@@ -88,19 +96,21 @@ public class GP {
             population.individuals.remove(size - 1);
             size -= 1;
         }
+
+        this.logger.logPopulation(this);
     }
 
     public void doCrossover(Individual father) {
         Individual mother = this.population.getAtRandom(this.populationSize);
-        CrossoverOperator operator = new SubtreeCrossover();
-        Individual neo = operator.cross(father, mother);
+        Individual neo = this.crossoverOperator.cross(father, mother);
         this.population.add(neo);
+        this.logger.logCrossover(this, father, mother, neo);
     }
 
     public void doMutation(Individual father) {
-        MutationOperator operator = new PointMutation();
-        Individual neo = operator.mutate(father);
+        Individual neo = this.mutationOperator.mutate(father);
         this.population.add(neo);
+        this.logger.logMutation(this, father, neo);
     }
 
     public boolean shouldStop(Population population) {
