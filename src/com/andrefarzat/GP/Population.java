@@ -3,6 +3,7 @@ package com.andrefarzat.GP;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Population {
     protected int generationNumber = 0;
@@ -18,6 +19,7 @@ public class Population {
     public Individual getAtRandom() {
         return this.getAtRandom(this.individuals.size());
     }
+    public List<Individual> getAll() { return this.individuals; }
 
     public Individual getAtRandom(int size) {
         int index = Utils.random.nextInt(size);

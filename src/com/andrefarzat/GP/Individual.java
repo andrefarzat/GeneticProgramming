@@ -9,13 +9,19 @@ import java.util.UUID;
 
 public class Individual implements Comparable<Individual> {
     protected UUID id = UUID.randomUUID();
+    protected int indId = Utils.nextIndividualId();
     protected Function tree;
     protected double fitness;
 
+    public int createdInGeneration;
+
+    public String getId() { return this.id.toString(); }
+    public int getIndId() { return this.indId; }
     public double getValue(double value) {
         return this.tree.getValue(value);
     }
     public Function getTree() { return this.tree; }
+    public double getFitness() { return Utils.fixDouble(this.fitness); }
 
     public boolean isValid() {
         if (this.tree == null) {
@@ -36,6 +42,7 @@ public class Individual implements Comparable<Individual> {
     public Individual clone() {
         Individual individual = new Individual();
         individual.id         = UUID.randomUUID();
+        individual.indId      = Utils.nextIndividualId();
         individual.tree       = this.tree.clone();
         individual.fitness    = this.fitness;
 
