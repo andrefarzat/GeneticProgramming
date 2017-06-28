@@ -6,7 +6,6 @@ import com.andrefarzat.GP.operators.*;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 
 public class GP {
@@ -15,14 +14,14 @@ public class GP {
     protected int generationNumber = 0;
     protected Population population;
     protected final int maxDepth = 2;
-    protected final int populationSize = 8;
+    protected final int populationSize = 1000;
     protected final int crossoverProbability = 80;
     protected final int mutationProbability = 10;
     protected final Random random = new Random();
 
     public CrossoverOperator crossoverOperator = new SubtreeCrossover();
     public MutationOperator mutationOperator   = new PointMutation();
-    public Logger logger = new Neo4jLogger();
+    public Logger logger = new MongoLogger();
 
     public double[][] getParams() {
         return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
