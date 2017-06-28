@@ -1,9 +1,7 @@
 package com.andrefarzat.GP;
 
-import com.andrefarzat.GP.logging.EmptyLogger;
-import com.andrefarzat.GP.logging.Logger;
-import com.andrefarzat.GP.nodes.Function;
-import com.andrefarzat.GP.nodes.Variable;
+import com.andrefarzat.GP.logging.*;
+import com.andrefarzat.GP.nodes.*;
 import com.andrefarzat.GP.operators.*;
 
 import java.util.List;
@@ -12,37 +10,42 @@ import java.util.UUID;
 
 
 public class GP {
-    protected UUID id = UUID.randomUUID();
+    public int crossoverCount;
+    public int mutationCounter;
     protected int generationNumber = 0;
     protected Population population;
     protected final int maxDepth = 2;
-    protected final int populationSize = 1000;
+    protected final int populationSize = 8;
     protected final int crossoverProbability = 80;
     protected final int mutationProbability = 10;
     protected final Random random = new Random();
 
-    private CrossoverOperator crossoverOperator = new SubtreeCrossover();
-    private MutationOperator mutationOperator   = new PointMutation();
-    private Logger logger = new EmptyLogger();
+    public CrossoverOperator crossoverOperator = new SubtreeCrossover();
+    public MutationOperator mutationOperator   = new PointMutation();
+    public Logger logger = new Neo4jLogger();
 
     public double[][] getParams() {
-        //return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
+        return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
         //return new double[][] { {12d, 32d}, {14d, 34d}, {120d, 140d} }; // Ease Example
         //return new double[][] { {100.0d, 200.0d}, {350.0d, 450.0d} }; // Not Ease Example
         //return new double[][] { {1.0d, 33.8d}, {10.0d, 50.0d} }; // celsius to Fahrenheit
-        return new double[][] { {20.0d, 293.15d}, {40.0d, 313.15d} }; // celsius to Kelvin
+        //return new double[][] { {20.0d, 293.15d}, {40.0d, 313.15d} }; // celsius to Kelvin
     }
 
-    protected void log(String msg) {
+    public Population getPopulation() { return this.population; }
+    public int getGenerationNumber() { return generationNumber; }
+
+    public void log(String msg) {
         System.out.println(msg);
     }
 
-    protected void log(String msg, Object ...params) {
+    public void log(String msg, Object ...params) {
         this.log(String.format(msg, params));
     }
 
     protected Individual generateIndividual() {
         Individual individual = new Individual();
+        individual.createdInGeneration = this.generationNumber;
         individual.tree = Function.create(this.random.nextInt(this.maxDepth));
 
         List<Function> funcs = individual.tree.getFunctions();
@@ -96,19 +99,19 @@ public class GP {
             population.individuals.remove(size - 1);
             size -= 1;
         }
-
-        this.logger.logPopulation(this);
     }
 
     public void doCrossover(Individual father) {
         Individual mother = this.population.getAtRandom(this.populationSize);
         Individual neo = this.crossoverOperator.cross(father, mother);
+        neo.createdInGeneration = this.generationNumber;
         this.population.add(neo);
         this.logger.logCrossover(this, father, mother, neo);
     }
 
     public void doMutation(Individual father) {
         Individual neo = this.mutationOperator.mutate(father);
+        neo.createdInGeneration = this.generationNumber;
         this.population.add(neo);
         this.logger.logMutation(this, father, neo);
     }
@@ -156,11 +159,16 @@ public class GP {
     }
 
     public void run() {
+        this.logger.logStart(this);
+
         // 1. Generate initial population
         this.population = this.generateInitialPopulation();
 
         do {
+            this.crossoverCount = 0;
+            this.mutationCounter = 0;
             this.population.setGenerationNumber(++this.generationNumber);
+
             // 2. Evaluate population
             for(Individual individual : this.population.individuals) {
                 this.evaluate(individual, this.getParams());
@@ -168,6 +176,7 @@ public class GP {
 
             // 3. Select
             this.doSelection(this.population);
+            this.logger.logPopulation(this);
 
             // 4. Should stop ?
             if (this.shouldStop(this.population)) {
@@ -191,5 +200,7 @@ public class GP {
 
             // 6. We loop
         } while (true);
+
+        this.logger.logEnd(this);
     }
 }

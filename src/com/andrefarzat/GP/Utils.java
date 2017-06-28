@@ -3,9 +3,11 @@ package com.andrefarzat.GP;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 
 public class Utils {
+    private static int currentIndividualId = 0;
     public static Random random = new Random();
 
     public static <T> T getFromListRandomly(List<T> list) {
@@ -35,5 +37,9 @@ public class Utils {
 
     public static double fixDouble(double value) {
         return Utils.fixDouble(String.format("%.2f", value));
+    }
+
+    public static int nextIndividualId() {
+        return ++ Utils.currentIndividualId;
     }
 }
