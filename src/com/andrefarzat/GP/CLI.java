@@ -8,14 +8,11 @@ public class CLI {
 
     public static void main(String[] args) {
         System.out.println("Starting GP!");
-        int index = 0;
 
         double[][] params = new double[][] {
-//            {0.0d, 32.0d},
-            {1.0d, 33.8d},
-            {10.0d, 50.0d},
-//            {-5.0d, 23.0d},
-//            {100.0d, 212.0d},
+            {20.0d, 40.0d},
+            {150.0d, 170.0d},
+            {-10.0d, 10.0d},
         };
 
         for(int i = 0; i < CLI.TIMES; i++) {

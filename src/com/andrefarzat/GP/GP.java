@@ -28,13 +28,14 @@ public class GP {
         this.name = name;
         this.index = index;
         this.params = params;
+        Utils.currentIndividualId = 0;
     }
 
     public CrossoverOperator crossoverOperator = new SubtreeCrossover();
     public MutationOperator mutationOperator   = new PointMutation();
     public Logger logger = new CSVLogger();
 
-    public String getId() { return this.name + "_" + this.index; }
+    public String getId() { return this.name + "_" + (this.index < 10 ? "0" : "") + this.index; }
     public double[][] getParams() { return this.params; }
     public Population getPopulation() { return this.population; }
     public int getGenerationNumber() { return generationNumber; }

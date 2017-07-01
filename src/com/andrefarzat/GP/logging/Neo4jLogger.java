@@ -14,7 +14,7 @@ import static org.neo4j.driver.v1.Values.parameters;
 public class Neo4jLogger implements Logger {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss.SSS");
 
     private Driver driver;
     private Session session;
@@ -68,7 +68,7 @@ public class Neo4jLogger implements Logger {
         if (gp.getGenerationNumber() == 1) {
             String query = "MATCH (e:Execution {id: {executionId}}) "
                 + "CREATE (neo:Individual {id: {id}, ind: {ind}, fitness: {fitness}, createdIn: {generation}})"
-                + "CREATE (neo)-[:GENERATED_IN]->(e) ";
+                + "CREATE (neo)-[:BELONGS_TO]->(e) ";
 
             for(Individual individual : gp.getPopulation().getAll()) {
                 Object[] params = new Object[] {

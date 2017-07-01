@@ -21,7 +21,7 @@ import static com.mongodb.client.model.Updates.set;
 public class MongoLogger implements Logger {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss.SSS");
 
     private MongoClient client;
     private MongoDatabase db;

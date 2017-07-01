@@ -7,7 +7,7 @@ import java.util.UUID;
 
 
 public class Utils {
-    private static int currentIndividualId = 0;
+    public static int currentIndividualId = 0;
     public static Random random = new Random();
 
     public static <T> T getFromListRandomly(List<T> list) {
