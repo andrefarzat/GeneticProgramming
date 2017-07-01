@@ -10,13 +10,20 @@ public class CLI {
         System.out.println("Starting GP!");
         int index = 0;
 
-        for(double[][] params : CLI.getParams()) {
-            for(int i = 0; i < CLI.TIMES; i++) {
-                GP gp = new GP("test", ++index, params);
-                System.out.println(String.format("Running %s. Round: %s", gp.getId(), i));
-                gp.run();
-            }
+        double[][] params = new double[][] {
+//            {0.0d, 32.0d},
+            {1.0d, 33.8d},
+            {10.0d, 50.0d},
+//            {-5.0d, 23.0d},
+//            {100.0d, 212.0d},
+        };
+
+        for(int i = 0; i < CLI.TIMES; i++) {
+            GP gp = new GP("test", i, params);
+            System.out.println(String.format("Running %s. Round: %s", gp.getId(), i));
+            gp.run();
         }
+
         System.out.println("Done!");
     }
 

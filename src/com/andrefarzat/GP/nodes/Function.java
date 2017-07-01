@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Function implements Node {
-    protected static final char[] operators = { '+', '-', '*', '/', '^' };
+    protected static final char[] operators = { '+', '-', '*', '/' };
     public char type = '|';
 
     public Node left;

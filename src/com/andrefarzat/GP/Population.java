@@ -30,7 +30,12 @@ public class Population {
         try {
             Collections.sort(this.individuals);
         } catch(IllegalArgumentException e) {
-            // http://memes.andrefarzat.com/ta-de-boa
+
+            for(Individual ind : this.individuals) {
+                System.out.println(String.format("%s", ind.getFitness()));
+            }
+
+            System.out.println("Deu aquele erro");
             throw e;
         }
     }

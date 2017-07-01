@@ -44,7 +44,7 @@ public class GP {
     }
 
     public void log(String msg, Object ...params) {
-        //this.log(String.format(msg, params));
+        this.log(String.format(msg, params));
     }
 
     protected Individual generateIndividual() {
@@ -80,14 +80,8 @@ public class GP {
 
         for(double[] param : params) {
             double value = individual.getValue(param[0]);
-
-            if (Utils.compareDouble(value, 0d) == -1) {
-                // Negative? We punish it with a high measure
-                fitness = 1000d;
-            } else {
-                double result = value - param[1];
-                fitness += Math.abs(result);
-            }
+            double result = value - param[1];
+            fitness += Math.abs(result);
         }
 
         individual.fitness = fitness;

@@ -11,7 +11,8 @@ public class GPTest {
 
     @Test
     public void testGenerateIndividual() {
-        GP gp = new GP();
+        double[][] params = new double[][] { {13, 14}, {15, 16} };
+        GP gp = new GP("name", 1, params);
         Individual individual = gp.generateIndividual();
 
         Assert.assertNotNull(individual.tree);
@@ -20,9 +21,9 @@ public class GPTest {
 
     @Test
     public void testEvaluate() {
-        GP gp = new GP();
-        Individual individual = new Individual();
         double[][] params = new double[][] { {13, 14}, {15, 16} };
+        GP gp = new GP("name", 1, params);
+        Individual individual = new Individual();
 
         individual.tree = new Function();
         individual.tree.type = '+';
