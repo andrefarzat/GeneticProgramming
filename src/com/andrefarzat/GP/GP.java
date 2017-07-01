@@ -9,8 +9,13 @@ import java.util.Random;
 
 
 public class GP {
+    private String name;
+    private int index;
+    private double[][] params;
+
     public int crossoverCount;
     public int mutationCounter;
+
     protected int generationNumber = 0;
     protected Population population;
     protected final int maxDepth = 2;
@@ -19,18 +24,18 @@ public class GP {
     protected final int mutationProbability = 10;
     protected final Random random = new Random();
 
-    public CrossoverOperator crossoverOperator = new SubtreeCrossover();
-    public MutationOperator mutationOperator   = new PointMutation();
-    public Logger logger = new MongoLogger();
-
-    public double[][] getParams() {
-        return new double[][] { {12d, 13d}, {14d, 15d} }; // Simple Example
-        //return new double[][] { {12d, 32d}, {14d, 34d}, {120d, 140d} }; // Ease Example
-        //return new double[][] { {100.0d, 200.0d}, {350.0d, 450.0d} }; // Not Ease Example
-        //return new double[][] { {1.0d, 33.8d}, {10.0d, 50.0d} }; // celsius to Fahrenheit
-        //return new double[][] { {20.0d, 293.15d}, {40.0d, 313.15d} }; // celsius to Kelvin
+    public GP(String name, int index, double[][] params) {
+        this.name = name;
+        this.index = index;
+        this.params = params;
     }
 
+    public CrossoverOperator crossoverOperator = new SubtreeCrossover();
+    public MutationOperator mutationOperator   = new PointMutation();
+    public Logger logger = new CSVLogger();
+
+    public String getId() { return this.name + "_" + this.index; }
+    public double[][] getParams() { return this.params; }
     public Population getPopulation() { return this.population; }
     public int getGenerationNumber() { return generationNumber; }
 
@@ -39,7 +44,7 @@ public class GP {
     }
 
     public void log(String msg, Object ...params) {
-        this.log(String.format(msg, params));
+        //this.log(String.format(msg, params));
     }
 
     protected Individual generateIndividual() {

@@ -12,7 +12,6 @@ import static org.neo4j.driver.v1.Values.parameters;
 
 
 public class Neo4jLogger implements Logger {
-    private int id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -24,13 +23,6 @@ public class Neo4jLogger implements Logger {
     public Neo4jLogger() {
         this.driver = GraphDatabase.driver( "bolt://localhost:7687", AuthTokens.basic( "neo4j", "h4rdP4ss" ) );
         this.session = driver.session();
-
-        StatementResult result = this.session.run("MATCH (e:Execution) RETURN count(e) as count");
-        if (result.hasNext()) {
-            this.id = result.next().get("count").asInt();
-        } else {
-            this.id = 0;
-        }
     }
 
     private void execute(String query, Object ...params) {
@@ -43,7 +35,7 @@ public class Neo4jLogger implements Logger {
         String time = this.startTime.format(this.dateTimeFormat);
 
         String query = "CREATE (e:Execution {id: {id}, startTime: {startTime}})";
-        this.execute(query, "id", this.id, "startTime", time);
+        this.execute(query, "id", gp.getId(), "startTime", time);
 
         gp.log("Start time: " + time);
     }
@@ -62,7 +54,7 @@ public class Neo4jLogger implements Logger {
         query += "CREATE (e)-[:BEST_FOUND]->(best)";
 
         Object[] params = new Object[] {
-            "id", this.id,
+            "id", gp.getId(),
             "endTime", time,
             "duration", interval.getSeconds(),
             "bestId", gp.getPopulation().get(0).getId()
@@ -80,7 +72,7 @@ public class Neo4jLogger implements Logger {
 
             for(Individual individual : gp.getPopulation().getAll()) {
                 Object[] params = new Object[] {
-                    "executionId", this.id,
+                    "executionId", gp.getId(),
                     "id", individual.getId(),
                     "ind", individual.getIndId(),
                     "fitness", individual.getFitness(),

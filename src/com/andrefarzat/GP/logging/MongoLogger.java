@@ -4,7 +4,6 @@ import com.andrefarzat.GP.GP;
 import com.andrefarzat.GP.Individual;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
-import com.mongodb.client.ListDatabasesIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -20,7 +19,6 @@ import static com.mongodb.client.model.Updates.set;
 
 
 public class MongoLogger implements Logger {
-    private int id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -31,25 +29,17 @@ public class MongoLogger implements Logger {
 
     public MongoLogger() {
         this.client = new MongoClient("localhost", 27017);
-
-        final ArrayList<String> count = new ArrayList<>();
-        this.client.listDatabases().forEach(new Block<Object>() {
-            @Override
-            public void apply(Object o) {
-                count.add("1");
-            }
-        });
-
-        this.db = this.client.getDatabase("gp_" + count.size());
-        this.collection = this.db.getCollection("individuals");
     }
 
     @Override
     public void logStart(GP gp) {
+        this.db = this.client.getDatabase(gp.getId());
+        this.collection = this.db.getCollection("individuals");
+
         this.startTime = LocalDateTime.now();
         String time = this.startTime.format(this.dateTimeFormat);
 
-        Document execution = new Document("id", this.id)
+        Document execution = new Document("id", gp.getId())
             .append("startTime", time);
 
         this.db.getCollection("executions").insertOne(execution);
@@ -67,7 +57,7 @@ public class MongoLogger implements Logger {
         System.out.println(String.format("It took %s seconds", interval.getSeconds()));
 
         this.db.getCollection("executions").updateOne(
-                eq("id", this.id),
+                eq("id", gp.getId()),
                 combine(
                         set("endTime", time),
                         set("duration", interval.getSeconds()),
