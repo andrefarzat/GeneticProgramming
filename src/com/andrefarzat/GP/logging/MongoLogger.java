@@ -2,7 +2,6 @@ package com.andrefarzat.GP.logging;
 
 import com.andrefarzat.GP.GP;
 import com.andrefarzat.GP.Individual;
-import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -11,7 +10,6 @@ import org.bson.Document;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.combine;
@@ -20,7 +18,6 @@ import static com.mongodb.client.model.Updates.set;
 
 public class MongoLogger implements Logger {
     private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss.SSS");
 
     private MongoClient client;
@@ -49,11 +46,11 @@ public class MongoLogger implements Logger {
 
     @Override
     public void logEnd(GP gp) {
-        this.endTime = LocalDateTime.now();
-        String time = this.endTime.format(this.dateTimeFormat);
+        LocalDateTime endTime = LocalDateTime.now();
+        String time = endTime.format(this.dateTimeFormat);
 
         System.out.println("Finish time: " + time);
-        Duration interval = Duration.between(this.startTime, this.endTime);
+        Duration interval = Duration.between(this.startTime, endTime);
         System.out.println(String.format("It took %s seconds", interval.getSeconds()));
 
         this.db.getCollection("executions").updateOne(
@@ -73,7 +70,7 @@ public class MongoLogger implements Logger {
                 Document doc = new Document("id", ind.getIndId())
                     .append("fitness", ind.getFitness())
                     .append("tree", ind.getTree().toString())
-                    .append("createdIn", 1);
+                    .append("generation", 1);
                 this.collection.insertOne(doc);
             }
         }
@@ -84,7 +81,7 @@ public class MongoLogger implements Logger {
         Document doc = new Document("id", neo.getIndId())
             .append("fitness", neo.getFitness())
             .append("tree", neo.getTree().toString())
-            .append("createdIn", gp.getGenerationNumber())
+            .append("generation", gp.getGenerationNumber())
             .append("operator", gp.crossoverOperator.getClass().getName())
             .append("fatherId", father.getIndId())
             .append("motherId", mother.getIndId());
@@ -95,11 +92,11 @@ public class MongoLogger implements Logger {
     @Override
     public void logMutation(GP gp, Individual father, Individual neo) {
         Document doc = new Document("id", neo.getIndId())
-                .append("fitness", neo.getFitness())
-                .append("tree", neo.getTree().toString())
-                .append("createdIn", gp.getGenerationNumber())
-                .append("operator", gp.mutationOperator.getClass().getName())
-                .append("fatherId", father.getId());
+            .append("fitness", neo.getFitness())
+            .append("tree", neo.getTree().toString())
+            .append("generation", gp.getGenerationNumber())
+            .append("operator", gp.mutationOperator.getClass().getName())
+            .append("fatherId", father.getId());
 
         this.collection.insertOne(doc);
     }

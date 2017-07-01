@@ -33,7 +33,7 @@ public class GP {
 
     public CrossoverOperator crossoverOperator = new SubtreeCrossover();
     public MutationOperator mutationOperator   = new PointMutation();
-    public Logger logger = new CSVLogger();
+    public Logger logger = new MongoLogger();
 
     public String getId() { return this.name + "_" + (this.index < 10 ? "0" : "") + this.index; }
     public double[][] getParams() { return this.params; }

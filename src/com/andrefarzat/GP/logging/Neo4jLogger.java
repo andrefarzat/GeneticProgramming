@@ -13,7 +13,6 @@ import static org.neo4j.driver.v1.Values.parameters;
 
 public class Neo4jLogger implements Logger {
     private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss.SSS");
 
     private Driver driver;
@@ -42,11 +41,11 @@ public class Neo4jLogger implements Logger {
 
     @Override
     public void logEnd(GP gp) {
-        this.endTime = LocalDateTime.now();
-        String time = this.endTime.format(this.dateTimeFormat);
+        LocalDateTime endTime = LocalDateTime.now();
+        String time = endTime.format(this.dateTimeFormat);
 
         System.out.println("Finish time: " + time);
-        Duration interval = Duration.between(this.startTime, this.endTime);
+        Duration interval = Duration.between(this.startTime, endTime);
         System.out.println(String.format("It took %s seconds", interval.getSeconds()));
 
         String query = "MATCH (e:Execution {id: {id}}) SET e.endTime = {endTime}, e.duration = {duration} ";
@@ -67,7 +66,7 @@ public class Neo4jLogger implements Logger {
     public void logPopulation(GP gp) {
         if (gp.getGenerationNumber() == 1) {
             String query = "MATCH (e:Execution {id: {executionId}}) "
-                + "CREATE (neo:Individual {id: {id}, ind: {ind}, fitness: {fitness}, createdIn: {generation}})"
+                + "CREATE (neo:Individual {id: {id}, ind: {ind}, fitness: {fitness}, generation: {generation}})"
                 + "CREATE (neo)-[:BELONGS_TO]->(e) ";
 
             for(Individual individual : gp.getPopulation().getAll()) {
@@ -75,6 +74,7 @@ public class Neo4jLogger implements Logger {
                     "executionId", gp.getId(),
                     "id", individual.getId(),
                     "ind", individual.getIndId(),
+                    "tree", individual.getTree().toString(),
                     "fitness", individual.getFitness(),
                     "generation", 1
                 };
@@ -88,7 +88,7 @@ public class Neo4jLogger implements Logger {
     public void logCrossover(GP gp, Individual father, Individual mother, Individual neo) {
         String query = "MATCH (father:Individual {id: {fatherId}}) "
             + "MATCH (mother:Individual {id: {motherId}}) "
-            + "CREATE (neo:Individual {id: {id}, ind: {ind}, fitness: {fitness}, createdIn: {createdIn}}) "
+            + "CREATE (neo:Individual {id: {id}, ind: {ind}, fitness: {fitness}, generation: {generation}}) "
             + "MERGE (neo)-[:GENERATED_BY {operator: {operator}}]->(father) "
             + "MERGE (neo)-[:GENERATED_BY {operator: {operator}}]->(mother) ";
 
@@ -96,7 +96,8 @@ public class Neo4jLogger implements Logger {
             "id", neo.getId(),
             "ind", neo.getIndId(),
             "fitness", neo.getFitness(),
-            "createdIn", gp.getGenerationNumber(),
+            "tree", neo.getTree().toString(),
+            "generation", gp.getGenerationNumber(),
             "operator", gp.crossoverOperator.getClass().getName(),
             "fatherId", father.getId(),
             "motherId", mother.getId(),
@@ -108,14 +109,15 @@ public class Neo4jLogger implements Logger {
     @Override
     public void logMutation(GP gp, Individual father, Individual neo) {
         String query = "MATCH (father:Individual {id: {fatherId}}) "
-            + "CREATE (neo:Individual {id: {id}, ind: {ind}, fitness: {fitness}, createdIn: {createdIn}}) "
+            + "CREATE (neo:Individual {id: {id}, ind: {ind}, fitness: {fitness}, generation: {generation}}) "
             + "MERGE (neo)-[:GENERATED_BY {operator: {operator}}]->(father) ";
 
         Object[] params = new Object[] {
             "id", neo.getId(),
             "ind", neo.getIndId(),
             "fitness", neo.getFitness(),
-            "createdIn", gp.getGenerationNumber(),
+            "tree", neo.getTree().toString(),
+            "generation", gp.getGenerationNumber(),
             "operator", gp.mutationOperator.getClass().getName(),
             "fatherId", father.getId(),
         };

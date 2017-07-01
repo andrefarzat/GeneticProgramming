@@ -14,7 +14,6 @@ public class CSVLogger implements Logger {
     private PrintWriter writer;
 
     private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss.SSS");
 
     public CSVLogger() {
@@ -72,15 +71,15 @@ public class CSVLogger implements Logger {
 
     @Override
     public void logEnd(GP gp) {
-        this.endTime = LocalDateTime.now();
-        String time = this.endTime.format(this.dateTimeFormat);
+        LocalDateTime endTime = LocalDateTime.now();
+        String time = endTime.format(this.dateTimeFormat);
 
         PrintWriter writer = this.getPrintWriter();
         writer.append(time + "," + gp.getPopulation().get(0).getIndId() + "\n");
         writer.close();
 
         System.out.println("Finish time: " + time);
-        Duration interval = Duration.between(this.startTime, this.endTime);
+        Duration interval = Duration.between(this.startTime, endTime);
         System.out.println(String.format("It took %s seconds", interval.getSeconds()));
     }
 
@@ -88,7 +87,7 @@ public class CSVLogger implements Logger {
     public void logPopulation(GP gp) {
         if (gp.getGenerationNumber() == 1) {
             for(Individual individual : gp.getPopulation().getAll()) {
-                // id, generation, fitness, value
+                // id, generation, fitness, tree
                 String[] line = new String[] {
                     Integer.toString(individual.getIndId()),
                     "1",
@@ -103,7 +102,7 @@ public class CSVLogger implements Logger {
 
     @Override
     public void logCrossover(GP gp, Individual father, Individual mother, Individual neo) {
-        // id, generation, fitness, value, operator, fatherId, motherId
+        // id, generation, fitness, tree, operator, fatherId, motherId
         String[] line = new String[] {
                 Integer.toString(neo.getIndId()),
                 Integer.toString(gp.getGenerationNumber()),
@@ -119,7 +118,7 @@ public class CSVLogger implements Logger {
 
     @Override
     public void logMutation(GP gp, Individual father, Individual neo) {
-        // id, generation, fitness, operator, fatherId
+        // id, generation, fitness, tree, operator, fatherId
         String[] line = new String[] {
                 Integer.toString(neo.getIndId()),
                 Integer.toString(gp.getGenerationNumber()),
