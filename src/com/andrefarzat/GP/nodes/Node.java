@@ -6,5 +6,4 @@ public interface Node {
     void mutate();
     String toString();
     double getValue(double value);
-    Node shrink();
 }

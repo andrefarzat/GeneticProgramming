@@ -12,32 +12,32 @@ public class LiteralTest {
     public void testCreation(){
         Literal literal = Literal.create();
 
-        Assert.assertThat(literal.generateRandomValue(), instanceOf(double.class));
+        Assert.assertThat(literal.generateRandomValue(), instanceOf(String.class));
     }
 
     @Test
     public void testMutation() {
         Literal literal = new Literal();
 
-        Assert.assertTrue(Utils.compareDouble(literal.value, 0.0d) == 0);
+        Assert.assertEquals(literal.value, "");
         literal.mutate();
-        Assert.assertTrue(Utils.compareDouble(literal.value, 0.0d) != 0);
+        Assert.assertNotEquals(literal.value, "");
     }
 
     @Test
     public void testGenerateRandomValue() {
         Literal literal = new Literal();
 
-        double value1 = literal.generateRandomValue();
-        double value2 = literal.generateRandomValue();
-        Assert.assertTrue(Utils.compareDouble(value1, value2) != 0);
+        String value1 = literal.generateRandomValue();
+        String value2 = literal.generateRandomValue();
+        Assert.assertNotEquals(value1, value2);
     }
 
     @Test
     public void testToString() {
         Literal literal = new Literal();
-        literal.value = 11.1d;
+        literal.value = "a";
 
-        Assert.assertEquals(literal.toString(), "11.10");
+        Assert.assertEquals(literal.toString(), "a");
     }
 }

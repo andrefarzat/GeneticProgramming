@@ -7,8 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Function implements Node {
-    protected static final char[] operators = { '+', '-', '*', '/' };
-    public char type = '|';
+    protected static final String placeholder = "•";
+    protected static final String[] options = {"•", "•*+", "•++", "•?+", "•{•,•}+", "(•)", "[•]", "[^•]"};
+    public String type = placeholder;
 
     public Node left;
     public Node right;
@@ -98,8 +99,8 @@ public class Function implements Node {
 
     @Override
     public void mutate() {
-        int index = Utils.random.nextInt(this.operators.length);
-        this.type = this.operators[index];
+        int index = Utils.random.nextInt(this.options.length);
+        this.type = this.options[index];
     }
 
 
@@ -109,10 +110,10 @@ public class Function implements Node {
         double right = this.right.getValue(x);
 
         switch(this.type) {
-            case '+': return left + right;
-            case '-': return left - right;
-            case '*': return left * right;
-            case '^': return Math.pow(left, right);
+            case "+": return left + right;
+            case "-": return left - right;
+            case "*": return left * right;
+            case "^": return Math.pow(left, right);
         }
 
         // Division is the exception. We can't have zero at the right side
@@ -134,25 +135,5 @@ public class Function implements Node {
         }
 
         return null;
-    }
-
-    public Node shrink() {
-        this.left = this.left.shrink();
-        this.right = this.right.shrink();
-
-        if (this.left instanceof Literal && this.right instanceof Literal) {
-            Literal literal = new Literal();
-
-            boolean areEqual = Utils.compareDouble(((Literal) this.left).value, ((Literal) this.right).value) == 0;
-            if (this.type == '/' && areEqual) {
-                literal.value = 1;
-            } else {
-                literal.value = this.getValue(0);
-            }
-
-            return literal;
-        }
-
-        return this;
     }
 }

@@ -4,7 +4,9 @@ package com.andrefarzat.GP.nodes;
 import com.andrefarzat.GP.Utils;
 
 public class Literal implements Node {
-    public double value;
+    protected static final String options = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ^$.";
+    protected static final int optionsLength = options.length();
+    public String value = "";
 
     public void mutate() {
         this.value = this.generateRandomValue();
@@ -22,11 +24,9 @@ public class Literal implements Node {
         return literal;
     }
 
-    public double generateRandomValue() {
-        int first = Utils.random.nextInt(10);
-        int second = Utils.random.nextInt(10) + 1;
-
-        return Utils.fixDouble(first + "." + second);
+    public String generateRandomValue() {
+        char letter = Literal.options.charAt(Utils.random.nextInt(Literal.optionsLength));
+        return Character.toString(letter);
     }
 
     public static Literal create() {

@@ -26,15 +26,15 @@ public class GPTest {
         Individual individual = new Individual();
 
         individual.tree = new Function();
-        individual.tree.type = '+';
+        individual.tree.type = "+";
         individual.tree.left = new Variable();
         individual.tree.right = new Literal();
-        ((Literal) individual.tree.right).value = 1;
+        ((Literal) individual.tree.right).value = "a";
 
         gp.evaluate(individual, params);
         Assert.assertEquals(Utils.compareDouble(individual.fitness, 0), 0);
 
-        ((Literal) individual.tree.right).value = 10;
+        ((Literal) individual.tree.right).value = "b";
 
         gp.evaluate(individual, params);
         Assert.assertEquals(Utils.compareDouble(individual.fitness, 18), 0);
