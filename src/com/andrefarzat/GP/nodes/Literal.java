@@ -13,8 +13,8 @@ public class Literal implements Node {
     }
 
     @Override
-    public double getValue(double value) {
-        return Utils.fixDouble(this.value);
+    public String getValue() {
+        return this.value;
     }
 
     @Override
@@ -36,7 +36,6 @@ public class Literal implements Node {
     }
 
     public String toString() {
-        return String.format( "%.2f", this.value);
+        return this.value;
     }
-    public Literal shrink() { return this; }
 }

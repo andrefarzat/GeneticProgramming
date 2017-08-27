@@ -2,7 +2,6 @@ package com.andrefarzat.GP;
 
 import com.andrefarzat.GP.nodes.Function;
 import com.andrefarzat.GP.nodes.Node;
-import com.andrefarzat.GP.nodes.Variable;
 
 import java.util.UUID;
 
@@ -17,26 +16,12 @@ public class Individual implements Comparable<Individual> {
 
     public String getId() { return this.id.toString(); }
     public int getIndId() { return this.indId; }
-    public double getValue(double value) {
-        return this.tree.getValue(value);
-    }
+    public String getValue() { return this.tree.getValue(); }
     public Function getTree() { return this.tree; }
     public double getFitness() { return Utils.fixDouble(this.fitness); }
 
     public boolean isValid() {
-        if (this.tree == null) {
-            return false;
-        }
-
-        int howManyVariables = 0;
-
-        for(Node node : this.tree.getNodes()) {
-            if (node instanceof Variable) {
-                howManyVariables += 1;
-            }
-        }
-
-        return howManyVariables == 1;
+        return this.tree != null;
     }
 
     public Individual clone() {
@@ -68,10 +53,5 @@ public class Individual implements Comparable<Individual> {
 
     public String toString() {
         return this.tree.toString();
-    }
-
-    public void shrink() {
-        this.tree.left  = this.tree.left.shrink();
-        this.tree.right = this.tree.right.shrink();
     }
 }

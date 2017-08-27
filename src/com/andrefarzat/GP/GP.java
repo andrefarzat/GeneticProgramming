@@ -11,7 +11,8 @@ import java.util.Random;
 public class GP {
     private String name;
     private int index;
-    private double[][] params;
+    private String[] leftList;
+    private String[] rightList;
 
     public int crossoverCount;
     public int mutationCounter;
@@ -24,10 +25,11 @@ public class GP {
     protected final int mutationProbability = 10;
     protected final Random random = new Random();
 
-    public GP(String name, int index, double[][] params) {
+    public GP(String name, int index, String[] leftList, String[] rightList) {
         this.name = name;
         this.index = index;
-        this.params = params;
+        this.leftList = leftList;
+        this.rightList = rightList;
         Utils.currentIndividualId = 0;
     }
 
@@ -36,7 +38,6 @@ public class GP {
     public Logger logger = new MongoLogger();
 
     public String getId() { return this.name + "_" + (this.index < 10 ? "0" : "") + this.index; }
-    public double[][] getParams() { return this.params; }
     public Population getPopulation() { return this.population; }
     public int getGenerationNumber() { return generationNumber; }
 
@@ -57,12 +58,6 @@ public class GP {
         Function selectedFunc = Utils.getFromListRandomly(funcs);
 
         boolean shouldBeLeft = this.random.nextBoolean();
-        if (shouldBeLeft) {
-            selectedFunc.left = Variable.create();
-        } else {
-            selectedFunc.right = Variable.create();
-        }
-
         return individual;
     }
 
@@ -76,16 +71,8 @@ public class GP {
         return population;
     }
 
-    public void evaluate(Individual individual, double[][] params) {
-        double fitness = 0d;
-
-        for(double[] param : params) {
-            double value = individual.getValue(param[0]);
-            double result = value - param[1];
-            fitness += Math.abs(result);
-        }
-
-        individual.fitness = fitness;
+    public void evaluate(Individual individual) {
+        individual.fitness = individual.getValue().length();
     }
 
     public void doSelection(Population population) {
@@ -117,41 +104,7 @@ public class GP {
 
     public boolean shouldStop(Population population) {
         this.log( "Attempt %s", this.generationNumber);
-
-        boolean isFirst = true;
-
-        for(Individual individual : population.individuals) {
-
-            for(double[] param : this.getParams()) {
-                double value = individual.getValue(param[0]);
-
-                if (isFirst) {
-                    String txt = individual.toString();
-                    this.log("[Fitness: %.2f]F(%s): %s = %.2f", individual.fitness, param[0], txt, value);
-                }
-
-            }
-
-            isFirst = false;
-        }
-
-        if (this.generationNumber >= 1000) {
-            Individual bestIndividual = population.individuals.get(0);
-            this.log("Best solution found is:");
-            for(double[] param : this.getParams()) {
-                this.log("F(%s): %s = %.2f", param[0], bestIndividual.toString(), param[1]);
-            }
-
-            this.log("The shrunk version:");
-            bestIndividual.shrink();
-            for(double[] param : this.getParams()) {
-                this.log("F(%s): %s = %.2f", param[0], bestIndividual.toString(), param[1]);
-            }
-
-            return true;
-        }
-
-        return false;
+        return (this.generationNumber >= 100);
     }
 
     public void run() {
@@ -167,7 +120,7 @@ public class GP {
 
             // 2. Evaluate population
             for(Individual individual : this.population.individuals) {
-                this.evaluate(individual, this.getParams());
+                this.evaluate(individual);
             }
 
             // 3. Select

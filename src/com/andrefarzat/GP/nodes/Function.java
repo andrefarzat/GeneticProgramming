@@ -105,23 +105,11 @@ public class Function implements Node {
 
 
     @Override
-    public double getValue(double x) {
-        double left = this.left.getValue(x);
-        double right = this.right.getValue(x);
+    public String getValue() {
+        String left = this.left.getValue();
+        String right = this.right.getValue();
 
-        switch(this.type) {
-            case "+": return left + right;
-            case "-": return left - right;
-            case "*": return left * right;
-            case "^": return Math.pow(left, right);
-        }
-
-        // Division is the exception. We can't have zero at the right side
-        if (Utils.compareDouble(right, 0d) == 0d) {
-            right = 1;
-        }
-
-        return left / right;
+        return left + right;
     }
 
     public Function getFunctionParentOf(Node node) {

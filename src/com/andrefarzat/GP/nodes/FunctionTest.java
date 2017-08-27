@@ -68,7 +68,7 @@ public class FunctionTest {
     public void testMutation() {
         Function func = new Function();
 
-        Assert.assertEquals(func.type, '|');
+        Assert.assertEquals(func.type, Function.placeholder);
         func.mutate();
         Assert.assertNotNull(func.type);
     }

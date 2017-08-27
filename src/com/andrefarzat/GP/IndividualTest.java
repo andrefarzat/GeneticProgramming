@@ -1,8 +1,6 @@
 package com.andrefarzat.GP;
 
 import com.andrefarzat.GP.nodes.Function;
-import com.andrefarzat.GP.nodes.Literal;
-import com.andrefarzat.GP.nodes.Variable;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,7 +21,7 @@ public class IndividualTest {
         individual.tree       = Function.create(0);
         Individual cloned     = individual.clone();
 
-        Assert.assertEquals(individual.fitness, cloned.fitness);
+        Assert.assertTrue(Utils.compareDouble(individual.fitness, cloned.fitness) == 0);
         Assert.assertEquals(individual.tree.toString(), cloned.tree.toString());
         Assert.assertNotEquals(individual.id, cloned.id);
     }

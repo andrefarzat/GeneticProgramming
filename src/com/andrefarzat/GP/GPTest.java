@@ -2,7 +2,6 @@ package com.andrefarzat.GP;
 
 import com.andrefarzat.GP.nodes.Function;
 import com.andrefarzat.GP.nodes.Literal;
-import com.andrefarzat.GP.nodes.Variable;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,8 +10,10 @@ public class GPTest {
 
     @Test
     public void testGenerateIndividual() {
-        double[][] params = new double[][] { {13, 14}, {15, 16} };
-        GP gp = new GP("name", 1, params);
+        String[] leftList = {"foo"};
+        String[] rightList = {"bar"};
+        GP gp = new GP("name", 1, leftList, rightList);
+
         Individual individual = gp.generateIndividual();
 
         Assert.assertNotNull(individual.tree);
@@ -21,22 +22,25 @@ public class GPTest {
 
     @Test
     public void testEvaluate() {
-        double[][] params = new double[][] { {13, 14}, {15, 16} };
-        GP gp = new GP("name", 1, params);
+        String[] leftList = {"foo"};
+        String[] rightList = {"bar"};
+        GP gp = new GP("name", 1, leftList, rightList);
+
         Individual individual = new Individual();
 
         individual.tree = new Function();
         individual.tree.type = "+";
-        individual.tree.left = new Variable();
+        individual.tree.left = new Literal();
+        ((Literal) individual.tree.left).value = "a";
         individual.tree.right = new Literal();
-        ((Literal) individual.tree.right).value = "a";
-
-        gp.evaluate(individual, params);
-        Assert.assertEquals(Utils.compareDouble(individual.fitness, 0), 0);
-
         ((Literal) individual.tree.right).value = "b";
 
-        gp.evaluate(individual, params);
-        Assert.assertEquals(Utils.compareDouble(individual.fitness, 18), 0);
+        gp.evaluate(individual);
+        Assert.assertEquals(Utils.compareDouble(individual.fitness, 2), 0);
+
+        ((Literal) individual.tree.right).value = "abc";
+
+        gp.evaluate(individual);
+        Assert.assertEquals(Utils.compareDouble(individual.fitness, 4), 0);
     }
 }
