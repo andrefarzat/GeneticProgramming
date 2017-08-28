@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Function implements Node {
     protected static final String placeholder = "•";
-    protected static final String[] options = {"•", "•*+", "•++", "•?+", "•{•,•}+", "(•)", "[•]", "[^•]"};
+    protected static final String[] options = {"•", "•*+", "•++", "•?+", "(•)", "[•]", "[^•]"}; // "•{•,•}+",
     public String type = placeholder;
 
     public Node left;
@@ -90,17 +90,20 @@ public class Function implements Node {
 
     @Override
     public String toString() {
-        try {
-            return String.format("(%s %s %s)", this.left.toString(), this.type, this.right.toString());
-        } catch(NullPointerException e) {
+        if (this.left == null || this.right == null) {
             return "No left or no right";
         }
+
+        return this.type.replace(Function.placeholder, this.getValue());
     }
 
     @Override
     public void mutate() {
-        int index = Utils.random.nextInt(this.options.length);
-        this.type = this.options[index];
+        String currentType = this.type;
+        do {
+            int index = Utils.random.nextInt(this.options.length);
+            this.type = this.options[index];
+        } while (currentType == this.type);
     }
 
 

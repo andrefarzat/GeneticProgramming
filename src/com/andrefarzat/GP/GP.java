@@ -35,7 +35,7 @@ public class GP {
 
     public CrossoverOperator crossoverOperator = new SubtreeCrossover();
     public MutationOperator mutationOperator   = new PointMutation();
-    public Logger logger = new MongoLogger();
+    public Logger logger = new EmptyLogger();
 
     public String getId() { return this.name + "_" + (this.index < 10 ? "0" : "") + this.index; }
     public Population getPopulation() { return this.population; }
@@ -72,6 +72,7 @@ public class GP {
     }
 
     public void evaluate(Individual individual) {
+        System.out.println(individual.toString());
         individual.fitness = individual.getValue().length();
     }
 

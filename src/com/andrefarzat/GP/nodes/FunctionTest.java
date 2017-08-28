@@ -70,7 +70,7 @@ public class FunctionTest {
 
         Assert.assertEquals(func.type, Function.placeholder);
         func.mutate();
-        Assert.assertNotNull(func.type);
+        Assert.assertNotEquals(func.type, Function.placeholder);
     }
 
     @Test
@@ -82,5 +82,18 @@ public class FunctionTest {
 
         Node parent = func.getFunctionParentOf(((Function) func.left).left);
         Assert.assertSame(parent, func.left);
+    }
+
+    @Test
+    public void testToString() {
+        Function func = new Function();
+        func.type = "(•)";
+
+        func.left = new Literal();
+        ((Literal) func.left).value = "a";
+        func.right = new Literal();
+        ((Literal) func.right).value = "b";
+
+        Assert.assertEquals(func.toString(), "(ab)");
     }
 }
