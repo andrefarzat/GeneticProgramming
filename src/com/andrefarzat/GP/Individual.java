@@ -1,7 +1,6 @@
 package com.andrefarzat.GP;
 
 import com.andrefarzat.GP.nodes.Function;
-import com.andrefarzat.GP.nodes.Node;
 
 import java.util.UUID;
 
@@ -20,8 +19,22 @@ public class Individual implements Comparable<Individual> {
     public Function getTree() { return this.tree; }
     public double getFitness() { return Utils.fixDouble(this.fitness); }
 
-    public boolean isValid() {
-        return this.tree != null;
+    public boolean isValid(String[] leftList, String[] rightList) {
+        String regex = this.getValue();
+
+        for(String item : leftList) {
+            if (!item.matches(regex)) {
+                return false;
+            }
+        }
+
+        for(String item : rightList) {
+            if (item.matches(regex)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public Individual clone() {

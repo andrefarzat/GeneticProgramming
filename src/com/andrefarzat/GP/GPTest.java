@@ -17,7 +17,6 @@ public class GPTest {
         Individual individual = gp.generateIndividual();
 
         Assert.assertNotNull(individual.tree);
-        Assert.assertTrue(individual.isValid());
     }
 
     @Test
