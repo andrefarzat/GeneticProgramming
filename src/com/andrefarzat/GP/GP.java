@@ -4,8 +4,7 @@ import com.andrefarzat.GP.logging.*;
 import com.andrefarzat.GP.nodes.*;
 import com.andrefarzat.GP.operators.*;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class GP {
@@ -19,6 +18,7 @@ public class GP {
 
     protected int generationNumber = 0;
     protected Population population;
+    protected List<String> options;
     protected final int maxDepth = 2;
     protected final int populationSize = 1000;
     protected final int crossoverProbability = 80;
@@ -31,6 +31,8 @@ public class GP {
         this.leftList = leftList;
         this.rightList = rightList;
         Utils.currentIndividualId = 0;
+
+        this.options = this.generateOptionsFromList(leftList);
     }
 
     public CrossoverOperator crossoverOperator = new SubtreeCrossover();
@@ -49,22 +51,49 @@ public class GP {
         this.log(String.format(msg, params));
     }
 
+    public List<String> generateOptionsFromList(String[] list) {
+        HashSet<String> options = new HashSet<>();
+        for(String item : list) {
+            for (char ch : item.toCharArray()){
+                options.add(Character.toString(ch));
+            }
+        }
+
+        List<String> ret = new ArrayList<>();
+        Iterator<String> iterator = options.iterator();
+        while(iterator.hasNext()) {
+            ret.add(iterator.next());
+        }
+
+        ret.addAll(Terminal.options);
+
+        return ret;
+    }
+
     protected Individual generateIndividual() {
         Individual individual = new Individual();
         individual.createdInGeneration = this.generationNumber;
-        individual.tree = Function.create(this.random.nextInt(this.maxDepth));
-
-        List<Function> funcs = individual.tree.getFunctions();
-        Function selectedFunc = Utils.getFromListRandomly(funcs);
-
-        boolean shouldBeLeft = this.random.nextBoolean();
+        individual.tree = Function.create(this.random.nextInt(this.maxDepth), this.options);
         return individual;
     }
 
     public Population generateInitialPopulation() {
         Population population = new Population();
 
-        for(int i = 0; i < this.populationSize; i++) {
+        for(String item : this.leftList) {
+            Individual individual = this.generateIndividual();
+            individual.tree.type = Function.placeholder;
+
+            individual.tree.left = new Terminal();
+            ((Terminal) individual.tree.left).value = "";
+
+            individual.tree.right = new Terminal();
+            ((Terminal) individual.tree.right).value = item;
+
+            population.add(individual);
+        }
+
+        while (population.size() < this.populationSize) {
             population.add(this.generateIndividual());
         }
 
@@ -72,7 +101,8 @@ public class GP {
     }
 
     public void evaluate(Individual individual) {
-        System.out.println(individual.toString());
+        boolean isValid = individual.isValid(this.leftList, this.rightList);
+        this.log("%s", individual.toString());
         individual.fitness = individual.getValue().length();
     }
 
@@ -105,7 +135,7 @@ public class GP {
 
     public boolean shouldStop(Population population) {
         this.log( "Attempt %s", this.generationNumber);
-        return (this.generationNumber >= 100);
+        return (this.generationNumber >= 1000);
     }
 
     public void run() {

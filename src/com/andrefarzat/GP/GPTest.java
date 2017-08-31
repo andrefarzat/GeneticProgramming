@@ -1,7 +1,7 @@
 package com.andrefarzat.GP;
 
 import com.andrefarzat.GP.nodes.Function;
-import com.andrefarzat.GP.nodes.Literal;
+import com.andrefarzat.GP.nodes.Terminal;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,15 +29,15 @@ public class GPTest {
 
         individual.tree = new Function();
         individual.tree.type = "+";
-        individual.tree.left = new Literal();
-        ((Literal) individual.tree.left).value = "a";
-        individual.tree.right = new Literal();
-        ((Literal) individual.tree.right).value = "b";
+        individual.tree.left = new Terminal();
+        ((Terminal) individual.tree.left).value = "a";
+        individual.tree.right = new Terminal();
+        ((Terminal) individual.tree.right).value = "b";
 
         gp.evaluate(individual);
         Assert.assertEquals(Utils.compareDouble(individual.fitness, 2), 0);
 
-        ((Literal) individual.tree.right).value = "abc";
+        ((Terminal) individual.tree.right).value = "abc";
 
         gp.evaluate(individual);
         Assert.assertEquals(Utils.compareDouble(individual.fitness, 4), 0);

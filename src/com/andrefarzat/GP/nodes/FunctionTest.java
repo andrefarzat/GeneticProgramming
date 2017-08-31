@@ -6,13 +6,16 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class FunctionTest {
+    protected List<String> options = new ArrayList<>(Arrays.asList("foo"));
+
     @Test
     public void testCreation() {
-        Function func = Function.create(2);
+        Function func = Function.create(2, this.options);
 
         Assert.assertEquals(func.getDepth(), 2);
         Assert.assertThat(func.left, instanceOf(Function.class));
@@ -25,8 +28,8 @@ public class FunctionTest {
         ArrayList<Node> nodes = new ArrayList<>();
 
         // Setup
-        Function left = Function.create(0);
-        Function right = Function.create(1);
+        Function left = Function.create(0, this.options);
+        Function right = Function.create(1, this.options);
 
         nodes.add(left);
         nodes.add(right);
@@ -54,13 +57,13 @@ public class FunctionTest {
 
     @Test
     public void testGetFunctions() {
-        Function func = Function.create(0);
+        Function func = Function.create(0, this.options);
         Assert.assertEquals(func.getFunctions().size(), 1);
 
-        func = Function.create(1);
+        func = Function.create(1, this.options);
         Assert.assertEquals(func.getFunctions().size(), 3);
 
-        func = Function.create(2);
+        func = Function.create(2, this.options);
         Assert.assertEquals(func.getFunctions().size(), 7);
     }
 
@@ -78,7 +81,7 @@ public class FunctionTest {
         Function func = new Function();
 
         func.left = new Function();
-        ((Function) func.left).left = Literal.create();
+        ((Function) func.left).left = Terminal.create();
 
         Node parent = func.getFunctionParentOf(((Function) func.left).left);
         Assert.assertSame(parent, func.left);
@@ -89,10 +92,10 @@ public class FunctionTest {
         Function func = new Function();
         func.type = "(•)";
 
-        func.left = new Literal();
-        ((Literal) func.left).value = "a";
-        func.right = new Literal();
-        ((Literal) func.right).value = "b";
+        func.left = new Terminal();
+        ((Terminal) func.left).value = "a";
+        func.right = new Terminal();
+        ((Terminal) func.right).value = "b";
 
         Assert.assertEquals(func.toString(), "(ab)");
     }

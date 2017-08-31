@@ -1,12 +1,17 @@
 package com.andrefarzat.GP;
 
 import com.andrefarzat.GP.nodes.Function;
-import com.andrefarzat.GP.nodes.Literal;
+import com.andrefarzat.GP.nodes.Terminal;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class IndividualTest {
+    protected List<String> options = new ArrayList<>(Arrays.asList("foo"));
 
     @Test
     public void testCreation() {
@@ -17,7 +22,7 @@ public class IndividualTest {
     @Test
     public void testClone() {
         Individual individual = new Individual();
-        individual.tree       = Function.create(0);
+        individual.tree       = Function.create(0, this.options);
         Individual cloned     = individual.clone();
 
         Assert.assertTrue(Utils.compareDouble(individual.fitness, cloned.fitness) == 0);
@@ -28,7 +33,7 @@ public class IndividualTest {
     @Test
     public void testToString() {
         Individual individual = new Individual();
-        individual.tree       = Function.create(0);
+        individual.tree       = Function.create(0, this.options);
 
         Assert.assertEquals(individual.toString(), individual.tree.toString());
     }
@@ -39,10 +44,10 @@ public class IndividualTest {
         String[] rightList = {"bar"};
 
         Individual individual = new Individual();
-        individual.tree       = Function.create(0);
+        individual.tree       = Function.create(0, this.options);
         individual.tree.type = "•";
-        ((Literal) individual.tree.left).value  = "fo";
-        ((Literal) individual.tree.right).value = "o";
+        ((Terminal) individual.tree.left).value  = "fo";
+        ((Terminal) individual.tree.right).value = "o";
 
         Assert.assertTrue(individual.isValid(leftList, rightList));
     }

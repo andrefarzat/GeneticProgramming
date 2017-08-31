@@ -7,23 +7,23 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Function implements Node {
-    protected static final String placeholder = "•";
-    protected static final String[] options = {"•", "•*+", "•++", "•?+", "(•)", "[•]", "[^•]"}; // "•{•,•}+",
+    public static final String placeholder = "•";
+    public static final String[] options = {"•", "•*+", "•++", "•?+", "(•)", "[•]", "[^•]", "^•", "•$"}; // "•{•,•}+",
     public String type = placeholder;
 
     public Node left;
     public Node right;
 
-    public static Function create(int depth) {
+    public static Function create(int depth, List<String> options) {
         Function func = new Function();
         func.mutate();
 
         if (depth <= 0) {
-            func.left = Literal.create();
-            func.right = Literal.create();
+            func.left = Terminal.create(options);
+            func.right = Terminal.create(options);
         } else {
-            func.left = Function.create(depth - 1);
-            func.right = Function.create(depth - 1);
+            func.left = Function.create(depth - 1, options);
+            func.right = Function.create(depth - 1, options);
         }
 
         return func;
