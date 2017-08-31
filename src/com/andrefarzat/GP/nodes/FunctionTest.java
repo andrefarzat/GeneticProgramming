@@ -99,4 +99,17 @@ public class FunctionTest {
 
         Assert.assertEquals(func.toString(), "(ab)");
     }
+
+    @Test
+    public void testGetValue() {
+        Function func = new Function();
+        func.type = "•|•";
+
+        func.left = new Terminal();
+        ((Terminal) func.left).value = "a";
+        func.right = new Terminal();
+        ((Terminal) func.right).value = "b";
+
+        Assert.assertEquals(func.toString(), "a|b");
+    }
 }

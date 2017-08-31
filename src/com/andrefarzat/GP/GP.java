@@ -101,7 +101,7 @@ public class GP {
     }
 
     public void evaluate(Individual individual) {
-        boolean isValid = individual.isValid(this.leftList, this.rightList);
+        boolean isValid = individual.isValid();
         this.log("%s", individual.toString());
         individual.fitness = individual.getValue().length();
     }

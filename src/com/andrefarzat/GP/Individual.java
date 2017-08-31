@@ -3,6 +3,8 @@ package com.andrefarzat.GP;
 import com.andrefarzat.GP.nodes.Function;
 
 import java.util.UUID;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 
 public class Individual implements Comparable<Individual> {
@@ -19,22 +21,13 @@ public class Individual implements Comparable<Individual> {
     public Function getTree() { return this.tree; }
     public double getFitness() { return Utils.fixDouble(this.fitness); }
 
-    public boolean isValid(String[] leftList, String[] rightList) {
-        String regex = this.getValue();
-
-        for(String item : leftList) {
-            if (!item.matches(regex)) {
-                return false;
-            }
+    public boolean isValid() {
+        try {
+            Pattern.compile(this.getValue());
+            return true;
+        } catch(PatternSyntaxException e) {
+            return false;
         }
-
-        for(String item : rightList) {
-            if (item.matches(regex)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public Individual clone() {

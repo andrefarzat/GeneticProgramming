@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Function implements Node {
     public static final String placeholder = "•";
-    public static final String[] options = {"•", "•*+", "•++", "•?+", "(•)", "[•]", "[^•]", "^•", "•$"}; // "•{•,•}+",
+    public static final String[] options = {"•", "•*+", "•++", "•?+", "(•)", "[•]", "[^•]", "^•", "•$", "•|•"};
     public String type = placeholder;
 
     public Node left;
@@ -90,11 +90,7 @@ public class Function implements Node {
 
     @Override
     public String toString() {
-        if (this.left == null || this.right == null) {
-            return "No left or no right";
-        }
-
-        return this.type.replace(Function.placeholder, this.getValue());
+        return this.getValue();
     }
 
     @Override
@@ -109,10 +105,18 @@ public class Function implements Node {
 
     @Override
     public String getValue() {
+        if (this.left == null || this.right == null) {
+            return "No left or no right";
+        }
+
         String left = this.left.getValue();
         String right = this.right.getValue();
 
-        return left + right;
+        if (this.type.equals("•|•")) {
+            return left + "|" + right;
+        }
+
+        return this.type.replace(Function.placeholder, left + right);
     }
 
     public Function getFunctionParentOf(Node node) {

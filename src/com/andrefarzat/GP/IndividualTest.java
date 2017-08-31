@@ -40,15 +40,17 @@ public class IndividualTest {
 
     @Test
     public void testIsValid() {
-        String[] leftList = {"foo"};
-        String[] rightList = {"bar"};
-
         Individual individual = new Individual();
         individual.tree       = Function.create(0, this.options);
         individual.tree.type = "•";
         ((Terminal) individual.tree.left).value  = "fo";
         ((Terminal) individual.tree.right).value = "o";
 
-        Assert.assertTrue(individual.isValid(leftList, rightList));
+        Assert.assertTrue(individual.isValid());
+
+        ((Terminal) individual.tree.left).value  = "++";
+        ((Terminal) individual.tree.right).value = "++";
+
+        Assert.assertFalse(individual.isValid());
     }
 }
