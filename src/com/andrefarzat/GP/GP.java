@@ -106,9 +106,24 @@ public class GP {
     }
 
     public void evaluate(Individual individual) {
-        boolean isValid = individual.isValid();
-        this.log("%s", individual.toString());
-        individual.fitness = individual.getValue().length();
+        if (!individual.isValid()) {
+            individual.fitness = 1000;
+            return;
+        }
+
+        int count = 0;
+        String value = individual.getValue();
+
+        for(String item : this.leftList) {
+            if (item.matches(value)) count++;
+        }
+
+        for(String item : this.rightList) {
+            if (item.matches(value)) count--;
+        }
+
+        this.log(value);
+        individual.fitness = Math.abs(count) + value.length();
     }
 
     public void doSelection(Population population) {
