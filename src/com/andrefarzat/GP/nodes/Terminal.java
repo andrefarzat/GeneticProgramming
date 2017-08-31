@@ -17,6 +17,9 @@ public class Terminal implements Node {
     protected static final int optionsLength = options.size();
     public String value = "";
 
+    public Terminal() {}
+    public Terminal(String value) { this.value = value; }
+
     public void mutate() {
         this.value = this.generateRandomValue();
     }

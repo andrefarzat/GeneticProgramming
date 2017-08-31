@@ -83,12 +83,17 @@ public class GP {
         for(String item : this.leftList) {
             Individual individual = this.generateIndividual();
             individual.tree.type = Function.placeholder;
+            Function current = individual.tree;
 
-            individual.tree.left = new Terminal();
-            ((Terminal) individual.tree.left).value = "";
+            for(char ch : item.toCharArray()) {
+                current.left = new Terminal(Character.toString(ch));
+                current.right = new Function();
+                ((Function) current.right).type = Function.placeholder;
+                current = (Function) current.right;
+            }
 
-            individual.tree.right = new Terminal();
-            ((Terminal) individual.tree.right).value = item;
+            current.left = new Terminal("");
+            current.right = new Terminal("");
 
             population.add(individual);
         }
